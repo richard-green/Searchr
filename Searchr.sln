@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Searchr.Core", "Searchr.Core\Searchr.Core.csproj", "{4E7F8005-31BD-4D5B-AEC8-E1897CB530E3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Searchr.UI", "Searchr.UI\Searchr.UI.csproj", "{3F62B2C3-379B-4E81-98BF-398B31D63BA9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4E7F8005-31BD-4D5B-AEC8-E1897CB530E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E7F8005-31BD-4D5B-AEC8-E1897CB530E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E7F8005-31BD-4D5B-AEC8-E1897CB530E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E7F8005-31BD-4D5B-AEC8-E1897CB530E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F62B2C3-379B-4E81-98BF-398B31D63BA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F62B2C3-379B-4E81-98BF-398B31D63BA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F62B2C3-379B-4E81-98BF-398B31D63BA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F62B2C3-379B-4E81-98BF-398B31D63BA9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
