@@ -15,32 +15,18 @@ namespace Searchr.Core
         {
             var response = new SearchResponse();
             var inputFiles = new BlockingCollection<FileInfo>();
-            var includeExtensionsLowered = request.IncludeFileExtensions.Select(ext => ext.ToLower());
-            var excludeExtensionsLowered = request.ExcludeFileExtensions.Select(ext => ext.ToLower());
-            var excludeFolderNamesLowered = request.ExcludeFolderNames.Select(folder => String.Format(@"\{0}\", folder.ToLower()));
+            var includeExtensionsLowered = request.IncludeFileExtensions.Select(ext => ext.Trim().ToLower()).Select(ext => ext.StartsWith(".") ? ext : "." + ext).ToList();
+            var excludeExtensionsLowered = request.ExcludeFileExtensions.Select(ext => ext.Trim().ToLower()).Select(ext => ext.StartsWith(".") ? ext : "." + ext).ToList();
+            var excludeFolderNamesLowered = request.ExcludeFolderNames.Select(folder => String.Format(@"\{0}\", folder.ToLower())).ToList();
+            var binaryFiles = ".exe,.dll,.pdb,.bin,.jpg,.gif,.bmp,.jpeg,.png,.pack,.nupkg,.zip,.7z".Split(',').ToList();
 
             // File list task
             Task.Run(() =>
             {
                 // Get some input
                 foreach (var file in Directory.EnumerateFiles(request.Directory, "*", request.DirectoryOption)
-                                              .Select((f) => new FileInfo(f))
-                                              .Where((fi) =>
-                                              {
-                                                  if (excludeFolderNamesLowered.Any(folder => fi.FullName.ToLower().IndexOf(folder) > 0))
-                                                  {
-                                                      return false;
-                                                  }
-
-                                                  if (includeExtensionsLowered.Any())
-                                                  {
-                                                      return fi.Extension.ToLower().InList(includeExtensionsLowered);
-                                                  }
-                                                  else
-                                                  {
-                                                      return fi.Extension.ToLower().InList(excludeExtensionsLowered) == false;
-                                                  }
-                                              }))
+                                              .Select(f => new FileInfo(f))
+                                              .Where(fi => ToBeSearched(request, fi, includeExtensionsLowered, excludeExtensionsLowered, excludeFolderNamesLowered, binaryFiles)))
                 {
                     if (request.Aborted)
                     {
@@ -67,6 +53,45 @@ namespace Searchr.Core
 
             // Return response immediately
             return response;
+        }
+
+        private static bool ToBeSearched(SearchRequest request,
+                                         FileInfo fi,
+                                         List<string> includeExtensionsLowered,
+                                         List<string> excludeExtensionsLowered,
+                                         List<string> excludeFolderNamesLowered,
+                                         List<string> binaryFiles)
+        {
+            if (request.ExcludeHidden && fi.Attributes.HasFlag(FileAttributes.Hidden))
+            {
+                return false;
+            }
+
+            if (request.ExcludeSystem && fi.Attributes.HasFlag(FileAttributes.System))
+            {
+                return false;
+            }
+
+            if (excludeFolderNamesLowered.Any(folder => fi.FullName.ToLower().IndexOf(folder) > 0))
+            {
+                return false;
+            }
+
+            var extension = fi.Extension.ToLower();
+
+            if (request.ExcludeBinaryFiles && extension.InList(binaryFiles))
+            {
+                return false;
+            }
+
+            if (includeExtensionsLowered.Any())
+            {
+                return extension.InList(includeExtensionsLowered);
+            }
+            else
+            {
+                return extension.InList(excludeExtensionsLowered) == false;
+            }
         }
 
         private static Task CreateSearchTask(SearchRequest request, BlockingCollection<FileInfo> inputFiles, SearchResponse response)

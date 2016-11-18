@@ -21,6 +21,7 @@ namespace Searchr.Core
         public IList<string> ExcludeFolderNames { get; set; }
         public bool ExcludeHidden { get; set; }
         public bool ExcludeSystem { get; set; }
+        public bool ExcludeBinaryFiles { get; set; }
         public bool Aborted { get; private set; }
 
         public SearchRequest()
@@ -38,6 +39,7 @@ namespace Searchr.Core
             this.ExcludeFolderNames = new List<string>();
             this.ExcludeHidden = false;
             this.ExcludeSystem = false;
+            this.ExcludeBinaryFiles = false;
             this.Aborted = false;
         }
 
