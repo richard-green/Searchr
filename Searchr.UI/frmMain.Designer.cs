@@ -71,19 +71,19 @@
             // 
             // txtSearchTerm
             // 
-            this.txtSearchTerm.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtSearchTerm.Location = new System.Drawing.Point(154, 11);
+            this.txtSearchTerm.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtSearchTerm.Location = new System.Drawing.Point(180, 13);
             this.txtSearchTerm.Name = "txtSearchTerm";
-            this.txtSearchTerm.Size = new System.Drawing.Size(435, 25);
+            this.txtSearchTerm.Size = new System.Drawing.Size(507, 23);
             this.txtSearchTerm.TabIndex = 0;
             this.txtSearchTerm.Text = "using ";
             // 
             // btnSearch
             // 
-            this.btnSearch.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSearch.Location = new System.Drawing.Point(593, 10);
+            this.btnSearch.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSearch.Location = new System.Drawing.Point(692, 12);
             this.btnSearch.Name = "btnSearch";
-            this.btnSearch.Size = new System.Drawing.Size(72, 27);
+            this.btnSearch.Size = new System.Drawing.Size(75, 24);
             this.btnSearch.TabIndex = 1;
             this.btnSearch.Text = "Search";
             this.btnSearch.UseVisualStyleBackColor = true;
@@ -94,10 +94,10 @@
             this.chkRecursive.AutoSize = true;
             this.chkRecursive.Checked = true;
             this.chkRecursive.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkRecursive.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkRecursive.Location = new System.Drawing.Point(597, 46);
+            this.chkRecursive.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkRecursive.Location = new System.Drawing.Point(696, 49);
             this.chkRecursive.Name = "chkRecursive";
-            this.chkRecursive.Size = new System.Drawing.Size(82, 21);
+            this.chkRecursive.Size = new System.Drawing.Size(76, 19);
             this.chkRecursive.TabIndex = 6;
             this.chkRecursive.Text = "Recursive";
             this.chkRecursive.UseVisualStyleBackColor = true;
@@ -149,50 +149,50 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(12, 14);
+            this.label1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(14, 16);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(80, 17);
+            this.label1.Size = new System.Drawing.Size(72, 15);
             this.label1.TabIndex = 4;
             this.label1.Text = "Search Term";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(12, 46);
+            this.label2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(14, 49);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(61, 17);
+            this.label2.Size = new System.Drawing.Size(55, 15);
             this.label2.TabIndex = 4;
             this.label2.Text = "Directory";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(12, 78);
+            this.label3.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(14, 82);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(109, 17);
+            this.label3.Size = new System.Drawing.Size(100, 15);
             this.label3.TabIndex = 4;
             this.label3.Text = "Include File Types";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(12, 110);
+            this.label4.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(14, 115);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(112, 17);
+            this.label4.Size = new System.Drawing.Size(101, 15);
             this.label4.TabIndex = 4;
             this.label4.Text = "Exclude File Types";
             // 
             // chkRegex
             // 
             this.chkRegex.AutoSize = true;
-            this.chkRegex.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkRegex.Location = new System.Drawing.Point(885, 14);
+            this.chkRegex.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkRegex.Location = new System.Drawing.Point(1009, 16);
             this.chkRegex.Name = "chkRegex";
-            this.chkRegex.Size = new System.Drawing.Size(139, 21);
+            this.chkRegex.Size = new System.Drawing.Size(124, 19);
             this.chkRegex.TabIndex = 4;
             this.chkRegex.Text = "Regular Expression";
             this.chkRegex.UseVisualStyleBackColor = true;
@@ -200,10 +200,10 @@
             // btnStop
             // 
             this.btnStop.Enabled = false;
-            this.btnStop.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnStop.Location = new System.Drawing.Point(669, 10);
+            this.btnStop.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnStop.Location = new System.Drawing.Point(773, 12);
             this.btnStop.Name = "btnStop";
-            this.btnStop.Size = new System.Drawing.Size(80, 27);
+            this.btnStop.Size = new System.Drawing.Size(74, 24);
             this.btnStop.TabIndex = 2;
             this.btnStop.Text = "Stop";
             this.btnStop.UseVisualStyleBackColor = true;
@@ -214,10 +214,10 @@
             this.chkExcludeHidden.AutoSize = true;
             this.chkExcludeHidden.Checked = true;
             this.chkExcludeHidden.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkExcludeHidden.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkExcludeHidden.Location = new System.Drawing.Point(757, 109);
+            this.chkExcludeHidden.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkExcludeHidden.Location = new System.Drawing.Point(860, 114);
             this.chkExcludeHidden.Name = "chkExcludeHidden";
-            this.chkExcludeHidden.Size = new System.Drawing.Size(117, 21);
+            this.chkExcludeHidden.Size = new System.Drawing.Size(108, 19);
             this.chkExcludeHidden.TabIndex = 10;
             this.chkExcludeHidden.Text = "Exclude Hidden";
             this.chkExcludeHidden.UseVisualStyleBackColor = true;
@@ -227,10 +227,10 @@
             this.chkExcludeSystem.AutoSize = true;
             this.chkExcludeSystem.Checked = true;
             this.chkExcludeSystem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkExcludeSystem.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkExcludeSystem.Location = new System.Drawing.Point(885, 109);
+            this.chkExcludeSystem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkExcludeSystem.Location = new System.Drawing.Point(1009, 114);
             this.chkExcludeSystem.Name = "chkExcludeSystem";
-            this.chkExcludeSystem.Size = new System.Drawing.Size(116, 21);
+            this.chkExcludeSystem.Size = new System.Drawing.Size(107, 19);
             this.chkExcludeSystem.TabIndex = 11;
             this.chkExcludeSystem.Text = "Exclude System";
             this.chkExcludeSystem.UseVisualStyleBackColor = true;
@@ -238,29 +238,29 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(12, 142);
+            this.label5.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(14, 148);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(138, 17);
+            this.label5.Size = new System.Drawing.Size(123, 15);
             this.label5.TabIndex = 6;
             this.label5.Text = "Exclude Folder Names";
             // 
             // chkMatchCase
             // 
             this.chkMatchCase.AutoSize = true;
-            this.chkMatchCase.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkMatchCase.Location = new System.Drawing.Point(757, 14);
+            this.chkMatchCase.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkMatchCase.Location = new System.Drawing.Point(860, 16);
             this.chkMatchCase.Name = "chkMatchCase";
-            this.chkMatchCase.Size = new System.Drawing.Size(109, 21);
+            this.chkMatchCase.Size = new System.Drawing.Size(100, 19);
             this.chkMatchCase.TabIndex = 3;
             this.chkMatchCase.Text = "Case Sensitive";
             this.chkMatchCase.UseVisualStyleBackColor = true;
             // 
             // txtHidden
             // 
-            this.txtHidden.Location = new System.Drawing.Point(-300, 0);
+            this.txtHidden.Location = new System.Drawing.Point(-350, 0);
             this.txtHidden.Name = "txtHidden";
-            this.txtHidden.Size = new System.Drawing.Size(250, 20);
+            this.txtHidden.Size = new System.Drawing.Size(291, 23);
             this.txtHidden.TabIndex = 4;
             // 
             // resultsTabs
@@ -269,20 +269,20 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.resultsTabs.Controls.Add(this.tabPage1);
-            this.resultsTabs.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.resultsTabs.Location = new System.Drawing.Point(12, 182);
+            this.resultsTabs.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.resultsTabs.Location = new System.Drawing.Point(14, 177);
             this.resultsTabs.Name = "resultsTabs";
             this.resultsTabs.SelectedIndex = 0;
-            this.resultsTabs.Size = new System.Drawing.Size(1312, 537);
+            this.resultsTabs.Size = new System.Drawing.Size(1531, 653);
             this.resultsTabs.TabIndex = 13;
             // 
             // tabPage1
             // 
             this.tabPage1.Controls.Add(this.dgResults);
-            this.tabPage1.Location = new System.Drawing.Point(4, 26);
+            this.tabPage1.Location = new System.Drawing.Point(4, 24);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1304, 507);
+            this.tabPage1.Size = new System.Drawing.Size(1523, 625);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Searchr";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -305,7 +305,7 @@
             this.dgResults.Location = new System.Drawing.Point(3, 3);
             this.dgResults.Name = "dgResults";
             this.dgResults.ReadOnly = true;
-            this.dgResults.Size = new System.Drawing.Size(1298, 501);
+            this.dgResults.Size = new System.Drawing.Size(1514, 613);
             this.dgResults.TabIndex = 13;
             // 
             // FileIcon
@@ -345,38 +345,38 @@
             // 
             // cmbIncludedExtensions
             // 
-            this.cmbIncludedExtensions.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cmbIncludedExtensions.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbIncludedExtensions.FormattingEnabled = true;
-            this.cmbIncludedExtensions.Location = new System.Drawing.Point(154, 74);
+            this.cmbIncludedExtensions.Location = new System.Drawing.Point(180, 77);
             this.cmbIncludedExtensions.Name = "cmbIncludedExtensions";
-            this.cmbIncludedExtensions.Size = new System.Drawing.Size(435, 25);
+            this.cmbIncludedExtensions.Size = new System.Drawing.Size(507, 23);
             this.cmbIncludedExtensions.TabIndex = 7;
             // 
             // cmbExcludedExtensions
             // 
-            this.cmbExcludedExtensions.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cmbExcludedExtensions.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbExcludedExtensions.FormattingEnabled = true;
-            this.cmbExcludedExtensions.Location = new System.Drawing.Point(154, 106);
+            this.cmbExcludedExtensions.Location = new System.Drawing.Point(180, 110);
             this.cmbExcludedExtensions.Name = "cmbExcludedExtensions";
-            this.cmbExcludedExtensions.Size = new System.Drawing.Size(435, 25);
+            this.cmbExcludedExtensions.Size = new System.Drawing.Size(507, 23);
             this.cmbExcludedExtensions.TabIndex = 8;
             // 
             // cmbExcludeFolderNames
             // 
-            this.cmbExcludeFolderNames.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cmbExcludeFolderNames.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbExcludeFolderNames.FormattingEnabled = true;
-            this.cmbExcludeFolderNames.Location = new System.Drawing.Point(154, 139);
+            this.cmbExcludeFolderNames.Location = new System.Drawing.Point(180, 144);
             this.cmbExcludeFolderNames.Name = "cmbExcludeFolderNames";
-            this.cmbExcludeFolderNames.Size = new System.Drawing.Size(435, 25);
+            this.cmbExcludeFolderNames.Size = new System.Drawing.Size(507, 23);
             this.cmbExcludeFolderNames.TabIndex = 12;
             // 
             // cmbDirectory
             // 
-            this.cmbDirectory.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cmbDirectory.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbDirectory.FormattingEnabled = true;
-            this.cmbDirectory.Location = new System.Drawing.Point(154, 42);
+            this.cmbDirectory.Location = new System.Drawing.Point(180, 44);
             this.cmbDirectory.Name = "cmbDirectory";
-            this.cmbDirectory.Size = new System.Drawing.Size(435, 25);
+            this.cmbDirectory.Size = new System.Drawing.Size(507, 23);
             this.cmbDirectory.TabIndex = 5;
             // 
             // chkExcludeBinaryFiles
@@ -384,10 +384,10 @@
             this.chkExcludeBinaryFiles.AutoSize = true;
             this.chkExcludeBinaryFiles.Checked = true;
             this.chkExcludeBinaryFiles.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkExcludeBinaryFiles.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkExcludeBinaryFiles.Location = new System.Drawing.Point(597, 109);
+            this.chkExcludeBinaryFiles.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkExcludeBinaryFiles.Location = new System.Drawing.Point(696, 114);
             this.chkExcludeBinaryFiles.Name = "chkExcludeBinaryFiles";
-            this.chkExcludeBinaryFiles.Size = new System.Drawing.Size(139, 21);
+            this.chkExcludeBinaryFiles.Size = new System.Drawing.Size(128, 19);
             this.chkExcludeBinaryFiles.TabIndex = 14;
             this.chkExcludeBinaryFiles.Text = "Exclude Binary Files";
             this.chkExcludeBinaryFiles.UseVisualStyleBackColor = true;
@@ -395,10 +395,10 @@
             // frmMain
             // 
             this.AcceptButton = this.btnSearch;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.ClientSize = new System.Drawing.Size(1336, 731);
+            this.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.ClientSize = new System.Drawing.Size(1559, 843);
             this.Controls.Add(this.chkExcludeBinaryFiles);
             this.Controls.Add(this.cmbExcludeFolderNames);
             this.Controls.Add(this.cmbExcludedExtensions);
@@ -419,8 +419,9 @@
             this.Controls.Add(this.btnStop);
             this.Controls.Add(this.btnSearch);
             this.Controls.Add(this.txtSearchTerm);
+            this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MinimumSize = new System.Drawing.Size(875, 385);
+            this.MinimumSize = new System.Drawing.Size(1018, 438);
             this.Name = "frmMain";
             this.Text = "Searchr";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.frmMain_FormClosed);
