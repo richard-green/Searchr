@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -27,6 +28,7 @@ namespace Searchr.UI
 
 		[DllImport("shell32.dll")]
 		public static extern IntPtr SHGetFileInfo(string path, uint fattrs, ref SHFILEINFO sfi, uint size, uint flags);
+
 		public static Icon GetSmallIcon(string path)
 		{
 			SHFILEINFO info = new SHFILEINFO();
@@ -40,6 +42,7 @@ namespace Searchr.UI
 				return null;
 			}
 		}
+
 		public static Icon GetLargeIcon(string path)
 		{
 			SHFILEINFO info = new SHFILEINFO();
@@ -52,6 +55,20 @@ namespace Searchr.UI
 			{
 				return null;
 			}
-		}
-	}
+        }
+
+        static ConcurrentDictionary<string, Icon> smallIconCache = new ConcurrentDictionary<string, Icon>();
+
+        public static Icon GetSmallIconCached(string path, string extension)
+        {
+            return smallIconCache.GetOrAdd(extension, _ => GetSmallIcon(path));
+        }
+
+        static ConcurrentDictionary<string, Icon> largeIconCache = new ConcurrentDictionary<string, Icon>();
+
+        public static Icon GetLargeIconCached(string path, string extension)
+        {
+            return largeIconCache.GetOrAdd(extension, _ => GetLargeIcon(path));
+        }
+    }
 }

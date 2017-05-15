@@ -225,7 +225,11 @@ namespace Searchr.UI
                         var row = new DataGridViewRow();
 
                         var iconcell = new DataGridViewImageCell(true);
-                        iconcell.Value = IconHelper.GetSmallIcon(result.File.FullName);
+                        var icon = IconHelper.GetSmallIconCached(result.File.FullName, result.File.Extension);
+                        if (icon != null)
+                        {
+                            iconcell.Value = icon;
+                        }
                         row.Cells.Add(iconcell);
 
                         var hitcell = new DataGridViewTextBoxCell();
