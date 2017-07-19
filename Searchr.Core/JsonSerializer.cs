@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
+﻿using System.Text;
 using Newtonsoft.Json;
 
 namespace Searchr.Core
 {
-	public class JsonSerializer : ISerializer
-	{
+    public class JsonSerializer : ISerializer
+    {
         public byte[] Serialize<T>(T item)
         {
             return Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(item, Formatting.Indented));
@@ -18,5 +14,5 @@ namespace Searchr.Core
         {
             return JsonConvert.DeserializeObject<T>(Encoding.UTF8.GetString(data));
         }
-	}
+    }
 }

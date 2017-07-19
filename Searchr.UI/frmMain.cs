@@ -15,17 +15,37 @@ namespace Searchr.UI
     {
         private const string HistoryDirectory = @"..\..\History";
         private const string SettingsFile = @"..\..\My.settings";
+        private const string NotepadPlusPlus = @"C:\Program Files\Notepad++\notepad++.exe";
+        private const string NotepadPlusPlus86 = @"C:\Program Files (x86)\Notepad++\notepad++.exe";
         private Settings settings;
+        private string notepadPlusPlusLocation = string.Empty;
 
         public frmMain()
         {
             InitializeComponent();
 
+            CheckForNotepadPlusPlus();
             LoadSettings(SettingsFile);
             LoadCommonDirs();
             LoadCommonIncludedExtensions();
             LoadCommonExcludedExtensions();
             LoadLatestSearchFromHistory();
+        }
+
+        private void CheckForNotepadPlusPlus()
+        {
+            if (File.Exists(NotepadPlusPlus))
+            {
+                notepadPlusPlusLocation = NotepadPlusPlus;
+            }
+            else if (File.Exists(NotepadPlusPlus86))
+            {
+                notepadPlusPlusLocation = NotepadPlusPlus86;
+            }
+            else
+            {
+                editWithNotepadToolStripMenuItem.Enabled = false;
+            }
         }
 
         private void LoadCommonDirs()
@@ -82,7 +102,14 @@ namespace Searchr.UI
 
         private IEnumerable<SearchRequest> EnumerateHistory()
         {
-            return new DirectoryInfo(HistoryDirectory).EnumerateFiles().OrderByDescending(f => f.LastWriteTime).Select(fi => LoadSearch(fi.FullName));
+            var dir = new DirectoryInfo(HistoryDirectory);
+
+            if (!dir.Exists)
+            {
+                dir.Create();
+            }
+
+            return dir.EnumerateFiles().OrderByDescending(f => f.LastWriteTime).Select(fi => LoadSearch(fi.FullName));
         }
 
         private SearchRequest LoadSearch(string file)
@@ -354,7 +381,7 @@ namespace Searchr.UI
         {
             foreach (DataGridViewCell cell in (resultsTabs.SelectedTab.Controls[0] as DataGridView).SelectedCells)
             {
-                Process.Start(@"C:\Program Files (x86)\Notepad++\notepad++.exe", String.Format("\"{0}\\{1}\"", ((DirectoryInfo)cell.OwningRow.Cells[4].Value).FullName, (string)cell.OwningRow.Cells[2].Value));
+                Process.Start(notepadPlusPlusLocation, String.Format("\"{0}\\{1}\"", ((DirectoryInfo)cell.OwningRow.Cells[4].Value).FullName, (string)cell.OwningRow.Cells[2].Value));
             }
         }
 
