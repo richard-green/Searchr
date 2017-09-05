@@ -13,8 +13,8 @@ namespace Searchr.UI
 {
     public partial class frmMain : Form
     {
-        private const string HistoryDirectory = @"..\..\History";
-        private const string SettingsFile = @"..\..\My.settings";
+        private string HistoryDirectory = @"History";
+        private string SettingsFile = @"My.settings";
         private const string NotepadPlusPlus = @"C:\Program Files\Notepad++\notepad++.exe";
         private const string NotepadPlusPlus86 = @"C:\Program Files (x86)\Notepad++\notepad++.exe";
         private Settings settings;
@@ -27,11 +27,59 @@ namespace Searchr.UI
             InitializeComponent();
 
             CheckForNotepadPlusPlus();
-            LoadSettings(SettingsFile);
+
+            SettingsFile = FindFile(SettingsFile);
+
+            if (SettingsFile != null)
+            {
+                LoadSettings(SettingsFile);
+            }
+            else
+            {
+                LoadDefaultSettings();
+                SettingsFile = Debugger.IsAttached ? @"..\..\My.settings" : "My.settings";
+            }
+
+            HistoryDirectory = FindDirectory(HistoryDirectory) ?? (Debugger.IsAttached ? @"..\..\History" : "History");
+
             LoadCommonDirs();
             LoadCommonIncludedExtensions();
             LoadCommonExcludedExtensions();
             LoadLatestSearchFromHistory();
+        }
+
+        private string FindFile(string file, int searchDepth = 0)
+        {
+            if (System.IO.File.Exists(file))
+            {
+                return file;
+            }
+            else if (searchDepth == 2)
+            {
+                return null;
+            }
+            else
+            {
+                file = Path.Combine("..", file);
+                return FindFile(file, searchDepth + 1);
+            }
+        }
+
+        private string FindDirectory(string dir, int searchDepth = 0)
+        {
+            if (System.IO.Directory.Exists(dir))
+            {
+                return dir;
+            }
+            else if (searchDepth == 2)
+            {
+                return null;
+            }
+            else
+            {
+                dir = Path.Combine("..", dir);
+                return FindDirectory(dir, searchDepth + 1);
+            }
         }
 
         private void CheckForNotepadPlusPlus()
@@ -137,6 +185,21 @@ namespace Searchr.UI
                 this.dgResults.Columns[3].Width = settings.ColumnWidth3;
                 this.dgResults.Columns[4].Width = settings.ColumnWidth4;
             }
+        }
+
+        private void LoadDefaultSettings()
+        {
+            settings = new Settings()
+            {
+                Maximised = this.WindowState == FormWindowState.Maximized,
+                Width = this.Width,
+                Height = this.Height,
+                ColumnWidth0 = this.dgResults.Columns[0].Width,
+                ColumnWidth1 = this.dgResults.Columns[1].Width,
+                ColumnWidth2 = this.dgResults.Columns[2].Width,
+                ColumnWidth3 = this.dgResults.Columns[3].Width,
+                ColumnWidth4 = this.dgResults.Columns[4].Width
+            };
         }
 
         private void SaveSettings(string file)

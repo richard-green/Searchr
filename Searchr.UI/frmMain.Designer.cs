@@ -77,7 +77,6 @@
             this.txtSearchTerm.Name = "txtSearchTerm";
             this.txtSearchTerm.Size = new System.Drawing.Size(507, 23);
             this.txtSearchTerm.TabIndex = 0;
-            this.txtSearchTerm.Text = "using ";
             // 
             // btnSearch
             // 
