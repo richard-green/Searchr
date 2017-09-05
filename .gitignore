@@ -6,3 +6,4 @@ obj/
 *.csproj.user
 /Searchr.UI/History/
 packages/
+/.vs/
