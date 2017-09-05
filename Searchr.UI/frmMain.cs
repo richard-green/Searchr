@@ -19,6 +19,8 @@ namespace Searchr.UI
         private const string NotepadPlusPlus86 = @"C:\Program Files (x86)\Notepad++\notepad++.exe";
         private Settings settings;
         private string notepadPlusPlusLocation = string.Empty;
+        private SearchRequest CurrentSearch;
+        private bool firstTab = true;
 
         public frmMain()
         {
@@ -151,8 +153,6 @@ namespace Searchr.UI
             File.WriteAllBytes(file, serialized);
         }
 
-        private SearchRequest CurrentSearch;
-
         private void SaveCurrentSearch()
         {
             using (var sha = new SHA256Managed())
@@ -238,7 +238,9 @@ namespace Searchr.UI
             int totalFiles = 0;
             int totalHits = 0;
 
-            DataGridView resultsGrid = CreateNewResultsTab();
+            var results = CreateNewResultsTab();
+            var resultsTab = results.Item1;
+            var resultsGrid = results.Item2;
 
             Task.Run(() =>
             {
@@ -288,33 +290,39 @@ namespace Searchr.UI
 
                 this.InvokeAction(_ =>
                 {
+                    resultsTab.ImageIndex = 1;
                     btnSearch.Enabled = true;
                     btnStop.Enabled = false;
                 });
             });
         }
 
-        private DataGridView CreateNewResultsTab()
+        private Tuple<TabPage, DataGridView> CreateNewResultsTab()
         {
             var newTab = CreateTabPage();
             var resultsGrid = CreateResultsGrid();
 
             newTab.Controls.Add(resultsGrid);
 
+            if (firstTab)
+            {
+                resultsTabs.TabPages.Clear();
+                firstTab = false;
+            }
+
             resultsTabs.TabPages.Add(newTab);
             resultsTabs.SelectedTab = newTab;
 
-            return resultsGrid;
+            return new Tuple<TabPage, DataGridView>(newTab, resultsGrid);
         }
 
         private TabPage CreateTabPage()
         {
             var newTab = new TabPage();
-            newTab.Location = new System.Drawing.Point(4, 22);
-            newTab.Padding = new System.Windows.Forms.Padding(3);
-            newTab.Size = new System.Drawing.Size(1304, 531);
+            newTab.Padding = new Padding(5);
             newTab.TabIndex = 0;
             newTab.Text = txtSearchTerm.Text.Length > 20 ? txtSearchTerm.Text.Substring(0, 20) + "..." : txtSearchTerm.Text;
+            newTab.ImageIndex = 0;
             newTab.UseVisualStyleBackColor = true;
             return newTab;
         }
@@ -324,7 +332,7 @@ namespace Searchr.UI
             var resultsGrid = new DataGridView();
             resultsGrid.AllowUserToAddRows = false;
             resultsGrid.AllowUserToOrderColumns = true;
-            resultsGrid.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            resultsGrid.Dock = DockStyle.Fill;
             resultsGrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             resultsGrid.Columns.AddRange(new DataGridViewColumn[]
             {
@@ -365,9 +373,7 @@ namespace Searchr.UI
                 }
             });
             resultsGrid.ContextMenuStrip = this.ResultsContextMenu;
-            resultsGrid.Location = new System.Drawing.Point(3, 3);
             resultsGrid.ReadOnly = true;
-            resultsGrid.Size = new System.Drawing.Size(1298, 525);
             resultsGrid.TabIndex = 13;
             return resultsGrid;
         }

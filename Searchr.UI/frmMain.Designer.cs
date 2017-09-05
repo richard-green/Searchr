@@ -58,6 +58,7 @@
             this.FileName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Ext = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Directory = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.images = new System.Windows.Forms.ImageList(this.components);
             this.cmbIncludedExtensions = new System.Windows.Forms.ComboBox();
             this.cmbExcludedExtensions = new System.Windows.Forms.ComboBox();
             this.cmbExcludeFolderNames = new System.Windows.Forms.ComboBox();
@@ -190,7 +191,7 @@
             // 
             this.chkRegex.AutoSize = true;
             this.chkRegex.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkRegex.Location = new System.Drawing.Point(1009, 16);
+            this.chkRegex.Location = new System.Drawing.Point(984, 16);
             this.chkRegex.Name = "chkRegex";
             this.chkRegex.Size = new System.Drawing.Size(124, 19);
             this.chkRegex.TabIndex = 4;
@@ -228,7 +229,7 @@
             this.chkExcludeSystem.Checked = true;
             this.chkExcludeSystem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkExcludeSystem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkExcludeSystem.Location = new System.Drawing.Point(1009, 114);
+            this.chkExcludeSystem.Location = new System.Drawing.Point(984, 114);
             this.chkExcludeSystem.Name = "chkExcludeSystem";
             this.chkExcludeSystem.Size = new System.Drawing.Size(107, 19);
             this.chkExcludeSystem.TabIndex = 11;
@@ -270,8 +271,10 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.resultsTabs.Controls.Add(this.tabPage1);
             this.resultsTabs.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.resultsTabs.ImageList = this.images;
             this.resultsTabs.Location = new System.Drawing.Point(14, 177);
             this.resultsTabs.Name = "resultsTabs";
+            this.resultsTabs.Padding = new System.Drawing.Point(10, 6);
             this.resultsTabs.SelectedIndex = 0;
             this.resultsTabs.Size = new System.Drawing.Size(1531, 653);
             this.resultsTabs.TabIndex = 13;
@@ -279,10 +282,10 @@
             // tabPage1
             // 
             this.tabPage1.Controls.Add(this.dgResults);
-            this.tabPage1.Location = new System.Drawing.Point(4, 24);
+            this.tabPage1.Location = new System.Drawing.Point(4, 30);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1523, 625);
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(5);
+            this.tabPage1.Size = new System.Drawing.Size(1523, 619);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Searchr";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -291,9 +294,6 @@
             // 
             this.dgResults.AllowUserToAddRows = false;
             this.dgResults.AllowUserToOrderColumns = true;
-            this.dgResults.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.dgResults.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgResults.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.FileIcon,
@@ -302,10 +302,12 @@
             this.Ext,
             this.Directory});
             this.dgResults.ContextMenuStrip = this.ResultsContextMenu;
-            this.dgResults.Location = new System.Drawing.Point(3, 3);
+            this.dgResults.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgResults.Location = new System.Drawing.Point(5, 5);
+            this.dgResults.Margin = new System.Windows.Forms.Padding(10);
             this.dgResults.Name = "dgResults";
             this.dgResults.ReadOnly = true;
-            this.dgResults.Size = new System.Drawing.Size(1514, 613);
+            this.dgResults.Size = new System.Drawing.Size(1513, 609);
             this.dgResults.TabIndex = 13;
             // 
             // FileIcon
@@ -342,6 +344,13 @@
             this.Directory.Name = "Directory";
             this.Directory.ReadOnly = true;
             this.Directory.Width = 400;
+            // 
+            // images
+            // 
+            this.images.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("images.ImageStream")));
+            this.images.TransparentColor = System.Drawing.Color.Transparent;
+            this.images.Images.SetKeyName(0, "compass.png");
+            this.images.Images.SetKeyName(1, "checked.png");
             // 
             // cmbIncludedExtensions
             // 
@@ -471,5 +480,6 @@
         private System.Windows.Forms.ComboBox cmbExcludeFolderNames;
         private System.Windows.Forms.ComboBox cmbDirectory;
         private System.Windows.Forms.CheckBox chkExcludeBinaryFiles;
+        private System.Windows.Forms.ImageList images;
     }
 }
