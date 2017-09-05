@@ -182,15 +182,20 @@ namespace Searchr.UI
                 Method = chkRegex.Checked ? SearchMethod.SingleLineRegex : SearchMethod.SingleLine,
                 MatchCase = chkMatchCase.Checked,
                 ParallelSearches = 4,
-                ExcludeFileExtensions = cmbExcludedExtensions.Text.Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries),
-                IncludeFileExtensions = cmbIncludedExtensions.Text.Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries),
-                ExcludeFolderNames = cmbExcludeFolderNames.Text.Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries),
+                ExcludeFileExtensions = GetExtensions(cmbExcludedExtensions.Text),
+                IncludeFileExtensions = GetExtensions(cmbIncludedExtensions.Text),
+                ExcludeFolderNames = GetExtensions(cmbExcludeFolderNames.Text),
                 ExcludeSystem = chkExcludeHidden.Checked,
                 ExcludeHidden = chkExcludeSystem.Checked,
                 ExcludeBinaryFiles = chkExcludeBinaryFiles.Checked
             };
 
             return request;
+        }
+
+        private IList<string> GetExtensions(string text)
+        {
+            return text.Split(new char[] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries).Select(ext => ext.StartsWith(".") ? ext : $".{ext}").ToList();
         }
 
         private void RestoreSettings(SearchRequest request)
