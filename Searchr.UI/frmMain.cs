@@ -252,7 +252,7 @@ namespace Searchr.UI
                 ParallelSearches = 4,
                 ExcludeFileExtensions = GetExtensions(cmbExcludedExtensions.Text),
                 IncludeFileExtensions = GetExtensions(cmbIncludedExtensions.Text),
-                ExcludeFolderNames = GetExtensions(cmbExcludeFolderNames.Text),
+                ExcludeFolderNames = GetFolders(cmbExcludeFolderNames.Text),
                 ExcludeSystem = chkExcludeHidden.Checked,
                 ExcludeHidden = chkExcludeSystem.Checked,
                 ExcludeBinaryFiles = chkExcludeBinaryFiles.Checked
@@ -264,6 +264,11 @@ namespace Searchr.UI
         private IList<string> GetExtensions(string text)
         {
             return text.Split(new char[] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries).Select(ext => ext.StartsWith(".") ? ext : $".{ext}").ToList();
+        }
+
+        private IList<string> GetFolders(string text)
+        {
+            return text.Split(new char[] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries).ToList();
         }
 
         private void RestoreSettings(SearchRequest request)
