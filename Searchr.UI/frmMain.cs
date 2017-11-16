@@ -263,12 +263,12 @@ namespace Searchr.UI
 
         private IList<string> GetExtensions(string text)
         {
-            return text.Split(new char[] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries).Select(ext => ext.StartsWith(".") ? ext : $".{ext}").ToList();
+            return text.Split(new char[] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries).Select(ext => ext.StartsWith(".") ? ext : $".{ext}").Distinct().ToList();
         }
 
         private IList<string> GetFolders(string text)
         {
-            return text.Split(new char[] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+            return text.Split(new char[] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries).Distinct().ToList();
         }
 
         private void RestoreSettings(SearchRequest request)
