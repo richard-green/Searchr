@@ -237,6 +237,11 @@ namespace Searchr.UI
 
         private SearchRequest GetSearchRequest()
         {
+            if (cmbDirectory.Text.EndsWith("\\") && !cmbDirectory.Text.EndsWith(":\\"))
+            {
+                cmbDirectory.Text = cmbDirectory.Text.Substring(0, cmbDirectory.Text.Length - 1);
+            }
+
             var request = new SearchRequest()
             {
                 Directory = cmbDirectory.Text,
@@ -547,6 +552,12 @@ namespace Searchr.UI
             }
 
             return base.ProcessCmdKey(ref msg, keyData);
+        }
+
+        private void chk_Changed(object sender, EventArgs e)
+        {
+            var checkbox = (CheckBox)sender;
+            checkbox.ImageIndex = (checkbox.Checked) ? 3 : 2;
         }
 
         #endregion User Actions
