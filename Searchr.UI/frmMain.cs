@@ -1,495 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Diagnostics;
-using System.IO;
 using System.Linq;
-using System.Security.Cryptography;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using Searchr.Core;
 
 namespace Searchr.UI
 {
     public partial class frmMain : Form
     {
-        private string HistoryDirectory = @"History";
-        private string SettingsFile = @"My.settings";
-        private const string NotepadPlusPlus = @"C:\Program Files\Notepad++\notepad++.exe";
-        private const string NotepadPlusPlus86 = @"C:\Program Files (x86)\Notepad++\notepad++.exe";
-        private Settings settings;
-        private string notepadPlusPlusLocation = string.Empty;
-        private SearchRequest CurrentSearch;
-        private bool firstTab = true;
-
         public frmMain()
         {
             InitializeComponent();
-
-            CheckForNotepadPlusPlus();
-
-            SettingsFile = FindFile(SettingsFile);
-
-            if (SettingsFile != null)
-            {
-                LoadSettings(SettingsFile);
-            }
-            else
-            {
-                LoadDefaultSettings();
-                SettingsFile = Debugger.IsAttached ? @"..\..\My.settings" : "My.settings";
-            }
-
-            HistoryDirectory = FindDirectory(HistoryDirectory) ?? (Debugger.IsAttached ? @"..\..\History" : "History");
-
-            LoadCommonDirs();
-            LoadCommonIncludedExtensions();
-            LoadCommonExcludedExtensions();
-            LoadLatestSearchFromHistory();
         }
 
-        private string FindFile(string file, int searchDepth = 0)
+        private void frmMain_Load(object sender, EventArgs e)
         {
-            if (System.IO.File.Exists(file))
-            {
-                return file;
-            }
-            else if (searchDepth == 2)
-            {
-                return null;
-            }
-            else
-            {
-                file = Path.Combine("..", file);
-                return FindFile(file, searchDepth + 1);
-            }
-        }
-
-        private string FindDirectory(string dir, int searchDepth = 0)
-        {
-            if (System.IO.Directory.Exists(dir))
-            {
-                return dir;
-            }
-            else if (searchDepth == 2)
-            {
-                return null;
-            }
-            else
-            {
-                dir = Path.Combine("..", dir);
-                return FindDirectory(dir, searchDepth + 1);
-            }
-        }
-
-        private void CheckForNotepadPlusPlus()
-        {
-            if (File.Exists(NotepadPlusPlus))
-            {
-                notepadPlusPlusLocation = NotepadPlusPlus;
-            }
-            else if (File.Exists(NotepadPlusPlus86))
-            {
-                notepadPlusPlusLocation = NotepadPlusPlus86;
-            }
-            else
-            {
-                editWithNotepadToolStripMenuItem.Enabled = false;
-            }
-        }
-
-        private void LoadCommonDirs()
-        {
-            var list = EnumerateHistory()
-                .Select(s => s.Directory)
-                .GroupBy(s => s)
-                .ToDictionary(g => g.Key, g => g.Count())
-                .OrderByDescending(g => g.Value)
-                .Select(g => g.Key);
-
-            cmbDirectory.Items.Clear();
-            cmbDirectory.Items.AddRange(list.ToArray());
-        }
-
-        private void LoadCommonIncludedExtensions()
-        {
-            var list = EnumerateHistory()
-                .Where(s => s.IncludeFileExtensions.Count > 0)
-                .Select(s => String.Join(",", s.IncludeFileExtensions.OrderBy(s2 => s2)))
-                .GroupBy(s => s)
-                .ToDictionary(g => g.Key, g => g.Count())
-                .OrderByDescending(g => g.Value)
-                .Select(g => g.Key);
-
-            cmbIncludedExtensions.Items.Clear();
-            cmbIncludedExtensions.Items.AddRange(list.ToArray());
-        }
-
-        private void LoadCommonExcludedExtensions()
-        {
-            var list = EnumerateHistory()
-                .Where(s => s.ExcludeFileExtensions.Count > 0)
-                .Select(s => String.Join(",", s.ExcludeFileExtensions.OrderBy(s2 => s2)))
-                .GroupBy(s => s)
-                .ToDictionary(g => g.Key, g => g.Count())
-                .OrderByDescending(g => g.Value)
-                .Select(g => g.Key);
-
-            cmbExcludedExtensions.Items.Clear();
-            cmbExcludedExtensions.Items.AddRange(list.ToArray());
-        }
-
-        private void LoadLatestSearchFromHistory()
-        {
-            // Load previous search from history
-            var search = EnumerateHistory().FirstOrDefault();
-
-            if (search != null)
-            {
-                RestoreSettings(search);
-            }
-        }
-
-        private IEnumerable<SearchRequest> EnumerateHistory()
-        {
-            var dir = new DirectoryInfo(HistoryDirectory);
-
-            if (!dir.Exists)
-            {
-                dir.Create();
-            }
-
-            return dir.EnumerateFiles().OrderByDescending(f => f.LastWriteTime).Select(fi => LoadSearch(fi.FullName));
-        }
-
-        private SearchRequest LoadSearch(string file)
-        {
-            var serializer = new JsonSerializer();
-            var search = serializer.Deserialize<SearchRequest>(File.ReadAllBytes(file));
-            return search;
-        }
-
-        private void LoadSettings(string file)
-        {
-            if (File.Exists(file))
-            {
-                var serializer = new JsonSerializer();
-                settings = serializer.Deserialize<Settings>(File.ReadAllBytes(file));
-
-                this.WindowState = settings.Maximised ? FormWindowState.Maximized : FormWindowState.Normal;
-                this.Width = settings.Width;
-                this.Height = settings.Height;
-                this.dgResults.Columns[0].Width = settings.ColumnWidth0;
-                this.dgResults.Columns[1].Width = settings.ColumnWidth1;
-                this.dgResults.Columns[2].Width = settings.ColumnWidth2;
-                this.dgResults.Columns[3].Width = settings.ColumnWidth3;
-                this.dgResults.Columns[4].Width = settings.ColumnWidth4;
-            }
-        }
-
-        private void LoadDefaultSettings()
-        {
-            settings = new Settings()
-            {
-                Maximised = this.WindowState == FormWindowState.Maximized,
-                Width = this.Width,
-                Height = this.Height,
-                ColumnWidth0 = this.dgResults.Columns[0].Width,
-                ColumnWidth1 = this.dgResults.Columns[1].Width,
-                ColumnWidth2 = this.dgResults.Columns[2].Width,
-                ColumnWidth3 = this.dgResults.Columns[3].Width,
-                ColumnWidth4 = this.dgResults.Columns[4].Width
-            };
-        }
-
-        private void SaveSettings(string file)
-        {
-            settings.Maximised = this.WindowState == FormWindowState.Maximized;
-            settings.ColumnWidth0 = this.dgResults.Columns[0].Width;
-            settings.ColumnWidth1 = this.dgResults.Columns[1].Width;
-            settings.ColumnWidth2 = this.dgResults.Columns[2].Width;
-            settings.ColumnWidth3 = this.dgResults.Columns[3].Width;
-            settings.ColumnWidth4 = this.dgResults.Columns[4].Width;
-
-            var serializer = new JsonSerializer();
-            var serialized = serializer.Serialize(settings);
-            File.WriteAllBytes(file, serialized);
-        }
-
-        private void SaveCurrentSearch()
-        {
-            using (var sha = new SHA256Managed())
-            {
-                var serializer = new JsonSerializer();
-                var serialized = serializer.Serialize(CurrentSearch);
-                var hashCode = Hex.ToString(sha.ComputeHash(serialized));
-                var historyFile = Path.Combine(HistoryDirectory, String.Format("{0}.search", hashCode));
-                if (File.Exists(historyFile) == false)
-                {
-                    File.WriteAllBytes(historyFile, serialized);
-                }
-                else
-                {
-                    new FileInfo(historyFile).LastWriteTime = DateTime.Now;
-                }
-            }
-        }
-
-        private SearchRequest GetSearchRequest()
-        {
-            if (cmbDirectory.Text.EndsWith("\\") && !cmbDirectory.Text.EndsWith(":\\"))
-            {
-                cmbDirectory.Text = cmbDirectory.Text.Substring(0, cmbDirectory.Text.Length - 1);
-            }
-
-            var request = new SearchRequest()
-            {
-                Directory = cmbDirectory.Text,
-                DirectoryOption = chkRecursive.Checked ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly,
-                SearchTerm = txtSearchTerm.Text,
-                Method = chkRegex.Checked ? SearchMethod.SingleLineRegex : SearchMethod.SingleLine,
-                MatchCase = chkMatchCase.Checked,
-                ParallelSearches = 4,
-                ExcludeFileExtensions = GetExtensions(cmbExcludedExtensions.Text),
-                IncludeFileExtensions = GetExtensions(cmbIncludedExtensions.Text),
-                ExcludeFolderNames = GetFolders(cmbExcludeFolderNames.Text),
-                ExcludeSystem = chkExcludeHidden.Checked,
-                ExcludeHidden = chkExcludeSystem.Checked,
-                ExcludeBinaryFiles = chkExcludeBinaryFiles.Checked
-            };
-
-            return request;
-        }
-
-        private IList<string> GetExtensions(string text)
-        {
-            return text.Split(new char[] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries).Select(ext => ext.StartsWith(".") ? ext : $".{ext}").Distinct().ToList();
-        }
-
-        private IList<string> GetFolders(string text)
-        {
-            return text.Split(new char[] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries).Distinct().ToList();
-        }
-
-        private void RestoreSettings(SearchRequest request)
-        {
-            cmbDirectory.Text = request.Directory;
-            chkRecursive.Checked = request.DirectoryOption == SearchOption.AllDirectories;
-            txtSearchTerm.Text = request.SearchTerm;
-            chkRegex.Checked = request.Method == SearchMethod.SingleLineRegex;
-            chkMatchCase.Checked = request.MatchCase;
-            cmbExcludedExtensions.Text = String.Join(",", request.ExcludeFileExtensions);
-            cmbIncludedExtensions.Text = String.Join(",", request.IncludeFileExtensions);
-            cmbExcludeFolderNames.Text = String.Join(",", request.ExcludeFolderNames);
-            chkExcludeHidden.Checked = request.ExcludeHidden;
-            chkExcludeSystem.Checked = request.ExcludeSystem;
-            chkExcludeBinaryFiles.Checked = request.ExcludeBinaryFiles;
-        }
-
-        #region User Actions
-
-        private void btnSearch_Click(object sender, EventArgs e)
-        {
-            if (String.IsNullOrEmpty(txtSearchTerm.Text))
-            {
-                MessageBox.Show("No search term");
-                return;
-            }
-
-            if (System.IO.Directory.Exists(cmbDirectory.Text) == false)
-            {
-                MessageBox.Show("Invalid directory");
-                return;
-            }
-
-            btnSearch.Enabled = false;
-            btnStop.Enabled = true;
-
-            CurrentSearch = GetSearchRequest();
-
-            SaveCurrentSearch();
-
-            dgResults.Rows.Clear();
-
-            var response = Search.PerformSearch(CurrentSearch);
-
-            int totalFiles = 0;
-            int totalHits = 0;
-
-            var results = CreateNewResultsTab();
-            var resultsTab = results.Item1;
-            var resultsGrid = results.Item2;
-
-            Task.Run(() =>
-            {
-                foreach (var result in response.Results.GetConsumingEnumerable())
-                {
-                    try
-                    {
-                        totalFiles++;
-                        totalHits += result.TotalCount;
-
-                        var row = new DataGridViewRow();
-
-                        var iconcell = new DataGridViewImageCell(true);
-                        var icon = IconHelper.GetSmallIconCached(result.File.FullName, result.File.Extension);
-                        if (icon != null)
-                        {
-                            iconcell.Value = icon;
-                        }
-                        row.Cells.Add(iconcell);
-
-                        var hitcell = new DataGridViewTextBoxCell();
-                        hitcell.Value = result.TotalCount;
-                        row.Cells.Add(hitcell);
-
-                        var filecell = new DataGridViewTextBoxCell();
-                        filecell.Value = result.File.Name;
-                        row.Cells.Add(filecell);
-
-                        var extcell = new DataGridViewTextBoxCell();
-                        extcell.Value = result.File.Extension;
-                        row.Cells.Add(extcell);
-
-                        var dircell = new DataGridViewTextBoxCell();
-                        dircell.Value = result.File.Directory;
-                        row.Cells.Add(dircell);
-
-                        resultsGrid.InvokeAction(dg =>
-                        {
-                            resultsGrid.Rows.Add(row);
-                        });
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine(ex);
-                    }
-                }
-
-                this.InvokeAction(_ =>
-                {
-                    resultsTab.ImageIndex = 1;
-                    btnSearch.Enabled = true;
-                    btnStop.Enabled = false;
-                });
-            });
-        }
-
-        private Tuple<TabPage, DataGridView> CreateNewResultsTab()
-        {
-            var newTab = CreateTabPage();
-            var resultsGrid = CreateResultsGrid();
-
-            newTab.Controls.Add(resultsGrid);
-
-            if (firstTab)
-            {
-                resultsTabs.TabPages.Clear();
-                firstTab = false;
-            }
-
-            resultsTabs.TabPages.Add(newTab);
-            resultsTabs.SelectedTab = newTab;
-
-            return new Tuple<TabPage, DataGridView>(newTab, resultsGrid);
-        }
-
-        private TabPage CreateTabPage()
-        {
-            var newTab = new TabPage();
-            newTab.Padding = new Padding(5);
-            newTab.TabIndex = 0;
-            newTab.Text = txtSearchTerm.Text.Length > 20 ? txtSearchTerm.Text.Substring(0, 20) + "..." : txtSearchTerm.Text;
-            newTab.ImageIndex = 0;
-            newTab.UseVisualStyleBackColor = true;
-            return newTab;
-        }
-
-        private DataGridView CreateResultsGrid()
-        {
-            var resultsGrid = new DataGridView();
-            resultsGrid.AllowUserToAddRows = false;
-            resultsGrid.AllowUserToOrderColumns = true;
-            resultsGrid.Dock = DockStyle.Fill;
-            resultsGrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            resultsGrid.Columns.AddRange(new DataGridViewColumn[]
-            {
-                new DataGridViewImageColumn()
-                {
-                    HeaderText = "",
-                    Name = "FileIcon",
-                    ReadOnly = true,
-                    Width = settings.ColumnWidth0
-                },
-                new DataGridViewTextBoxColumn()
-                {
-                    HeaderText = "Lines",
-                    Name = "Lines",
-                    ReadOnly = true,
-                    Width = settings.ColumnWidth1
-                },
-                new DataGridViewTextBoxColumn()
-                {
-                    HeaderText = "FileName",
-                    Name = "FileName",
-                    ReadOnly = true,
-                    Width = settings.ColumnWidth2
-                },
-                new DataGridViewTextBoxColumn()
-                {
-                    HeaderText = "Ext",
-                    Name = "Ext",
-                    ReadOnly = true,
-                    Width = settings.ColumnWidth3
-                },
-                new DataGridViewTextBoxColumn()
-                {
-                    HeaderText = "Directory",
-                    Name = "Directory",
-                    ReadOnly = true,
-                    Width = settings.ColumnWidth4
-                }
-            });
-            resultsGrid.ContextMenuStrip = this.ResultsContextMenu;
-            resultsGrid.ReadOnly = true;
-            resultsGrid.TabIndex = 13;
-            return resultsGrid;
-        }
-
-        private void btnStop_Click(object sender, EventArgs e)
-        {
-            CurrentSearch.Abort();
-        }
-
-        private void editWithNotepadToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            foreach (DataGridViewCell cell in (resultsTabs.SelectedTab.Controls[0] as DataGridView).SelectedCells)
-            {
-                Process.Start(notepadPlusPlusLocation, String.Format("\"{0}\\{1}\"", ((DirectoryInfo)cell.OwningRow.Cells[4].Value).FullName, (string)cell.OwningRow.Cells[2].Value));
-            }
-        }
-
-        private void exploreHereToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            foreach (DataGridViewCell cell in (resultsTabs.SelectedTab.Controls[0] as DataGridView).SelectedCells)
-            {
-                Process.Start("explorer.exe", String.Format("/select, \"{0}\\{1}\"", ((DirectoryInfo)cell.OwningRow.Cells[4].Value).FullName, (string)cell.OwningRow.Cells[2].Value));
-                break;
-            }
-        }
-
-        private void commandPromptHereToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            foreach (DataGridViewCell cell in (resultsTabs.SelectedTab.Controls[0] as DataGridView).SelectedCells)
-            {
-                Process.Start("cmd.exe", String.Format("/k cd /d \"{0}\"", ((DirectoryInfo)cell.OwningRow.Cells[4].Value).FullName));
-                break;
-            }
-        }
-
-        private void clearResultsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            (resultsTabs.SelectedTab.Controls[0] as DataGridView).Rows.Clear();
+            AddResultsTab();
         }
 
         private void frmMain_Click(object sender, EventArgs e)
@@ -499,72 +23,68 @@ namespace Searchr.UI
 
         private void frmMain_FormClosed(object sender, FormClosedEventArgs e)
         {
-            SaveSettings(SettingsFile);
+            SaveSettings();
         }
 
         private void frmMain_ResizeEnd(object sender, EventArgs e)
         {
-            if (this.WindowState != FormWindowState.Maximized)
+            if (WindowState != FormWindowState.Maximized)
             {
-                settings.Width = this.Width;
-                settings.Height = this.Height;
+                Config.Settings.Width = Width;
+                Config.Settings.Height = Height;
             }
         }
 
-        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        private void resultsTabs_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (keyData == (Keys.Control | Keys.F))
+            if (resultsTabs.SelectedIndex == resultsTabs.TabCount - 1)
             {
-                txtSearchTerm.Focus();
-                txtSearchTerm.SelectAll();
-                return true;
+                AddResultsTab();
             }
-            else if (keyData == (Keys.Control | Keys.W))
-            {
-                if (resultsTabs.TabPages.Count == 1)
-                {
-                    (resultsTabs.SelectedTab.Controls[0] as DataGridView).Rows.Clear();
-                    resultsTabs.SelectedTab.Text = "Searchr";
-                }
-                else
-                {
-                    var tabToRemove = resultsTabs.SelectedTab;
-                    var currentIndex = resultsTabs.SelectedIndex;
-                    resultsTabs.TabPages.Remove(tabToRemove);
-                    resultsTabs.SelectedIndex = currentIndex;
-                }
-                return true;
-            }
-            else if (keyData == (Keys.Shift | Keys.Control | Keys.Tab))
-            {
-                if (resultsTabs.TabPages.Count > 1)
-                {
-                    var newIndex = resultsTabs.SelectedIndex - 1;
-                    if (newIndex == -1) newIndex = resultsTabs.TabPages.Count - 1;
-                    resultsTabs.SelectedIndex = newIndex;
-                }
-                return true;
-            }
-            else if (keyData == (Keys.Control | Keys.Tab))
-            {
-                if (resultsTabs.TabPages.Count > 1)
-                {
-                    var newIndex = resultsTabs.SelectedIndex + 1;
-                    if (newIndex >= resultsTabs.TabPages.Count) newIndex = 0;
-                    resultsTabs.SelectedIndex = newIndex;
-                }
-                return true;
-            }
-
-            return base.ProcessCmdKey(ref msg, keyData);
         }
 
-        private void chk_Changed(object sender, EventArgs e)
+        private void SaveSettings()
         {
-            var checkbox = (CheckBox)sender;
-            checkbox.ImageIndex = (checkbox.Checked) ? 3 : 2;
+            var currentResults = CurrentResults();
+
+            if (currentResults != null)
+            {
+                Config.Settings.ColumnWidth0 = currentResults.Columns[0].Width;
+                Config.Settings.ColumnWidth1 = currentResults.Columns[1].Width;
+                Config.Settings.ColumnWidth2 = currentResults.Columns[2].Width;
+                Config.Settings.ColumnWidth3 = currentResults.Columns[3].Width;
+                Config.Settings.ColumnWidth4 = currentResults.Columns[4].Width;
+            }
+
+            Config.Settings.Maximised = WindowState == FormWindowState.Maximized;
+            Config.SaveSettings();
         }
 
-        #endregion User Actions
+        private DataGridView CurrentResults()
+        {
+            return resultsTabs.SelectedTab.Controls.OfType<ucSearchPanel>().FirstOrDefault()?.Results();
+        }
+
+        private void AddResultsTab()
+        {
+            var newTab = CreateTabPage();
+            resultsTabs.TabPages.Insert(resultsTabs.TabCount - 1, newTab);
+            resultsTabs.SelectedTab = newTab;
+        }
+
+        private TabPage CreateTabPage()
+        {
+            var newTab = new TabPage();
+            newTab.Padding = new Padding(5);
+            newTab.TabIndex = 0;
+            newTab.Text = "Search";
+            newTab.UseVisualStyleBackColor = true;
+
+            var panel = new ucSearchPanel();
+            panel.Dock = DockStyle.Fill;
+            newTab.Controls.Add(panel);
+
+            return newTab;
+        }
     }
 }

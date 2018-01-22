@@ -1,6 +1,6 @@
 ﻿namespace Searchr.UI
 {
-    class Settings
+    public class Settings
     {
         public bool Maximised;
         public int Width;
