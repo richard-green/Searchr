@@ -49,17 +49,17 @@
             this.btnSearch = new System.Windows.Forms.Button();
             this.txtSearchTerm = new System.Windows.Forms.TextBox();
             this.dgResults = new System.Windows.Forms.DataGridView();
-            this.FileIcon = new System.Windows.Forms.DataGridViewImageColumn();
-            this.Lines = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.FileName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Ext = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Directory = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ResultsContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.editWithNotepadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exploreHereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.commandPromptHereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.clearResultsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.FileIcon = new System.Windows.Forms.DataGridViewImageColumn();
+            this.Lines = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.FileName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Ext = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Directory = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgResults)).BeginInit();
             this.ResultsContextMenu.SuspendLayout();
@@ -300,6 +300,7 @@
             this.txtSearchTerm.Name = "txtSearchTerm";
             this.txtSearchTerm.Size = new System.Drawing.Size(507, 23);
             this.txtSearchTerm.TabIndex = 33;
+            this.txtSearchTerm.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSearchTerm_KeyPress);
             // 
             // dgResults
             // 
@@ -322,41 +323,6 @@
             this.dgResults.ReadOnly = true;
             this.dgResults.Size = new System.Drawing.Size(1339, 464);
             this.dgResults.TabIndex = 34;
-            // 
-            // FileIcon
-            // 
-            this.FileIcon.HeaderText = "";
-            this.FileIcon.Name = "FileIcon";
-            this.FileIcon.ReadOnly = true;
-            this.FileIcon.Width = 22;
-            // 
-            // Lines
-            // 
-            this.Lines.HeaderText = "Lines";
-            this.Lines.Name = "Lines";
-            this.Lines.ReadOnly = true;
-            this.Lines.Width = 40;
-            // 
-            // FileName
-            // 
-            this.FileName.HeaderText = "FileName";
-            this.FileName.Name = "FileName";
-            this.FileName.ReadOnly = true;
-            this.FileName.Width = 200;
-            // 
-            // Ext
-            // 
-            this.Ext.HeaderText = "Ext";
-            this.Ext.Name = "Ext";
-            this.Ext.ReadOnly = true;
-            this.Ext.Width = 50;
-            // 
-            // Directory
-            // 
-            this.Directory.HeaderText = "Directory";
-            this.Directory.Name = "Directory";
-            this.Directory.ReadOnly = true;
-            this.Directory.Width = 400;
             // 
             // ResultsContextMenu
             // 
@@ -402,6 +368,41 @@
             this.clearResultsToolStripMenuItem.Text = "Clear Results";
             this.clearResultsToolStripMenuItem.Click += new System.EventHandler(this.clearResultsToolStripMenuItem_Click);
             // 
+            // FileIcon
+            // 
+            this.FileIcon.HeaderText = "";
+            this.FileIcon.Name = "FileIcon";
+            this.FileIcon.ReadOnly = true;
+            this.FileIcon.Width = 22;
+            // 
+            // Lines
+            // 
+            this.Lines.HeaderText = "Lines";
+            this.Lines.Name = "Lines";
+            this.Lines.ReadOnly = true;
+            this.Lines.Width = 40;
+            // 
+            // FileName
+            // 
+            this.FileName.HeaderText = "FileName";
+            this.FileName.Name = "FileName";
+            this.FileName.ReadOnly = true;
+            this.FileName.Width = 200;
+            // 
+            // Ext
+            // 
+            this.Ext.HeaderText = "Ext";
+            this.Ext.Name = "Ext";
+            this.Ext.ReadOnly = true;
+            this.Ext.Width = 50;
+            // 
+            // Directory
+            // 
+            this.Directory.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Directory.HeaderText = "Directory";
+            this.Directory.Name = "Directory";
+            this.Directory.ReadOnly = true;
+            // 
             // ucSearchPanel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -440,16 +441,16 @@
         private System.Windows.Forms.Button btnSearch;
         private System.Windows.Forms.TextBox txtSearchTerm;
         private System.Windows.Forms.DataGridView dgResults;
-        private System.Windows.Forms.DataGridViewImageColumn FileIcon;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Lines;
-        private System.Windows.Forms.DataGridViewTextBoxColumn FileName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Ext;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Directory;
         private System.Windows.Forms.ContextMenuStrip ResultsContextMenu;
         private System.Windows.Forms.ToolStripMenuItem editWithNotepadToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exploreHereToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem commandPromptHereToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem clearResultsToolStripMenuItem;
+        private System.Windows.Forms.DataGridViewImageColumn FileIcon;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Lines;
+        private System.Windows.Forms.DataGridViewTextBoxColumn FileName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Ext;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Directory;
     }
 }

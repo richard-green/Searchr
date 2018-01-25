@@ -60,10 +60,9 @@ namespace Searchr.UI
             Config.SaveSettings();
         }
 
-        private DataGridView CurrentResults()
-        {
-            return resultsTabs.SelectedTab.Controls.OfType<ucSearchPanel>().FirstOrDefault()?.Results();
-        }
+        private DataGridView CurrentResults() => CurrentSearchPanel.Results();
+
+        private ucSearchPanel CurrentSearchPanel => resultsTabs.SelectedTab.Controls.OfType<ucSearchPanel>().FirstOrDefault();
 
         private void AddResultsTab()
         {
@@ -77,7 +76,7 @@ namespace Searchr.UI
             var newTab = new TabPage();
             newTab.Padding = new Padding(5);
             newTab.TabIndex = 0;
-            newTab.Text = "Search";
+            newTab.Text = "Searchr";
             newTab.UseVisualStyleBackColor = true;
 
             var panel = new ucSearchPanel();
@@ -85,6 +84,55 @@ namespace Searchr.UI
             newTab.Controls.Add(panel);
 
             return newTab;
+        }
+
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData == (Keys.Control | Keys.F))
+            {
+                CurrentSearchPanel.SearchTerm.Focus();
+                CurrentSearchPanel.SearchTerm.SelectAll();
+                return true;
+            }
+            else if (keyData == (Keys.Control | Keys.W))
+            {
+                if (resultsTabs.TabPages.Count == 2)
+                {
+                    CurrentSearchPanel.Clear();
+                    resultsTabs.SelectedTab.Text = "Searchr";
+                }
+                else
+                {
+                    var tabToRemove = resultsTabs.SelectedTab;
+                    var currentIndex = resultsTabs.SelectedIndex;
+                    if (currentIndex == resultsTabs.TabCount - 2) currentIndex--;
+                    resultsTabs.TabPages.Remove(tabToRemove);
+                    resultsTabs.SelectedIndex = currentIndex;
+                }
+                return true;
+            }
+            else if (keyData == (Keys.Shift | Keys.Control | Keys.Tab))
+            {
+                if (resultsTabs.TabPages.Count > 1)
+                {
+                    var newIndex = resultsTabs.SelectedIndex - 1;
+                    if (newIndex == -1) newIndex = resultsTabs.TabPages.Count - 2;
+                    resultsTabs.SelectedIndex = newIndex;
+                }
+                return true;
+            }
+            else if (keyData == (Keys.Control | Keys.Tab))
+            {
+                if (resultsTabs.TabPages.Count > 1)
+                {
+                    var newIndex = resultsTabs.SelectedIndex + 1;
+                    if (newIndex >= resultsTabs.TabPages.Count - 1) newIndex = 0;
+                    resultsTabs.SelectedIndex = newIndex;
+                }
+                return true;
+            }
+
+            return base.ProcessCmdKey(ref msg, keyData);
         }
     }
 }

@@ -60,6 +60,66 @@ namespace Searchr.UI
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
+            SearchNow();
+        }
+
+        private void btnStop_Click(object sender, EventArgs e)
+        {
+            CurrentSearch.Abort();
+        }
+
+        private void editWithNotepadToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            foreach (DataGridViewCell cell in dgResults.SelectedCells)
+            {
+                Process.Start(Config.NotepadPlusPlusLocation(), String.Format("\"{0}\\{1}\"", ((DirectoryInfo)cell.OwningRow.Cells[4].Value).FullName, (string)cell.OwningRow.Cells[2].Value));
+            }
+        }
+
+        private void exploreHereToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            foreach (DataGridViewCell cell in dgResults.SelectedCells)
+            {
+                Process.Start("explorer.exe", String.Format("/select, \"{0}\\{1}\"", ((DirectoryInfo)cell.OwningRow.Cells[4].Value).FullName, (string)cell.OwningRow.Cells[2].Value));
+                break;
+            }
+        }
+
+        private void commandPromptHereToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            foreach (DataGridViewCell cell in dgResults.SelectedCells)
+            {
+                Process.Start("cmd.exe", String.Format("/k cd /d \"{0}\"", ((DirectoryInfo)cell.OwningRow.Cells[4].Value).FullName));
+                break;
+            }
+        }
+
+        private void clearResultsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Clear();
+        }
+
+        private void chk_Changed(object sender, EventArgs e)
+        {
+            var checkbox = (CheckBox)sender;
+            checkbox.ImageIndex = (checkbox.Checked) ? 3 : 2;
+        }
+
+        private void txtSearchTerm_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == '\r')
+            {
+                SearchNow();
+            }
+        }
+
+        public void Clear()
+        {
+            dgResults.Rows.Clear();
+        }
+
+        private void SearchNow()
+        {
             if (String.IsNullOrEmpty(txtSearchTerm.Text))
             {
                 MessageBox.Show("No search term");
@@ -140,48 +200,6 @@ namespace Searchr.UI
             });
         }
 
-        private void btnStop_Click(object sender, EventArgs e)
-        {
-            CurrentSearch.Abort();
-        }
-
-        private void editWithNotepadToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            foreach (DataGridViewCell cell in dgResults.SelectedCells)
-            {
-                Process.Start(Config.NotepadPlusPlusLocation(), String.Format("\"{0}\\{1}\"", ((DirectoryInfo)cell.OwningRow.Cells[4].Value).FullName, (string)cell.OwningRow.Cells[2].Value));
-            }
-        }
-
-        private void exploreHereToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            foreach (DataGridViewCell cell in dgResults.SelectedCells)
-            {
-                Process.Start("explorer.exe", String.Format("/select, \"{0}\\{1}\"", ((DirectoryInfo)cell.OwningRow.Cells[4].Value).FullName, (string)cell.OwningRow.Cells[2].Value));
-                break;
-            }
-        }
-
-        private void commandPromptHereToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            foreach (DataGridViewCell cell in dgResults.SelectedCells)
-            {
-                Process.Start("cmd.exe", String.Format("/k cd /d \"{0}\"", ((DirectoryInfo)cell.OwningRow.Cells[4].Value).FullName));
-                break;
-            }
-        }
-
-        private void clearResultsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            dgResults.Rows.Clear();
-        }
-
-        private void chk_Changed(object sender, EventArgs e)
-        {
-            var checkbox = (CheckBox)sender;
-            checkbox.ImageIndex = (checkbox.Checked) ? 3 : 2;
-        }
-
         private SearchRequest GetSearchRequest()
         {
             if (cmbDirectory.Text.EndsWith("\\") && !cmbDirectory.Text.EndsWith(":\\"))
@@ -241,5 +259,7 @@ namespace Searchr.UI
         {
             return dgResults;
         }
+
+        public TextBox SearchTerm => txtSearchTerm;
     }
 }
