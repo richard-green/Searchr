@@ -29,8 +29,12 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.chkExcludeBinaryFiles = new System.Windows.Forms.CheckBox();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ucSearchPanel));
+            this.pnlControls = new System.Windows.Forms.Panel();
+            this.chkSearchFilePath = new System.Windows.Forms.CheckBox();
+            this.chkSearchFileName = new System.Windows.Forms.CheckBox();
+            this.chkSearchFileContents = new System.Windows.Forms.CheckBox();
+            this.chkIncludeBinaryFiles = new System.Windows.Forms.CheckBox();
             this.cmbExcludeFolderNames = new System.Windows.Forms.ComboBox();
             this.cmbExcludedExtensions = new System.Windows.Forms.ComboBox();
             this.cmbDirectory = new System.Windows.Forms.ComboBox();
@@ -42,71 +46,117 @@
             this.label1 = new System.Windows.Forms.Label();
             this.chkMatchCase = new System.Windows.Forms.CheckBox();
             this.chkRegex = new System.Windows.Forms.CheckBox();
-            this.chkExcludeSystem = new System.Windows.Forms.CheckBox();
-            this.chkExcludeHidden = new System.Windows.Forms.CheckBox();
+            this.chkIncludeSystem = new System.Windows.Forms.CheckBox();
+            this.chkIncludeHidden = new System.Windows.Forms.CheckBox();
             this.chkRecursive = new System.Windows.Forms.CheckBox();
             this.btnStop = new System.Windows.Forms.Button();
+            this.images = new System.Windows.Forms.ImageList(this.components);
             this.btnSearch = new System.Windows.Forms.Button();
             this.txtSearchTerm = new System.Windows.Forms.TextBox();
             this.dgResults = new System.Windows.Forms.DataGridView();
+            this.FileIcon = new System.Windows.Forms.DataGridViewImageColumn();
+            this.Lines = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.FileName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Ext = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Directory = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ResultsContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.editWithNotepadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exploreHereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.commandPromptHereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.clearResultsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.FileIcon = new System.Windows.Forms.DataGridViewImageColumn();
-            this.Lines = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.FileName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Ext = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Directory = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.panel1.SuspendLayout();
+            this.pnlControls.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgResults)).BeginInit();
             this.ResultsContextMenu.SuspendLayout();
             this.SuspendLayout();
             // 
-            // panel1
+            // pnlControls
             // 
-            this.panel1.BackColor = System.Drawing.Color.White;
-            this.panel1.Controls.Add(this.chkExcludeBinaryFiles);
-            this.panel1.Controls.Add(this.cmbExcludeFolderNames);
-            this.panel1.Controls.Add(this.cmbExcludedExtensions);
-            this.panel1.Controls.Add(this.cmbDirectory);
-            this.panel1.Controls.Add(this.cmbIncludedExtensions);
-            this.panel1.Controls.Add(this.label5);
-            this.panel1.Controls.Add(this.label4);
-            this.panel1.Controls.Add(this.label3);
-            this.panel1.Controls.Add(this.label2);
-            this.panel1.Controls.Add(this.label1);
-            this.panel1.Controls.Add(this.chkMatchCase);
-            this.panel1.Controls.Add(this.chkRegex);
-            this.panel1.Controls.Add(this.chkExcludeSystem);
-            this.panel1.Controls.Add(this.chkExcludeHidden);
-            this.panel1.Controls.Add(this.chkRecursive);
-            this.panel1.Controls.Add(this.btnStop);
-            this.panel1.Controls.Add(this.btnSearch);
-            this.panel1.Controls.Add(this.txtSearchTerm);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1339, 182);
-            this.panel1.TabIndex = 33;
+            this.pnlControls.BackColor = System.Drawing.Color.White;
+            this.pnlControls.Controls.Add(this.chkSearchFilePath);
+            this.pnlControls.Controls.Add(this.chkSearchFileName);
+            this.pnlControls.Controls.Add(this.chkSearchFileContents);
+            this.pnlControls.Controls.Add(this.chkIncludeBinaryFiles);
+            this.pnlControls.Controls.Add(this.cmbExcludeFolderNames);
+            this.pnlControls.Controls.Add(this.cmbExcludedExtensions);
+            this.pnlControls.Controls.Add(this.cmbDirectory);
+            this.pnlControls.Controls.Add(this.cmbIncludedExtensions);
+            this.pnlControls.Controls.Add(this.label5);
+            this.pnlControls.Controls.Add(this.label4);
+            this.pnlControls.Controls.Add(this.label3);
+            this.pnlControls.Controls.Add(this.label2);
+            this.pnlControls.Controls.Add(this.label1);
+            this.pnlControls.Controls.Add(this.chkMatchCase);
+            this.pnlControls.Controls.Add(this.chkRegex);
+            this.pnlControls.Controls.Add(this.chkIncludeSystem);
+            this.pnlControls.Controls.Add(this.chkIncludeHidden);
+            this.pnlControls.Controls.Add(this.chkRecursive);
+            this.pnlControls.Controls.Add(this.btnStop);
+            this.pnlControls.Controls.Add(this.btnSearch);
+            this.pnlControls.Controls.Add(this.txtSearchTerm);
+            this.pnlControls.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pnlControls.Location = new System.Drawing.Point(0, 0);
+            this.pnlControls.Name = "pnlControls";
+            this.pnlControls.Size = new System.Drawing.Size(1339, 182);
+            this.pnlControls.TabIndex = 33;
             // 
-            // chkExcludeBinaryFiles
+            // chkSearchFilePath
             // 
-            this.chkExcludeBinaryFiles.Appearance = System.Windows.Forms.Appearance.Button;
-            this.chkExcludeBinaryFiles.Checked = true;
-            this.chkExcludeBinaryFiles.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkExcludeBinaryFiles.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkExcludeBinaryFiles.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.chkExcludeBinaryFiles.ImageIndex = 3;
-            this.chkExcludeBinaryFiles.Location = new System.Drawing.Point(658, 110);
-            this.chkExcludeBinaryFiles.Name = "chkExcludeBinaryFiles";
-            this.chkExcludeBinaryFiles.Size = new System.Drawing.Size(157, 25);
-            this.chkExcludeBinaryFiles.TabIndex = 50;
-            this.chkExcludeBinaryFiles.Text = "Exclude Binary Files";
-            this.chkExcludeBinaryFiles.UseVisualStyleBackColor = true;
-            this.chkExcludeBinaryFiles.CheckedChanged += new System.EventHandler(this.chk_Changed);
+            this.chkSearchFilePath.Appearance = System.Windows.Forms.Appearance.Button;
+            this.chkSearchFilePath.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkSearchFilePath.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.chkSearchFilePath.ImageIndex = 2;
+            this.chkSearchFilePath.Location = new System.Drawing.Point(926, 10);
+            this.chkSearchFilePath.Name = "chkSearchFilePath";
+            this.chkSearchFilePath.Size = new System.Drawing.Size(125, 24);
+            this.chkSearchFilePath.TabIndex = 7;
+            this.chkSearchFilePath.Text = "File Path";
+            this.chkSearchFilePath.UseVisualStyleBackColor = false;
+            this.chkSearchFilePath.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
+            // 
+            // chkSearchFileName
+            // 
+            this.chkSearchFileName.Appearance = System.Windows.Forms.Appearance.Button;
+            this.chkSearchFileName.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkSearchFileName.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.chkSearchFileName.ImageIndex = 2;
+            this.chkSearchFileName.Location = new System.Drawing.Point(793, 11);
+            this.chkSearchFileName.Name = "chkSearchFileName";
+            this.chkSearchFileName.Size = new System.Drawing.Size(125, 24);
+            this.chkSearchFileName.TabIndex = 6;
+            this.chkSearchFileName.Text = "File Name";
+            this.chkSearchFileName.UseVisualStyleBackColor = false;
+            this.chkSearchFileName.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
+            // 
+            // chkSearchFileContents
+            // 
+            this.chkSearchFileContents.Appearance = System.Windows.Forms.Appearance.Button;
+            this.chkSearchFileContents.Checked = true;
+            this.chkSearchFileContents.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkSearchFileContents.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkSearchFileContents.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.chkSearchFileContents.ImageIndex = 2;
+            this.chkSearchFileContents.Location = new System.Drawing.Point(658, 11);
+            this.chkSearchFileContents.Name = "chkSearchFileContents";
+            this.chkSearchFileContents.Size = new System.Drawing.Size(125, 24);
+            this.chkSearchFileContents.TabIndex = 5;
+            this.chkSearchFileContents.Text = "File Contents";
+            this.chkSearchFileContents.UseVisualStyleBackColor = false;
+            this.chkSearchFileContents.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
+            // 
+            // chkIncludeBinaryFiles
+            // 
+            this.chkIncludeBinaryFiles.Appearance = System.Windows.Forms.Appearance.Button;
+            this.chkIncludeBinaryFiles.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkIncludeBinaryFiles.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.chkIncludeBinaryFiles.ImageIndex = 3;
+            this.chkIncludeBinaryFiles.Location = new System.Drawing.Point(658, 110);
+            this.chkIncludeBinaryFiles.Name = "chkIncludeBinaryFiles";
+            this.chkIncludeBinaryFiles.Size = new System.Drawing.Size(125, 25);
+            this.chkIncludeBinaryFiles.TabIndex = 11;
+            this.chkIncludeBinaryFiles.Text = "Binary Files";
+            this.chkIncludeBinaryFiles.UseVisualStyleBackColor = false;
+            this.chkIncludeBinaryFiles.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
             // 
             // cmbExcludeFolderNames
             // 
@@ -115,7 +165,7 @@
             this.cmbExcludeFolderNames.Location = new System.Drawing.Point(142, 144);
             this.cmbExcludeFolderNames.Name = "cmbExcludeFolderNames";
             this.cmbExcludeFolderNames.Size = new System.Drawing.Size(507, 23);
-            this.cmbExcludeFolderNames.TabIndex = 49;
+            this.cmbExcludeFolderNames.TabIndex = 4;
             // 
             // cmbExcludedExtensions
             // 
@@ -124,7 +174,7 @@
             this.cmbExcludedExtensions.Location = new System.Drawing.Point(142, 111);
             this.cmbExcludedExtensions.Name = "cmbExcludedExtensions";
             this.cmbExcludedExtensions.Size = new System.Drawing.Size(507, 23);
-            this.cmbExcludedExtensions.TabIndex = 46;
+            this.cmbExcludedExtensions.TabIndex = 3;
             // 
             // cmbDirectory
             // 
@@ -133,7 +183,7 @@
             this.cmbDirectory.Location = new System.Drawing.Point(142, 45);
             this.cmbDirectory.Name = "cmbDirectory";
             this.cmbDirectory.Size = new System.Drawing.Size(507, 23);
-            this.cmbDirectory.TabIndex = 42;
+            this.cmbDirectory.TabIndex = 1;
             // 
             // cmbIncludedExtensions
             // 
@@ -142,7 +192,7 @@
             this.cmbIncludedExtensions.Location = new System.Drawing.Point(142, 78);
             this.cmbIncludedExtensions.Name = "cmbIncludedExtensions";
             this.cmbIncludedExtensions.Size = new System.Drawing.Size(507, 23);
-            this.cmbIncludedExtensions.TabIndex = 45;
+            this.cmbIncludedExtensions.TabIndex = 2;
             // 
             // label5
             // 
@@ -200,12 +250,13 @@
             this.chkMatchCase.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chkMatchCase.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.chkMatchCase.ImageIndex = 2;
-            this.chkMatchCase.Location = new System.Drawing.Point(823, 11);
+            this.chkMatchCase.Location = new System.Drawing.Point(793, 44);
             this.chkMatchCase.Name = "chkMatchCase";
-            this.chkMatchCase.Size = new System.Drawing.Size(157, 24);
-            this.chkMatchCase.TabIndex = 36;
+            this.chkMatchCase.Size = new System.Drawing.Size(125, 24);
+            this.chkMatchCase.TabIndex = 9;
             this.chkMatchCase.Text = "Case Sensitive";
-            this.chkMatchCase.UseVisualStyleBackColor = true;
+            this.chkMatchCase.UseVisualStyleBackColor = false;
+            this.chkMatchCase.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
             this.chkMatchCase.Click += new System.EventHandler(this.chk_Changed);
             // 
             // chkRegex
@@ -214,45 +265,42 @@
             this.chkRegex.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chkRegex.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.chkRegex.ImageIndex = 2;
-            this.chkRegex.Location = new System.Drawing.Point(988, 11);
+            this.chkRegex.Location = new System.Drawing.Point(926, 44);
             this.chkRegex.Name = "chkRegex";
-            this.chkRegex.Size = new System.Drawing.Size(157, 24);
-            this.chkRegex.TabIndex = 37;
+            this.chkRegex.Size = new System.Drawing.Size(125, 24);
+            this.chkRegex.TabIndex = 10;
             this.chkRegex.Text = "Regular Expression";
-            this.chkRegex.UseVisualStyleBackColor = true;
+            this.chkRegex.UseVisualStyleBackColor = false;
+            this.chkRegex.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
             this.chkRegex.Click += new System.EventHandler(this.chk_Changed);
             // 
-            // chkExcludeSystem
+            // chkIncludeSystem
             // 
-            this.chkExcludeSystem.Appearance = System.Windows.Forms.Appearance.Button;
-            this.chkExcludeSystem.Checked = true;
-            this.chkExcludeSystem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkExcludeSystem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkExcludeSystem.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.chkExcludeSystem.ImageIndex = 3;
-            this.chkExcludeSystem.Location = new System.Drawing.Point(823, 110);
-            this.chkExcludeSystem.Name = "chkExcludeSystem";
-            this.chkExcludeSystem.Size = new System.Drawing.Size(157, 25);
-            this.chkExcludeSystem.TabIndex = 48;
-            this.chkExcludeSystem.Text = "Exclude System Files";
-            this.chkExcludeSystem.UseVisualStyleBackColor = true;
-            this.chkExcludeSystem.CheckedChanged += new System.EventHandler(this.chk_Changed);
+            this.chkIncludeSystem.Appearance = System.Windows.Forms.Appearance.Button;
+            this.chkIncludeSystem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkIncludeSystem.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.chkIncludeSystem.ImageIndex = 3;
+            this.chkIncludeSystem.Location = new System.Drawing.Point(793, 110);
+            this.chkIncludeSystem.Name = "chkIncludeSystem";
+            this.chkIncludeSystem.Size = new System.Drawing.Size(125, 25);
+            this.chkIncludeSystem.TabIndex = 12;
+            this.chkIncludeSystem.Text = "System Files";
+            this.chkIncludeSystem.UseVisualStyleBackColor = false;
+            this.chkIncludeSystem.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
             // 
-            // chkExcludeHidden
+            // chkIncludeHidden
             // 
-            this.chkExcludeHidden.Appearance = System.Windows.Forms.Appearance.Button;
-            this.chkExcludeHidden.Checked = true;
-            this.chkExcludeHidden.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkExcludeHidden.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkExcludeHidden.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.chkExcludeHidden.ImageIndex = 3;
-            this.chkExcludeHidden.Location = new System.Drawing.Point(988, 110);
-            this.chkExcludeHidden.Name = "chkExcludeHidden";
-            this.chkExcludeHidden.Size = new System.Drawing.Size(157, 25);
-            this.chkExcludeHidden.TabIndex = 47;
-            this.chkExcludeHidden.Text = "Exclude Hidden Files";
-            this.chkExcludeHidden.UseVisualStyleBackColor = true;
-            this.chkExcludeHidden.CheckedChanged += new System.EventHandler(this.chk_Changed);
+            this.chkIncludeHidden.Appearance = System.Windows.Forms.Appearance.Button;
+            this.chkIncludeHidden.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkIncludeHidden.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.chkIncludeHidden.ImageIndex = 3;
+            this.chkIncludeHidden.Location = new System.Drawing.Point(926, 110);
+            this.chkIncludeHidden.Name = "chkIncludeHidden";
+            this.chkIncludeHidden.Size = new System.Drawing.Size(125, 25);
+            this.chkIncludeHidden.TabIndex = 13;
+            this.chkIncludeHidden.Text = "Hidden Files";
+            this.chkIncludeHidden.UseVisualStyleBackColor = false;
+            this.chkIncludeHidden.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
             // 
             // chkRecursive
             // 
@@ -264,32 +312,51 @@
             this.chkRecursive.ImageIndex = 3;
             this.chkRecursive.Location = new System.Drawing.Point(658, 44);
             this.chkRecursive.Name = "chkRecursive";
-            this.chkRecursive.Size = new System.Drawing.Size(157, 25);
-            this.chkRecursive.TabIndex = 44;
+            this.chkRecursive.Size = new System.Drawing.Size(125, 25);
+            this.chkRecursive.TabIndex = 8;
             this.chkRecursive.Text = "Recursive";
-            this.chkRecursive.UseVisualStyleBackColor = true;
+            this.chkRecursive.UseVisualStyleBackColor = false;
+            this.chkRecursive.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
             this.chkRecursive.Click += new System.EventHandler(this.chk_Changed);
             // 
             // btnStop
             // 
             this.btnStop.Enabled = false;
             this.btnStop.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnStop.Location = new System.Drawing.Point(741, 11);
+            this.btnStop.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnStop.ImageKey = "icons8-stop-48.png";
+            this.btnStop.ImageList = this.images;
+            this.btnStop.Location = new System.Drawing.Point(793, 143);
             this.btnStop.Name = "btnStop";
-            this.btnStop.Size = new System.Drawing.Size(74, 25);
-            this.btnStop.TabIndex = 35;
+            this.btnStop.Size = new System.Drawing.Size(125, 25);
+            this.btnStop.TabIndex = 15;
             this.btnStop.Text = "Stop";
+            this.btnStop.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnStop.UseVisualStyleBackColor = true;
             this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
+            // 
+            // images
+            // 
+            this.images.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("images.ImageStream")));
+            this.images.TransparentColor = System.Drawing.Color.Transparent;
+            this.images.Images.SetKeyName(0, "icons8-play-16.png");
+            this.images.Images.SetKeyName(1, "icons8-stop-16.png");
+            this.images.Images.SetKeyName(2, "icons8-play-48.png");
+            this.images.Images.SetKeyName(3, "icons8-stop-48.png");
+            this.images.Images.SetKeyName(4, "icons8-next-48.png");
             // 
             // btnSearch
             // 
             this.btnSearch.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSearch.Location = new System.Drawing.Point(658, 11);
+            this.btnSearch.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnSearch.ImageKey = "icons8-next-48.png";
+            this.btnSearch.ImageList = this.images;
+            this.btnSearch.Location = new System.Drawing.Point(658, 143);
             this.btnSearch.Name = "btnSearch";
-            this.btnSearch.Size = new System.Drawing.Size(75, 25);
-            this.btnSearch.TabIndex = 34;
+            this.btnSearch.Size = new System.Drawing.Size(125, 25);
+            this.btnSearch.TabIndex = 14;
             this.btnSearch.Text = "Search";
+            this.btnSearch.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnSearch.UseVisualStyleBackColor = true;
             this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
             // 
@@ -299,7 +366,7 @@
             this.txtSearchTerm.Location = new System.Drawing.Point(142, 12);
             this.txtSearchTerm.Name = "txtSearchTerm";
             this.txtSearchTerm.Size = new System.Drawing.Size(507, 23);
-            this.txtSearchTerm.TabIndex = 33;
+            this.txtSearchTerm.TabIndex = 0;
             this.txtSearchTerm.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSearchTerm_KeyPress);
             // 
             // dgResults
@@ -322,7 +389,42 @@
             this.dgResults.Name = "dgResults";
             this.dgResults.ReadOnly = true;
             this.dgResults.Size = new System.Drawing.Size(1339, 464);
-            this.dgResults.TabIndex = 34;
+            this.dgResults.TabIndex = 16;
+            // 
+            // FileIcon
+            // 
+            this.FileIcon.HeaderText = "";
+            this.FileIcon.Name = "FileIcon";
+            this.FileIcon.ReadOnly = true;
+            this.FileIcon.Width = 22;
+            // 
+            // Lines
+            // 
+            this.Lines.HeaderText = "Lines";
+            this.Lines.Name = "Lines";
+            this.Lines.ReadOnly = true;
+            this.Lines.Width = 40;
+            // 
+            // FileName
+            // 
+            this.FileName.HeaderText = "FileName";
+            this.FileName.Name = "FileName";
+            this.FileName.ReadOnly = true;
+            this.FileName.Width = 200;
+            // 
+            // Ext
+            // 
+            this.Ext.HeaderText = "Ext";
+            this.Ext.Name = "Ext";
+            this.Ext.ReadOnly = true;
+            this.Ext.Width = 50;
+            // 
+            // Directory
+            // 
+            this.Directory.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Directory.HeaderText = "Directory";
+            this.Directory.Name = "Directory";
+            this.Directory.ReadOnly = true;
             // 
             // ResultsContextMenu
             // 
@@ -368,51 +470,16 @@
             this.clearResultsToolStripMenuItem.Text = "Clear Results";
             this.clearResultsToolStripMenuItem.Click += new System.EventHandler(this.clearResultsToolStripMenuItem_Click);
             // 
-            // FileIcon
-            // 
-            this.FileIcon.HeaderText = "";
-            this.FileIcon.Name = "FileIcon";
-            this.FileIcon.ReadOnly = true;
-            this.FileIcon.Width = 22;
-            // 
-            // Lines
-            // 
-            this.Lines.HeaderText = "Lines";
-            this.Lines.Name = "Lines";
-            this.Lines.ReadOnly = true;
-            this.Lines.Width = 40;
-            // 
-            // FileName
-            // 
-            this.FileName.HeaderText = "FileName";
-            this.FileName.Name = "FileName";
-            this.FileName.ReadOnly = true;
-            this.FileName.Width = 200;
-            // 
-            // Ext
-            // 
-            this.Ext.HeaderText = "Ext";
-            this.Ext.Name = "Ext";
-            this.Ext.ReadOnly = true;
-            this.Ext.Width = 50;
-            // 
-            // Directory
-            // 
-            this.Directory.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Directory.HeaderText = "Directory";
-            this.Directory.Name = "Directory";
-            this.Directory.ReadOnly = true;
-            // 
             // ucSearchPanel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.dgResults);
-            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.pnlControls);
             this.Name = "ucSearchPanel";
             this.Size = new System.Drawing.Size(1339, 646);
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
+            this.pnlControls.ResumeLayout(false);
+            this.pnlControls.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgResults)).EndInit();
             this.ResultsContextMenu.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -421,8 +488,8 @@
 
         #endregion
 
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.CheckBox chkExcludeBinaryFiles;
+        private System.Windows.Forms.Panel pnlControls;
+        private System.Windows.Forms.CheckBox chkIncludeBinaryFiles;
         private System.Windows.Forms.ComboBox cmbExcludeFolderNames;
         private System.Windows.Forms.ComboBox cmbExcludedExtensions;
         private System.Windows.Forms.ComboBox cmbDirectory;
@@ -434,8 +501,8 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.CheckBox chkMatchCase;
         private System.Windows.Forms.CheckBox chkRegex;
-        private System.Windows.Forms.CheckBox chkExcludeSystem;
-        private System.Windows.Forms.CheckBox chkExcludeHidden;
+        private System.Windows.Forms.CheckBox chkIncludeSystem;
+        private System.Windows.Forms.CheckBox chkIncludeHidden;
         private System.Windows.Forms.CheckBox chkRecursive;
         private System.Windows.Forms.Button btnStop;
         private System.Windows.Forms.Button btnSearch;
@@ -452,5 +519,9 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn FileName;
         private System.Windows.Forms.DataGridViewTextBoxColumn Ext;
         private System.Windows.Forms.DataGridViewTextBoxColumn Directory;
+        private System.Windows.Forms.CheckBox chkSearchFileName;
+        private System.Windows.Forms.CheckBox chkSearchFileContents;
+        private System.Windows.Forms.CheckBox chkSearchFilePath;
+        private System.Windows.Forms.ImageList images;
     }
 }

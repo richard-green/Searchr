@@ -1,16 +1,13 @@
-﻿using System;
+﻿using Searchr.Core;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
 using System.Data;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
-using System.Text;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Searchr.Core;
-using System.IO;
-using System.Diagnostics;
-using System.Security.Cryptography;
 
 namespace Searchr.UI
 {
@@ -52,9 +49,22 @@ namespace Searchr.UI
                 cmbExcludedExtensions.Text = String.Join(",", latest.ExcludeFileExtensions);
                 cmbIncludedExtensions.Text = String.Join(",", latest.IncludeFileExtensions);
                 cmbExcludeFolderNames.Text = String.Join(",", latest.ExcludeFolderNames);
-                chkExcludeHidden.Checked = latest.ExcludeHidden;
-                chkExcludeSystem.Checked = latest.ExcludeSystem;
-                chkExcludeBinaryFiles.Checked = latest.ExcludeBinaryFiles;
+                chkIncludeHidden.Checked = !latest.ExcludeHidden;
+                chkIncludeSystem.Checked = !latest.ExcludeSystem;
+                chkIncludeBinaryFiles.Checked = !latest.ExcludeBinaryFiles;
+                chkSearchFileContents.Checked = latest.SearchFileContents;
+                chkSearchFileName.Checked = latest.SearchFileName;
+                chkSearchFilePath.Checked = latest.SearchFilePath;
+
+                CheckBox_CheckedChanged(chkRecursive, null);
+                CheckBox_CheckedChanged(chkRegex, null);
+                CheckBox_CheckedChanged(chkMatchCase, null);
+                CheckBox_CheckedChanged(chkIncludeHidden, null);
+                CheckBox_CheckedChanged(chkIncludeSystem, null);
+                CheckBox_CheckedChanged(chkIncludeBinaryFiles, null);
+                CheckBox_CheckedChanged(chkSearchFileContents, null);
+                CheckBox_CheckedChanged(chkSearchFileName, null);
+                CheckBox_CheckedChanged(chkSearchFilePath, null);
             }
         }
 
@@ -218,9 +228,12 @@ namespace Searchr.UI
                 ExcludeFileExtensions = GetExtensions(cmbExcludedExtensions.Text),
                 IncludeFileExtensions = GetExtensions(cmbIncludedExtensions.Text),
                 ExcludeFolderNames = GetFolders(cmbExcludeFolderNames.Text),
-                ExcludeSystem = chkExcludeHidden.Checked,
-                ExcludeHidden = chkExcludeSystem.Checked,
-                ExcludeBinaryFiles = chkExcludeBinaryFiles.Checked
+                ExcludeSystem = !chkIncludeHidden.Checked,
+                ExcludeHidden = !chkIncludeSystem.Checked,
+                ExcludeBinaryFiles = !chkIncludeBinaryFiles.Checked,
+                SearchFileContents = chkSearchFileContents.Checked,
+                SearchFileName = chkSearchFileName.Checked,
+                SearchFilePath = chkSearchFilePath.Checked
             };
 
             return request;
@@ -261,5 +274,15 @@ namespace Searchr.UI
         }
 
         public TextBox SearchTerm => txtSearchTerm;
+
+        private void CheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            var checkbox = sender as CheckBox;
+
+            if (checkbox != null)
+            {
+                checkbox.BackColor = checkbox.Checked ? System.Drawing.Color.SkyBlue : System.Drawing.Color.White;
+            }
+        }
     }
 }

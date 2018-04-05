@@ -10,6 +10,8 @@ namespace Searchr.Core
 {
     public static class Search
     {
+        public static List<string> BinaryFiles = "exe,dll,pdb,bin,jpg,jpeg,gif,bmp,png,pack,nupkg,zip,7z,tar,gz,lz,bz2,rar,jar,cab,iso,img,mpg,mpeg,avi,mp4,aaf,mp3,wav,bik,mov,wmv".Split(',').Select(e => $".{e}").ToList();
+
         public static SearchResponse PerformSearch(SearchRequest request)
         {
             var response = new SearchResponse();
@@ -17,7 +19,6 @@ namespace Searchr.Core
             var includeExtensionsLowered = request.IncludeFileExtensions.Select(ext => ext.Trim().ToLower()).Select(ext => ext.StartsWith(".") ? ext : "." + ext).ToList();
             var excludeExtensionsLowered = request.ExcludeFileExtensions.Select(ext => ext.Trim().ToLower()).Select(ext => ext.StartsWith(".") ? ext : "." + ext).ToList();
             var excludeFolderNamesLowered = request.ExcludeFolderNames.Select(folder => String.Format(@"\{0}\", folder.ToLower())).ToList();
-            var binaryFiles = "exe,dll,pdb,bin,jpg,jpeg,gif,bmp,png,pack,nupkg,zip,7z,tar,gz,lz,bz2,rar,jar,cab,iso,img,mpg,mpeg,avi,mp4,aaf,mp3,wav,bik,mov,wmv".Split(',').Select(e => $".{e}").ToList();
 
             // File list task
             Task.Run(() =>
@@ -25,7 +26,7 @@ namespace Searchr.Core
                 // Get some input
                 foreach (var file in Directory.EnumerateFiles(request.Directory, "*", request.DirectoryOption)
                                               .Select(f => new FileInfo(f))
-                                              .Where(fi => ToBeSearched(request, fi, includeExtensionsLowered, excludeExtensionsLowered, excludeFolderNamesLowered, binaryFiles)))
+                                              .Where(fi => ToBeSearched(request, fi, includeExtensionsLowered, excludeExtensionsLowered, excludeFolderNamesLowered, BinaryFiles)))
                 {
                     if (request.Aborted)
                     {
@@ -109,7 +110,7 @@ namespace Searchr.Core
                         {
                             var results = request.Method.PerformSearch(request, file);
 
-                            if (results.TotalCount > 0)
+                            if (results.Match)
                             {
                                 response.Results.Add(results);
                                 Interlocked.Increment(ref response.Hits);

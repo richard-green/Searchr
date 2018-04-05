@@ -111,6 +111,11 @@ namespace Searchr.UI
                 }
                 return true;
             }
+            else if (keyData == (Keys.Control | Keys.T))
+            {
+                AddResultsTab();
+                return true;
+            }
             else if (keyData == (Keys.Shift | Keys.Control | Keys.Tab))
             {
                 if (resultsTabs.TabPages.Count > 1)

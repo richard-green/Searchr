@@ -6,6 +6,7 @@ namespace Searchr.Core
     public class SearchResult
     {
         public FileInfo File { get; set; }
+        public bool Match { get; set; }
         public int TotalCount { get; set; }
         public List<int> LineNumbers { get; set; }
 

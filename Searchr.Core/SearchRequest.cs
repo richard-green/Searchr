@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 
 namespace Searchr.Core
@@ -19,6 +21,9 @@ namespace Searchr.Core
         public bool ExcludeHidden { get; set; }
         public bool ExcludeSystem { get; set; }
         public bool ExcludeBinaryFiles { get; set; }
+        public bool SearchFileContents { get; set; }
+        public bool SearchFileName { get; set; }
+        public bool SearchFilePath { get; set; }
         public bool Aborted { get; private set; }
 
         public SearchRequest()
@@ -37,6 +42,9 @@ namespace Searchr.Core
             this.ExcludeHidden = false;
             this.ExcludeSystem = false;
             this.ExcludeBinaryFiles = false;
+            this.SearchFileContents = true;
+            this.SearchFileName = false;
+            this.SearchFilePath = false;
             this.Aborted = false;
         }
 
