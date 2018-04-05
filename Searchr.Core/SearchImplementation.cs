@@ -69,10 +69,11 @@ namespace Searchr.Core
             public override SearchResult PerformSearch(SearchRequest request, FileInfo file)
             {
                 SearchResult results = new SearchResult(file);
+                Regex exp = new Regex(request.SearchTerm, request.MatchCase ? RegexOptions.None : RegexOptions.IgnoreCase);
 
                 if (request.SearchFileName)
                 {
-                    if (file.Name.LastIndexOf(request.SearchTerm, request.MatchCase ? StringComparison.CurrentCulture : StringComparison.CurrentCultureIgnoreCase) >= 0)
+                    if (exp.IsMatch(file.Name))
                     {
                         results.Match = true;
                     }
@@ -80,7 +81,7 @@ namespace Searchr.Core
 
                 if (request.SearchFilePath)
                 {
-                    if (file.FullName.LastIndexOf(request.SearchTerm, request.MatchCase ? StringComparison.CurrentCulture : StringComparison.CurrentCultureIgnoreCase) >= 0)
+                    if (exp.IsMatch(file.FullName))
                     {
                         results.Match = true;
                     }
@@ -90,7 +91,6 @@ namespace Searchr.Core
                 {
                     int lineNumber = 1;
                     string line;
-                    Regex exp = new Regex(request.SearchTerm, request.MatchCase ? RegexOptions.None : RegexOptions.IgnoreCase);
 
                     using (var fileStream = new StreamReader(file.OpenRead()))
                     {
