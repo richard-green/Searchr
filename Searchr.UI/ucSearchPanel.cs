@@ -167,29 +167,30 @@ namespace Searchr.UI
 
                         var row = new DataGridViewRow();
 
-                        var iconcell = new DataGridViewImageCell(true);
-                        var icon = IconHelper.GetSmallIconCached(result.File.FullName, result.File.Extension.ToLower());
-                        if (icon != null)
+                        row.Cells.Add(new DataGridViewImageCell(true)
                         {
-                            iconcell.Value = icon;
-                        }
-                        row.Cells.Add(iconcell);
+                            Value = IconHelper.GetSmallIconCached(result.File.FullName, result.File.Extension.ToLower())
+                        });
 
-                        var hitcell = new DataGridViewTextBoxCell();
-                        hitcell.Value = result.TotalCount;
-                        row.Cells.Add(hitcell);
+                        row.Cells.Add(new DataGridViewTextBoxCell
+                        {
+                            Value = result.TotalCount
+                        });
 
-                        var filecell = new DataGridViewTextBoxCell();
-                        filecell.Value = result.File.Name;
-                        row.Cells.Add(filecell);
+                        row.Cells.Add(new DataGridViewTextBoxCell
+                        {
+                            Value = result.File.Name
+                        });
 
-                        var extcell = new DataGridViewTextBoxCell();
-                        extcell.Value = result.File.Extension;
-                        row.Cells.Add(extcell);
+                        row.Cells.Add(new DataGridViewTextBoxCell
+                        {
+                            Value = result.File.Extension
+                        });
 
-                        var dircell = new DataGridViewTextBoxCell();
-                        dircell.Value = result.File.Directory;
-                        row.Cells.Add(dircell);
+                        row.Cells.Add(new DataGridViewTextBoxCell
+                        {
+                            Value = result.File.Directory
+                        });
 
                         dgResults.InvokeAction(dg =>
                         {
@@ -282,9 +283,7 @@ namespace Searchr.UI
 
         private void CheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            var checkbox = sender as CheckBox;
-
-            if (checkbox != null)
+            if (sender is CheckBox checkbox)
             {
                 checkbox.BackColor = checkbox.Checked ? System.Drawing.Color.SkyBlue : System.Drawing.Color.White;
             }

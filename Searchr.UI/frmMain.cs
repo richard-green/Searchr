@@ -60,7 +60,7 @@ namespace Searchr.UI
             Config.SaveSettings();
         }
 
-        private DataGridView CurrentResults() => CurrentSearchPanel.Results();
+        private DataGridView CurrentResults() => CurrentSearchPanel?.Results();
 
         private ucSearchPanel CurrentSearchPanel => resultsTabs.SelectedTab.Controls.OfType<ucSearchPanel>().FirstOrDefault();
 
@@ -94,6 +94,11 @@ namespace Searchr.UI
                 CurrentSearchPanel.SearchTerm.SelectAll();
                 return true;
             }
+            else if (keyData == (Keys.Control | Keys.T))
+            {
+                AddResultsTab();
+                return true;
+            }
             else if (keyData == (Keys.Control | Keys.W))
             {
                 if (resultsTabs.TabPages.Count == 2)
@@ -109,11 +114,6 @@ namespace Searchr.UI
                     resultsTabs.TabPages.Remove(tabToRemove);
                     resultsTabs.SelectedIndex = currentIndex;
                 }
-                return true;
-            }
-            else if (keyData == (Keys.Control | Keys.T))
-            {
-                AddResultsTab();
                 return true;
             }
             else if (keyData == (Keys.Shift | Keys.Control | Keys.Tab))
