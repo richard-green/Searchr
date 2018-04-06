@@ -16,30 +16,45 @@ namespace Searchr.Core
         {
             var response = new SearchResponse();
             var inputFiles = new BlockingCollection<FileInfo>();
-            var includeExtensionsLowered = request.IncludeFileExtensions.Select(ext => ext.Trim().ToLower()).Select(ext => ext.StartsWith(".") ? ext : "." + ext).ToList();
-            var excludeExtensionsLowered = request.ExcludeFileExtensions.Select(ext => ext.Trim().ToLower()).Select(ext => ext.StartsWith(".") ? ext : "." + ext).ToList();
+            var includeExtensionsLowered = request.IncludeFileExtensions.Select(ext => ext.Trim().ToLower()).Select(ext => ext.StartsWith(".") ? ext : "." + ext).Distinct().ToList();
+            var excludeExtensionsLowered = request.ExcludeFileExtensions.Select(ext => ext.Trim().ToLower()).Select(ext => ext.StartsWith(".") ? ext : "." + ext).Distinct().ToList();
             var excludeFolderNamesLowered = request.ExcludeFolderNames.Select(folder => String.Format(@"\{0}\", folder.ToLower())).ToList();
+
+            if (request.ExcludeBinaryFiles)
+            {
+                excludeExtensionsLowered.AddRange(BinaryFiles);
+                excludeExtensionsLowered = excludeExtensionsLowered.Distinct().ToList();
+            }
 
             // File list task
             Task.Run(() =>
             {
-                // Get some input
-                foreach (var file in Directory.EnumerateFiles(request.Directory, "*", request.DirectoryOption)
-                                              .Select(f => new FileInfo(f))
-                                              .Where(fi => ToBeSearched(request, fi, includeExtensionsLowered, excludeExtensionsLowered, excludeFolderNamesLowered, BinaryFiles)))
+                try
                 {
-                    if (request.Aborted)
+                    // Get some input
+                    foreach (var file in EnumerateFiles(request.Directory, "*", request.DirectoryOption)
+                                             .Select(f => new FileInfo(f))
+                                             .Where(fi => ToBeSearched(request, fi, includeExtensionsLowered, excludeExtensionsLowered, excludeFolderNamesLowered)))
                     {
-                        break;
-                    }
-                    else
-                    {
-                        inputFiles.Add(file);
+                        if (request.Aborted)
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            inputFiles.Add(file);
+                        }
                     }
                 }
-
-                // No more input
-                inputFiles.CompleteAdding();
+                catch (Exception ex)
+                {
+                    response.SetError(ex);
+                }
+                finally
+                {
+                    // No more input
+                    inputFiles.CompleteAdding();
+                }
             });
 
             // File contents search tasks
@@ -55,12 +70,45 @@ namespace Searchr.Core
             return response;
         }
 
+        private static IEnumerable<string> EnumerateFiles(string path, string searchPattern, SearchOption searchOption)
+        {
+            IEnumerable<string> files = null;
+            IEnumerable<string> subdirs = null;
+
+            try
+            {
+                files = Directory.EnumerateFiles(path, searchPattern);
+            }
+            catch (UnauthorizedAccessException)
+            {
+            }
+
+            if (files != null)
+                foreach (var file in files)
+                    yield return file;
+
+            if (searchOption == SearchOption.AllDirectories)
+            {
+                try
+                {
+                    subdirs = Directory.EnumerateDirectories(path, "*");
+                }
+                catch (UnauthorizedAccessException)
+                {
+                }
+                
+                if (subdirs != null)
+                    foreach (var subdir in subdirs)
+                        foreach (var file in EnumerateFiles(subdir, searchPattern, searchOption))
+                            yield return file;
+            }
+        }
+
         private static bool ToBeSearched(SearchRequest request,
                                          FileInfo fi,
                                          List<string> includeExtensionsLowered,
                                          List<string> excludeExtensionsLowered,
-                                         List<string> excludeFolderNamesLowered,
-                                         List<string> binaryFiles)
+                                         List<string> excludeFolderNamesLowered)
         {
             if (request.ExcludeHidden && fi.Attributes.HasFlag(FileAttributes.Hidden))
             {
@@ -79,11 +127,6 @@ namespace Searchr.Core
 
             var extension = fi.Extension.ToLower();
 
-            if (request.ExcludeBinaryFiles && extension.InList(binaryFiles))
-            {
-                return false;
-            }
-
             if (includeExtensionsLowered.Any())
             {
                 return extension.InList(includeExtensionsLowered);
@@ -98,33 +141,43 @@ namespace Searchr.Core
         {
             return Task.Run(() =>
             {
-                foreach (var file in inputFiles.GetConsumingEnumerable())
+                try
                 {
-                    try
+                    foreach (var file in inputFiles.GetConsumingEnumerable(request.CancellationToken))
                     {
-                        if (request.Aborted)
+                        try
                         {
-                            break;
-                        }
-                        else
-                        {
-                            var results = request.Method.PerformSearch(request, file);
-
-                            if (results.Match)
+                            if (request.Aborted)
                             {
-                                response.Results.Add(results);
-                                Interlocked.Increment(ref response.Hits);
+                                break;
                             }
                             else
                             {
-                                Interlocked.Increment(ref response.Hits);
+                                var results = request.Algorithm.PerformSearch(request, file);
+
+                                if (results.Match)
+                                {
+                                    response.Results.Add(results);
+                                    Interlocked.Increment(ref response.Hits);
+                                }
+                                else
+                                {
+                                    Interlocked.Increment(ref response.Hits);
+                                }
                             }
                         }
+                        catch (Exception ex)
+                        {
+                            response.SetError(ex);
+                        }
                     }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine(ex.Message);
-                    }
+                }
+                catch (OperationCanceledException)
+                {
+                }
+                catch (Exception ex)
+                {
+                    response.SetError(ex);
                 }
             });
         }

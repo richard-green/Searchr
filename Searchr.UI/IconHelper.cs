@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Drawing;
+using System.Linq;
 using System.Runtime.InteropServices;
 
 namespace Searchr.UI
@@ -57,6 +58,7 @@ namespace Searchr.UI
 
         public static Icon GetSmallIconCached(string path, string extension)
         {
+            if (extension.InList(".exe", ".ico")) return GetSmallIcon(path);
             return smallIconCache.GetOrAdd(extension, _ => GetSmallIcon(path));
         }
 
@@ -64,6 +66,7 @@ namespace Searchr.UI
 
         public static Icon GetLargeIconCached(string path, string extension)
         {
+            if (extension.InList(".exe", ".ico")) return GetLargeIcon(path);
             return largeIconCache.GetOrAdd(extension, _ => GetLargeIcon(path));
         }
     }

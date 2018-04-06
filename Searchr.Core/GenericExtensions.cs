@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-static class GenericExtensions
+public static class GenericExtensions
 {
     /// <summary>
     /// Generic list searcher

@@ -44,7 +44,7 @@ namespace Searchr.UI
                 cmbDirectory.Text = latest.Directory;
                 chkRecursive.Checked = latest.DirectoryOption == SearchOption.AllDirectories;
                 txtSearchTerm.Text = latest.SearchTerm;
-                chkRegex.Checked = latest.Method == SearchMethod.SingleLineRegex;
+                chkRegex.Checked = latest.SearchMethod == SearchMethod.SingleLineRegex;
                 chkMatchCase.Checked = latest.MatchCase;
                 cmbExcludedExtensions.Text = String.Join(",", latest.ExcludeFileExtensions);
                 cmbIncludedExtensions.Text = String.Join(",", latest.IncludeFileExtensions);
@@ -168,7 +168,7 @@ namespace Searchr.UI
                         var row = new DataGridViewRow();
 
                         var iconcell = new DataGridViewImageCell(true);
-                        var icon = IconHelper.GetSmallIconCached(result.File.FullName, result.File.Extension);
+                        var icon = IconHelper.GetSmallIconCached(result.File.FullName, result.File.Extension.ToLower());
                         if (icon != null)
                         {
                             iconcell.Value = icon;
@@ -204,6 +204,11 @@ namespace Searchr.UI
 
                 this.InvokeAction(_ =>
                 {
+                    if (response.Error != null)
+                    {
+                        MessageBox.Show(response.Error.Message);
+                    }
+
                     btnSearch.Enabled = true;
                     btnStop.Enabled = false;
                 });
@@ -222,7 +227,7 @@ namespace Searchr.UI
                 Directory = cmbDirectory.Text,
                 DirectoryOption = chkRecursive.Checked ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly,
                 SearchTerm = txtSearchTerm.Text,
-                Method = chkRegex.Checked ? SearchMethod.SingleLineRegex : SearchMethod.SingleLine,
+                SearchMethod = chkRegex.Checked ? SearchMethod.SingleLineRegex : SearchMethod.SingleLine,
                 MatchCase = chkMatchCase.Checked,
                 ParallelSearches = 4,
                 ExcludeFileExtensions = GetExtensions(cmbExcludedExtensions.Text),

@@ -4,33 +4,32 @@ using System.Text.RegularExpressions;
 
 namespace Searchr.Core
 {
-    public abstract class SearchMethod
+    public abstract class SearchAlgorithm
     {
-        public static SearchMethod SingleLine = new LineSearchMethod();
-        public static SearchMethod SingleLineRegex = new RegexLineSearchMethod();
+        public static SearchAlgorithm SingleLine = new LineSearchMethod();
+        public static SearchAlgorithm SingleLineRegex = new RegexLineSearchMethod();
 
         public abstract SearchResult PerformSearch(SearchRequest request, FileInfo file);
 
-        private class LineSearchMethod : SearchMethod
+        private class LineSearchMethod : SearchAlgorithm
         {
             public override SearchResult PerformSearch(SearchRequest request, FileInfo file)
             {
                 SearchResult results = new SearchResult(file);
 
-                if (request.SearchFileName)
+                bool match(string value)
                 {
-                    if (file.Name.LastIndexOf(request.SearchTerm, request.MatchCase ? StringComparison.CurrentCulture : StringComparison.CurrentCultureIgnoreCase) >= 0)
-                    {
-                        results.Match = true;
-                    }
+                    return value.IndexOf(request.SearchTerm, request.MatchCase ? StringComparison.CurrentCulture : StringComparison.CurrentCultureIgnoreCase) >= 0;
                 }
 
-                if (request.SearchFilePath)
+                if (request.SearchFileName && match(file.Name))
                 {
-                    if (file.FullName.LastIndexOf(request.SearchTerm, request.MatchCase ? StringComparison.CurrentCulture : StringComparison.CurrentCultureIgnoreCase) >= 0)
-                    {
-                        results.Match = true;
-                    }
+                    results.Match = true;
+                }
+
+                if (request.SearchFilePath && match(file.FullName))
+                {
+                    results.Match = true;
                 }
 
                 if (request.SearchFileContents)
@@ -47,7 +46,7 @@ namespace Searchr.Core
                                 break;
                             }
 
-                            if (line.LastIndexOf(request.SearchTerm, request.MatchCase ? StringComparison.CurrentCulture : StringComparison.CurrentCultureIgnoreCase) >= 0)
+                            if (match(line))
                             {
                                 results.TotalCount++;
                                 results.LineNumbers.Add(lineNumber);
@@ -64,27 +63,21 @@ namespace Searchr.Core
             }
         }
 
-        private class RegexLineSearchMethod : SearchMethod
+        private class RegexLineSearchMethod : SearchAlgorithm
         {
             public override SearchResult PerformSearch(SearchRequest request, FileInfo file)
             {
                 SearchResult results = new SearchResult(file);
                 Regex exp = new Regex(request.SearchTerm, request.MatchCase ? RegexOptions.None : RegexOptions.IgnoreCase);
 
-                if (request.SearchFileName)
+                if (request.SearchFileName && exp.IsMatch(file.Name))
                 {
-                    if (exp.IsMatch(file.Name))
-                    {
-                        results.Match = true;
-                    }
+                    results.Match = true;
                 }
 
-                if (request.SearchFilePath)
+                if (request.SearchFilePath && exp.IsMatch(file.FullName))
                 {
-                    if (exp.IsMatch(file.FullName))
-                    {
-                        results.Match = true;
-                    }
+                    results.Match = true;
                 }
 
                 if (request.SearchFileContents)
