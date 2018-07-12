@@ -120,6 +120,7 @@ namespace Searchr.UI
             if (e.KeyChar == '\r')
             {
                 SearchNow();
+                e.Handled = true;
             }
         }
 
