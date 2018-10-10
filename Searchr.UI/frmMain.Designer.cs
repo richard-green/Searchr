@@ -55,6 +55,7 @@
             this.resultsTabs.Size = new System.Drawing.Size(1369, 647);
             this.resultsTabs.TabIndex = 13;
             this.resultsTabs.SelectedIndexChanged += new System.EventHandler(this.resultsTabs_SelectedIndexChanged);
+            this.resultsTabs.MouseClick += resultsTabs_MouseClick;
             // 
             // tabNew
             // 
@@ -74,7 +75,7 @@
             this.Controls.Add(this.txtHidden);
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MinimumSize = new System.Drawing.Size(1270, 500);
+            this.MinimumSize = new System.Drawing.Size(1000, 500);
             this.Name = "frmMain";
             this.Padding = new System.Windows.Forms.Padding(5);
             this.Text = "Searchr";

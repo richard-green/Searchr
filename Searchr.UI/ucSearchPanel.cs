@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
@@ -37,6 +38,12 @@ namespace Searchr.UI
             cmbExcludeFolderNames.Items.Clear();
             cmbExcludeFolderNames.Items.AddRange(Config.CommonExcludedDirs.ToArray());
 
+            btnStop.Enabled = false;
+            btnFilter.Enabled = false;
+            btnSearch.Enabled = true;
+
+            ButtonColorSet();
+
             var latest = Config.LatestSearch();
 
             if (latest != null)
@@ -56,21 +63,26 @@ namespace Searchr.UI
                 chkSearchFileName.Checked = latest.SearchFileName;
                 chkSearchFilePath.Checked = latest.SearchFilePath;
 
-                CheckBox_CheckedChanged(chkRecursive, null);
-                CheckBox_CheckedChanged(chkRegex, null);
-                CheckBox_CheckedChanged(chkMatchCase, null);
-                CheckBox_CheckedChanged(chkIncludeHidden, null);
-                CheckBox_CheckedChanged(chkIncludeSystem, null);
-                CheckBox_CheckedChanged(chkIncludeBinaryFiles, null);
-                CheckBox_CheckedChanged(chkSearchFileContents, null);
-                CheckBox_CheckedChanged(chkSearchFileName, null);
-                CheckBox_CheckedChanged(chkSearchFilePath, null);
+                SetupCheckBox(chkRecursive);
+                SetupCheckBox(chkRegex);
+                SetupCheckBox(chkMatchCase);
+                SetupCheckBox(chkIncludeHidden);
+                SetupCheckBox(chkIncludeSystem);
+                SetupCheckBox(chkIncludeBinaryFiles);
+                SetupCheckBox(chkSearchFileContents);
+                SetupCheckBox(chkSearchFileName);
+                SetupCheckBox(chkSearchFilePath);
             }
         }
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
-            SearchNow();
+            SearchNow(false);
+        }
+
+        private void btnFilter_Click(object sender, EventArgs e)
+        {
+            SearchNow(true);
         }
 
         private void btnStop_Click(object sender, EventArgs e)
@@ -82,7 +94,7 @@ namespace Searchr.UI
         {
             foreach (DataGridViewCell cell in dgResults.SelectedCells)
             {
-                Process.Start(Config.NotepadPlusPlusLocation(), String.Format("\"{0}\\{1}\"", ((DirectoryInfo)cell.OwningRow.Cells[4].Value).FullName, (string)cell.OwningRow.Cells[2].Value));
+                Process.Start(Config.NotepadPlusPlusLocation(), String.Format("\"{0}\"", Path.Combine(((string)cell.OwningRow.Cells[4].Value), (string)cell.OwningRow.Cells[2].Value)));
             }
         }
 
@@ -90,7 +102,7 @@ namespace Searchr.UI
         {
             foreach (DataGridViewCell cell in dgResults.SelectedCells)
             {
-                Process.Start("explorer.exe", String.Format("/select, \"{0}\\{1}\"", ((DirectoryInfo)cell.OwningRow.Cells[4].Value).FullName, (string)cell.OwningRow.Cells[2].Value));
+                Process.Start("explorer.exe", String.Format("/select, \"{0}\"", Path.Combine(((string)cell.OwningRow.Cells[4].Value), (string)cell.OwningRow.Cells[2].Value)));
                 break;
             }
         }
@@ -99,7 +111,7 @@ namespace Searchr.UI
         {
             foreach (DataGridViewCell cell in dgResults.SelectedCells)
             {
-                Process.Start("cmd.exe", String.Format("/k cd /d \"{0}\"", ((DirectoryInfo)cell.OwningRow.Cells[4].Value).FullName));
+                Process.Start("cmd.exe", String.Format("/k cd /d \"{0}\"", (string)cell.OwningRow.Cells[4].Value));
                 break;
             }
         }
@@ -109,17 +121,11 @@ namespace Searchr.UI
             Clear();
         }
 
-        private void chk_Changed(object sender, EventArgs e)
-        {
-            var checkbox = (CheckBox)sender;
-            checkbox.ImageIndex = (checkbox.Checked) ? 3 : 2;
-        }
-
         private void txtSearchTerm_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == '\r')
             {
-                SearchNow();
+                SearchNow(false);
                 e.Handled = true;
             }
         }
@@ -129,7 +135,7 @@ namespace Searchr.UI
             dgResults.Rows.Clear();
         }
 
-        private void SearchNow()
+        private void SearchNow(bool filter)
         {
             if (String.IsNullOrEmpty(txtSearchTerm.Text))
             {
@@ -143,16 +149,23 @@ namespace Searchr.UI
                 return;
             }
 
-            btnSearch.Enabled = false;
             btnStop.Enabled = true;
+            btnFilter.Enabled = false;
+            btnSearch.Enabled = false;
+
+            ButtonColorSet();
 
             CurrentSearch = GetSearchRequest();
 
             SaveCurrentSearch();
 
+            IEnumerable<string> paths = filter ? dgResults.Rows.Cast<DataGridViewRow>().Select(r => Path.Combine((string)r.Cells[4].Value, (string)r.Cells[2].Value)).ToList() :
+                                                 Enumerable.Empty<string>();
+
             dgResults.Rows.Clear();
 
-            var response = Search.PerformSearch(CurrentSearch);
+            var response = filter ? Search.PerformFilter(CurrentSearch, paths) :
+                                    Search.PerformSearch(CurrentSearch);
 
             int totalFiles = 0;
             int totalHits = 0;
@@ -190,7 +203,7 @@ namespace Searchr.UI
 
                         row.Cells.Add(new DataGridViewTextBoxCell
                         {
-                            Value = result.File.Directory
+                            Value = result.File.Directory.FullName
                         });
 
                         dgResults.InvokeAction(dg =>
@@ -211,8 +224,11 @@ namespace Searchr.UI
                         MessageBox.Show(response.Error.Message);
                     }
 
-                    btnSearch.Enabled = true;
                     btnStop.Enabled = false;
+                    btnFilter.Enabled = totalFiles > 0;
+                    btnSearch.Enabled = true;
+
+                    ButtonColorSet();
                 });
             });
         }
@@ -282,12 +298,33 @@ namespace Searchr.UI
 
         public TextBox SearchTerm => txtSearchTerm;
 
+        private void SetupCheckBox(CheckBox checkbox)
+        {
+            checkbox.CheckedChanged += CheckBox_CheckedChanged;
+
+            CheckBox_CheckedChanged(checkbox, null);
+        }
+
         private void CheckBox_CheckedChanged(object sender, EventArgs e)
         {
             if (sender is CheckBox checkbox)
             {
-                checkbox.BackColor = checkbox.Checked ? System.Drawing.Color.SkyBlue : System.Drawing.Color.White;
+                checkbox.FlatAppearance.BorderSize = 0;
+
+                checkbox.BackColor = checkbox.Checked ? Color.FromArgb(147, 198, 240) : SystemColors.Control;
             }
+        }
+
+        private void ButtonColorSet()
+        {
+            BackColorSet(btnStop, Color.FromArgb(232, 102, 102), SystemColors.Control);
+            BackColorSet(btnFilter, Color.FromArgb(102, 232, 102), SystemColors.Control);
+            BackColorSet(btnSearch, Color.FromArgb(102, 232, 102), SystemColors.Control);
+        }
+
+        private void BackColorSet(Button btn, Color ifEnabled, Color ifDisabled)
+        {
+            btn.BackColor = btn.Enabled ? ifEnabled : ifDisabled;
         }
     }
 }

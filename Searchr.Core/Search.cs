@@ -48,7 +48,7 @@ namespace Searchr.Core
                 }
                 catch (Exception ex)
                 {
-                    response.SetError(ex);
+                    response.SetError(new ApplicationException("Failed to enumerate files", ex));
                 }
                 finally
                 {
@@ -65,6 +65,41 @@ namespace Searchr.Core
                 // Output finished
                 response.Results.CompleteAdding();
             });
+
+            // Return response immediately
+            return response;
+        }
+
+        public static SearchResponse PerformFilter(SearchRequest request, IEnumerable<string> paths)
+        {
+            var response = new SearchResponse();
+            var inputFiles = new BlockingCollection<FileInfo>();
+
+            try
+            {
+                foreach (var path in paths)
+                {
+                    inputFiles.Add(new FileInfo(path));
+                }
+            }
+            catch (Exception ex)
+            {
+                response.SetError(new ApplicationException("Failed to enumerate files", ex));
+            }
+            finally
+            {
+                // No more input
+                inputFiles.CompleteAdding();
+            }
+
+            // File contents search tasks
+            Task.WhenAll(Enumerable.Range(0, Math.Max(request.ParallelSearches, 1))
+                                   .Select((i) => CreateSearchTask(request, inputFiles, response)))
+                .ContinueWith((task) =>
+                {
+                    // Output finished
+                    response.Results.CompleteAdding();
+                });
 
             // Return response immediately
             return response;
@@ -96,7 +131,7 @@ namespace Searchr.Core
                 catch (UnauthorizedAccessException)
                 {
                 }
-                
+
                 if (subdirs != null)
                     foreach (var subdir in subdirs)
                         foreach (var file in EnumerateFiles(subdir, searchPattern, searchOption))
@@ -168,7 +203,7 @@ namespace Searchr.Core
                         }
                         catch (Exception ex)
                         {
-                            response.SetError(ex);
+                            response.SetError(new ApplicationException("Failed to process file", ex));
                         }
                     }
                 }

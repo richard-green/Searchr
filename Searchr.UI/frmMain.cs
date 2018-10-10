@@ -43,6 +43,21 @@ namespace Searchr.UI
             }
         }
 
+        private void resultsTabs_MouseClick(object sender, MouseEventArgs e)
+        {
+            var tabControl = sender as TabControl;
+            var tabs = tabControl.TabPages;
+
+            if (e.Button == MouseButtons.Middle)
+            {
+                var tabToRemove = tabs.Cast<TabPage>()
+                                      .Where((t, i) => tabControl.GetTabRect(i).Contains(e.Location) && i < tabs.Count - 1)
+                                      .FirstOrDefault();
+
+                if (tabToRemove != null) tabs.Remove(tabToRemove);
+            }
+        }
+
         private void SaveSettings()
         {
             var currentResults = CurrentResults();
