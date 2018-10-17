@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -10,21 +11,30 @@ namespace Searchr.Core
 {
     public static class Search
     {
-        public static List<string> BinaryFiles = "exe,dll,pdb,bin,jpg,jpeg,gif,bmp,png,pack,nupkg,zip,7z,tar,gz,lz,bz2,rar,jar,cab,iso,img,mpg,mpeg,avi,mp4,aaf,mp3,wav,bik,mov,wmv".Split(',').Select(e => $".{e}").ToList();
+        public static List<string> BinaryFiles = "exe,dll,pdb,bin,jpg,jpeg,gif,bmp,png,pack,nupkg,zip,7z,tar,gz,lz,bz2,rar,jar,cab,iso,img,mpg,mpeg,avi,mp4,aaf,mp3,wav,bik,mov,wmv".Split(',').Select(e => $"*.{e}").ToList();
 
         public static SearchResponse PerformSearch(SearchRequest request)
         {
+            Regex FromWildcard(string pattern)
+            {
+                return new Regex("^" + Regex.Escape(pattern)
+                                            .Replace("\\*", ".*")
+                                            .Replace("\\?", ".") + "$",
+                                 RegexOptions.IgnoreCase);
+            }
+
             var response = new SearchResponse();
             var inputFiles = new BlockingCollection<FileInfo>();
-            var includeExtensionsLowered = request.IncludeFileExtensions.Select(ext => ext.Trim().ToLower()).Select(ext => ext.StartsWith(".") ? ext : "." + ext).Distinct().ToList();
-            var excludeExtensionsLowered = request.ExcludeFileExtensions.Select(ext => ext.Trim().ToLower()).Select(ext => ext.StartsWith(".") ? ext : "." + ext).Distinct().ToList();
+            var includeFilePatterns = request.IncludeFileWildcards.Distinct().Select(FromWildcard).ToList();
+            var excludeFileWildcards = request.ExcludeFileWildcards.ToList();
             var excludeFolderNamesLowered = request.ExcludeFolderNames.Select(folder => String.Format(@"\{0}\", folder.ToLower())).ToList();
 
             if (request.ExcludeBinaryFiles)
             {
-                excludeExtensionsLowered.AddRange(BinaryFiles);
-                excludeExtensionsLowered = excludeExtensionsLowered.Distinct().ToList();
+                excludeFileWildcards.AddRange(BinaryFiles);
             }
+
+            var excludeFilePatterns = excludeFileWildcards.Distinct().Select(FromWildcard).ToList();
 
             // File list task
             Task.Run(() =>
@@ -34,7 +44,7 @@ namespace Searchr.Core
                     // Get some input
                     foreach (var file in EnumerateFiles(request.Directory, "*", request.DirectoryOption)
                                              .Select(f => new FileInfo(f))
-                                             .Where(fi => ToBeSearched(request, fi, includeExtensionsLowered, excludeExtensionsLowered, excludeFolderNamesLowered)))
+                                             .Where(fi => ToBeSearched(request, fi, includeFilePatterns, excludeFilePatterns, excludeFolderNamesLowered)))
                     {
                         if (request.Aborted)
                         {
@@ -141,8 +151,8 @@ namespace Searchr.Core
 
         private static bool ToBeSearched(SearchRequest request,
                                          FileInfo fi,
-                                         List<string> includeExtensionsLowered,
-                                         List<string> excludeExtensionsLowered,
+                                         List<Regex> includePatterns,
+                                         List<Regex> excludePatterns,
                                          List<string> excludeFolderNamesLowered)
         {
             if (request.ExcludeHidden && fi.Attributes.HasFlag(FileAttributes.Hidden))
@@ -160,15 +170,13 @@ namespace Searchr.Core
                 return false;
             }
 
-            var extension = fi.Extension.ToLower();
-
-            if (includeExtensionsLowered.Any())
+            if (includePatterns.Any())
             {
-                return extension.InList(includeExtensionsLowered);
+                return includePatterns.Any(pattern => pattern.IsMatch(fi.Name));
             }
             else
             {
-                return extension.InList(excludeExtensionsLowered) == false;
+                return excludePatterns.Any(pattern => pattern.IsMatch(fi.Name)) == false;
             }
         }
 

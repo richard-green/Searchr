@@ -53,8 +53,8 @@ namespace Searchr.UI
                 txtSearchTerm.Text = latest.SearchTerm;
                 chkRegex.Checked = latest.SearchMethod == SearchMethod.SingleLineRegex;
                 chkMatchCase.Checked = latest.MatchCase;
-                cmbExcludedExtensions.Text = String.Join(",", latest.ExcludeFileExtensions);
-                cmbIncludedExtensions.Text = String.Join(",", latest.IncludeFileExtensions);
+                cmbExcludedExtensions.Text = String.Join(",", latest.ExcludeFileWildcards);
+                cmbIncludedExtensions.Text = String.Join(",", latest.IncludeFileWildcards);
                 cmbExcludeFolderNames.Text = String.Join(",", latest.ExcludeFolderNames);
                 chkIncludeHidden.Checked = !latest.ExcludeHidden;
                 chkIncludeSystem.Checked = !latest.ExcludeSystem;
@@ -62,17 +62,17 @@ namespace Searchr.UI
                 chkSearchFileContents.Checked = latest.SearchFileContents;
                 chkSearchFileName.Checked = latest.SearchFileName;
                 chkSearchFilePath.Checked = latest.SearchFilePath;
-
-                SetupCheckBox(chkRecursive);
-                SetupCheckBox(chkRegex);
-                SetupCheckBox(chkMatchCase);
-                SetupCheckBox(chkIncludeHidden);
-                SetupCheckBox(chkIncludeSystem);
-                SetupCheckBox(chkIncludeBinaryFiles);
-                SetupCheckBox(chkSearchFileContents);
-                SetupCheckBox(chkSearchFileName);
-                SetupCheckBox(chkSearchFilePath);
             }
+
+            SetupCheckBox(chkRecursive);
+            SetupCheckBox(chkRegex);
+            SetupCheckBox(chkMatchCase);
+            SetupCheckBox(chkIncludeHidden);
+            SetupCheckBox(chkIncludeSystem);
+            SetupCheckBox(chkIncludeBinaryFiles);
+            SetupCheckBox(chkSearchFileContents);
+            SetupCheckBox(chkSearchFileName);
+            SetupCheckBox(chkSearchFilePath);
         }
 
         private void btnSearch_Click(object sender, EventArgs e)
@@ -248,8 +248,8 @@ namespace Searchr.UI
                 SearchMethod = chkRegex.Checked ? SearchMethod.SingleLineRegex : SearchMethod.SingleLine,
                 MatchCase = chkMatchCase.Checked,
                 ParallelSearches = 4,
-                ExcludeFileExtensions = GetExtensions(cmbExcludedExtensions.Text),
-                IncludeFileExtensions = GetExtensions(cmbIncludedExtensions.Text),
+                ExcludeFileWildcards = GetExtensions(cmbExcludedExtensions.Text),
+                IncludeFileWildcards = GetExtensions(cmbIncludedExtensions.Text),
                 ExcludeFolderNames = GetFolders(cmbExcludeFolderNames.Text),
                 ExcludeSystem = !chkIncludeHidden.Checked,
                 ExcludeHidden = !chkIncludeSystem.Checked,
@@ -264,7 +264,7 @@ namespace Searchr.UI
 
         private IList<string> GetExtensions(string text)
         {
-            return text.Split(new char[] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries).Select(ext => ext.StartsWith(".") ? ext : $".{ext}").Distinct().ToList();
+            return text.Split(new char[] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries).Distinct().ToList();
         }
 
         private IList<string> GetFolders(string text)

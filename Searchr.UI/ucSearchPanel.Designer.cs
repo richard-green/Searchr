@@ -246,9 +246,9 @@
             this.label4.Location = new System.Drawing.Point(8, 97);
             this.label4.Name = "label4";
             this.label4.Padding = new System.Windows.Forms.Padding(0, 6, 0, 0);
-            this.label4.Size = new System.Drawing.Size(101, 21);
+            this.label4.Size = new System.Drawing.Size(114, 21);
             this.label4.TabIndex = 41;
-            this.label4.Text = "Exclude File Types";
+            this.label4.Text = "Exclude File Patterns";
             // 
             // chkRegex
             // 
@@ -341,9 +341,9 @@
             this.label3.Location = new System.Drawing.Point(8, 66);
             this.label3.Name = "label3";
             this.label3.Padding = new System.Windows.Forms.Padding(0, 6, 0, 0);
-            this.label3.Size = new System.Drawing.Size(100, 21);
+            this.label3.Size = new System.Drawing.Size(113, 21);
             this.label3.TabIndex = 39;
-            this.label3.Text = "Include File Types";
+            this.label3.Text = "Include File Patterns";
             // 
             // label1
             // 

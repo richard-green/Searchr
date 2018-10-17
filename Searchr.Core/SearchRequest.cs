@@ -15,8 +15,8 @@ namespace Searchr.Core
         public SearchMethod SearchMethod { get; set; } = SearchMethod.SingleLine;
         public bool MatchCase { get; set; }
         public int ParallelSearches { get; set; }
-        public IList<string> ExcludeFileExtensions { get; set; }
-        public IList<string> IncludeFileExtensions { get; set; }
+        public IList<string> ExcludeFileWildcards { get; set; }
+        public IList<string> IncludeFileWildcards { get; set; }
         public IList<string> ExcludeFolderNames { get; set; }
         public bool ExcludeHidden { get; set; }
         public bool ExcludeSystem { get; set; }
@@ -42,8 +42,8 @@ namespace Searchr.Core
             this.SearchMethod = SearchMethod.SingleLine;
             this.MatchCase = false;
             this.ParallelSearches = 4;
-            this.ExcludeFileExtensions = new List<string>();
-            this.IncludeFileExtensions = new List<string>();
+            this.ExcludeFileWildcards = new List<string>();
+            this.IncludeFileWildcards = new List<string>();
             this.ExcludeFolderNames = new List<string>();
             this.ExcludeHidden = false;
             this.ExcludeSystem = false;
