@@ -89,7 +89,7 @@ namespace Searchr.UI
         private TabPage CreateTabPage()
         {
             var newTab = new TabPage();
-            newTab.Padding = new Padding(5);
+            newTab.Padding = new Padding(7);
             newTab.TabIndex = 0;
             newTab.Text = "Searchr";
             newTab.UseVisualStyleBackColor = true;

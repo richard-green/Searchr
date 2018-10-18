@@ -55,7 +55,7 @@
             this.resultsTabs.Size = new System.Drawing.Size(1369, 647);
             this.resultsTabs.TabIndex = 13;
             this.resultsTabs.SelectedIndexChanged += new System.EventHandler(this.resultsTabs_SelectedIndexChanged);
-            this.resultsTabs.MouseClick += resultsTabs_MouseClick;
+            this.resultsTabs.MouseClick += new System.Windows.Forms.MouseEventHandler(this.resultsTabs_MouseClick);
             // 
             // tabNew
             // 
@@ -69,7 +69,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.ClientSize = new System.Drawing.Size(1379, 657);
             this.Controls.Add(this.resultsTabs);
             this.Controls.Add(this.txtHidden);

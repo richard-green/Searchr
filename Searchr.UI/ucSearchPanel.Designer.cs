@@ -126,13 +126,12 @@
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.Padding = new System.Windows.Forms.Padding(5);
             this.tableLayoutPanel1.RowCount = 5;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(1339, 162);
             this.tableLayoutPanel1.TabIndex = 34;
             // 
@@ -140,7 +139,8 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(8, 127);
+            this.label5.Location = new System.Drawing.Point(3, 121);
+            this.label5.Margin = new System.Windows.Forms.Padding(3, 1, 3, 0);
             this.label5.Name = "label5";
             this.label5.Padding = new System.Windows.Forms.Padding(0, 6, 0, 0);
             this.label5.Size = new System.Drawing.Size(123, 21);
@@ -152,10 +152,10 @@
             this.cmbExcludeFolderNames.Dock = System.Windows.Forms.DockStyle.Top;
             this.cmbExcludeFolderNames.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbExcludeFolderNames.FormattingEnabled = true;
-            this.cmbExcludeFolderNames.Location = new System.Drawing.Point(138, 131);
+            this.cmbExcludeFolderNames.Location = new System.Drawing.Point(133, 124);
             this.cmbExcludeFolderNames.Margin = new System.Windows.Forms.Padding(3, 4, 3, 3);
             this.cmbExcludeFolderNames.Name = "cmbExcludeFolderNames";
-            this.cmbExcludeFolderNames.Size = new System.Drawing.Size(803, 23);
+            this.cmbExcludeFolderNames.Size = new System.Drawing.Size(813, 23);
             this.cmbExcludeFolderNames.TabIndex = 4;
             // 
             // chkSearchFilePath
@@ -165,7 +165,7 @@
             this.chkSearchFilePath.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chkSearchFilePath.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.chkSearchFilePath.ImageIndex = 2;
-            this.chkSearchFilePath.Location = new System.Drawing.Point(1207, 8);
+            this.chkSearchFilePath.Location = new System.Drawing.Point(1212, 3);
             this.chkSearchFilePath.Name = "chkSearchFilePath";
             this.chkSearchFilePath.Padding = new System.Windows.Forms.Padding(2);
             this.chkSearchFilePath.Size = new System.Drawing.Size(124, 24);
@@ -180,10 +180,10 @@
             this.chkIncludeHidden.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chkIncludeHidden.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.chkIncludeHidden.ImageIndex = 3;
-            this.chkIncludeHidden.Location = new System.Drawing.Point(1207, 69);
+            this.chkIncludeHidden.Location = new System.Drawing.Point(1212, 63);
             this.chkIncludeHidden.Name = "chkIncludeHidden";
             this.chkIncludeHidden.Padding = new System.Windows.Forms.Padding(2);
-            this.chkIncludeHidden.Size = new System.Drawing.Size(124, 25);
+            this.chkIncludeHidden.Size = new System.Drawing.Size(124, 24);
             this.chkIncludeHidden.TabIndex = 13;
             this.chkIncludeHidden.Text = "Hidden Files";
             this.chkIncludeHidden.UseVisualStyleBackColor = false;
@@ -195,10 +195,10 @@
             this.chkIncludeSystem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chkIncludeSystem.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.chkIncludeSystem.ImageIndex = 3;
-            this.chkIncludeSystem.Location = new System.Drawing.Point(1077, 69);
+            this.chkIncludeSystem.Location = new System.Drawing.Point(1082, 63);
             this.chkIncludeSystem.Name = "chkIncludeSystem";
             this.chkIncludeSystem.Padding = new System.Windows.Forms.Padding(2);
-            this.chkIncludeSystem.Size = new System.Drawing.Size(124, 25);
+            this.chkIncludeSystem.Size = new System.Drawing.Size(124, 24);
             this.chkIncludeSystem.TabIndex = 12;
             this.chkIncludeSystem.Text = "System Files";
             this.chkIncludeSystem.UseVisualStyleBackColor = false;
@@ -208,10 +208,10 @@
             this.cmbExcludedExtensions.Dock = System.Windows.Forms.DockStyle.Top;
             this.cmbExcludedExtensions.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbExcludedExtensions.FormattingEnabled = true;
-            this.cmbExcludedExtensions.Location = new System.Drawing.Point(138, 101);
+            this.cmbExcludedExtensions.Location = new System.Drawing.Point(133, 94);
             this.cmbExcludedExtensions.Margin = new System.Windows.Forms.Padding(3, 4, 3, 3);
             this.cmbExcludedExtensions.Name = "cmbExcludedExtensions";
-            this.cmbExcludedExtensions.Size = new System.Drawing.Size(803, 23);
+            this.cmbExcludedExtensions.Size = new System.Drawing.Size(813, 23);
             this.cmbExcludedExtensions.TabIndex = 3;
             // 
             // chkIncludeBinaryFiles
@@ -221,10 +221,10 @@
             this.chkIncludeBinaryFiles.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chkIncludeBinaryFiles.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.chkIncludeBinaryFiles.ImageIndex = 3;
-            this.chkIncludeBinaryFiles.Location = new System.Drawing.Point(947, 69);
+            this.chkIncludeBinaryFiles.Location = new System.Drawing.Point(952, 63);
             this.chkIncludeBinaryFiles.Name = "chkIncludeBinaryFiles";
             this.chkIncludeBinaryFiles.Padding = new System.Windows.Forms.Padding(2);
-            this.chkIncludeBinaryFiles.Size = new System.Drawing.Size(124, 25);
+            this.chkIncludeBinaryFiles.Size = new System.Drawing.Size(124, 24);
             this.chkIncludeBinaryFiles.TabIndex = 11;
             this.chkIncludeBinaryFiles.Text = "Binary Files";
             this.chkIncludeBinaryFiles.UseVisualStyleBackColor = false;
@@ -233,17 +233,18 @@
             // 
             this.txtSearchTerm.Dock = System.Windows.Forms.DockStyle.Top;
             this.txtSearchTerm.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtSearchTerm.Location = new System.Drawing.Point(138, 9);
+            this.txtSearchTerm.Location = new System.Drawing.Point(133, 4);
             this.txtSearchTerm.Margin = new System.Windows.Forms.Padding(3, 4, 3, 3);
             this.txtSearchTerm.Name = "txtSearchTerm";
-            this.txtSearchTerm.Size = new System.Drawing.Size(803, 23);
+            this.txtSearchTerm.Size = new System.Drawing.Size(813, 23);
             this.txtSearchTerm.TabIndex = 0;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(8, 97);
+            this.label4.Location = new System.Drawing.Point(3, 91);
+            this.label4.Margin = new System.Windows.Forms.Padding(3, 1, 3, 0);
             this.label4.Name = "label4";
             this.label4.Padding = new System.Windows.Forms.Padding(0, 6, 0, 0);
             this.label4.Size = new System.Drawing.Size(114, 21);
@@ -257,7 +258,7 @@
             this.chkRegex.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chkRegex.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.chkRegex.ImageIndex = 2;
-            this.chkRegex.Location = new System.Drawing.Point(1207, 38);
+            this.chkRegex.Location = new System.Drawing.Point(1212, 33);
             this.chkRegex.Name = "chkRegex";
             this.chkRegex.Padding = new System.Windows.Forms.Padding(2);
             this.chkRegex.Size = new System.Drawing.Size(124, 24);
@@ -272,7 +273,7 @@
             this.chkMatchCase.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chkMatchCase.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.chkMatchCase.ImageIndex = 2;
-            this.chkMatchCase.Location = new System.Drawing.Point(1077, 38);
+            this.chkMatchCase.Location = new System.Drawing.Point(1082, 33);
             this.chkMatchCase.Name = "chkMatchCase";
             this.chkMatchCase.Padding = new System.Windows.Forms.Padding(2);
             this.chkMatchCase.Size = new System.Drawing.Size(124, 24);
@@ -285,10 +286,10 @@
             this.cmbIncludedExtensions.Dock = System.Windows.Forms.DockStyle.Top;
             this.cmbIncludedExtensions.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbIncludedExtensions.FormattingEnabled = true;
-            this.cmbIncludedExtensions.Location = new System.Drawing.Point(138, 70);
+            this.cmbIncludedExtensions.Location = new System.Drawing.Point(133, 64);
             this.cmbIncludedExtensions.Margin = new System.Windows.Forms.Padding(3, 4, 3, 3);
             this.cmbIncludedExtensions.Name = "cmbIncludedExtensions";
-            this.cmbIncludedExtensions.Size = new System.Drawing.Size(803, 23);
+            this.cmbIncludedExtensions.Size = new System.Drawing.Size(813, 23);
             this.cmbIncludedExtensions.TabIndex = 2;
             // 
             // chkSearchFileName
@@ -298,7 +299,7 @@
             this.chkSearchFileName.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chkSearchFileName.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.chkSearchFileName.ImageIndex = 2;
-            this.chkSearchFileName.Location = new System.Drawing.Point(1077, 8);
+            this.chkSearchFileName.Location = new System.Drawing.Point(1082, 3);
             this.chkSearchFileName.Name = "chkSearchFileName";
             this.chkSearchFileName.Padding = new System.Windows.Forms.Padding(2);
             this.chkSearchFileName.Size = new System.Drawing.Size(124, 24);
@@ -315,7 +316,7 @@
             this.chkSearchFileContents.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chkSearchFileContents.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.chkSearchFileContents.ImageIndex = 2;
-            this.chkSearchFileContents.Location = new System.Drawing.Point(947, 8);
+            this.chkSearchFileContents.Location = new System.Drawing.Point(952, 3);
             this.chkSearchFileContents.Name = "chkSearchFileContents";
             this.chkSearchFileContents.Padding = new System.Windows.Forms.Padding(2);
             this.chkSearchFileContents.Size = new System.Drawing.Size(124, 24);
@@ -328,17 +329,18 @@
             this.cmbDirectory.Dock = System.Windows.Forms.DockStyle.Top;
             this.cmbDirectory.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbDirectory.FormattingEnabled = true;
-            this.cmbDirectory.Location = new System.Drawing.Point(138, 39);
+            this.cmbDirectory.Location = new System.Drawing.Point(133, 34);
             this.cmbDirectory.Margin = new System.Windows.Forms.Padding(3, 4, 3, 3);
             this.cmbDirectory.Name = "cmbDirectory";
-            this.cmbDirectory.Size = new System.Drawing.Size(803, 23);
+            this.cmbDirectory.Size = new System.Drawing.Size(813, 23);
             this.cmbDirectory.TabIndex = 1;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(8, 66);
+            this.label3.Location = new System.Drawing.Point(3, 61);
+            this.label3.Margin = new System.Windows.Forms.Padding(3, 1, 3, 0);
             this.label3.Name = "label3";
             this.label3.Padding = new System.Windows.Forms.Padding(0, 6, 0, 0);
             this.label3.Size = new System.Drawing.Size(113, 21);
@@ -349,7 +351,8 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(8, 5);
+            this.label1.Location = new System.Drawing.Point(3, 1);
+            this.label1.Margin = new System.Windows.Forms.Padding(3, 1, 3, 0);
             this.label1.Name = "label1";
             this.label1.Padding = new System.Windows.Forms.Padding(0, 6, 0, 0);
             this.label1.Size = new System.Drawing.Size(72, 21);
@@ -365,10 +368,10 @@
             this.chkRecursive.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chkRecursive.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.chkRecursive.ImageIndex = 3;
-            this.chkRecursive.Location = new System.Drawing.Point(947, 38);
+            this.chkRecursive.Location = new System.Drawing.Point(952, 33);
             this.chkRecursive.Name = "chkRecursive";
             this.chkRecursive.Padding = new System.Windows.Forms.Padding(2);
-            this.chkRecursive.Size = new System.Drawing.Size(124, 25);
+            this.chkRecursive.Size = new System.Drawing.Size(124, 24);
             this.chkRecursive.TabIndex = 8;
             this.chkRecursive.Text = "Recursive";
             this.chkRecursive.UseVisualStyleBackColor = false;
@@ -377,7 +380,8 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(8, 35);
+            this.label2.Location = new System.Drawing.Point(3, 31);
+            this.label2.Margin = new System.Windows.Forms.Padding(3, 1, 3, 0);
             this.label2.Name = "label2";
             this.label2.Padding = new System.Windows.Forms.Padding(0, 6, 0, 0);
             this.label2.Size = new System.Drawing.Size(55, 21);
@@ -388,10 +392,10 @@
             // 
             this.btnStop.BackColor = System.Drawing.Color.Salmon;
             this.btnStop.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnStop.Location = new System.Drawing.Point(947, 130);
+            this.btnStop.Location = new System.Drawing.Point(952, 123);
             this.btnStop.Name = "btnStop";
             this.btnStop.Padding = new System.Windows.Forms.Padding(2);
-            this.btnStop.Size = new System.Drawing.Size(124, 25);
+            this.btnStop.Size = new System.Drawing.Size(124, 27);
             this.btnStop.TabIndex = 14;
             this.btnStop.Text = "Stop";
             this.btnStop.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -402,10 +406,10 @@
             // 
             this.btnFilter.BackColor = System.Drawing.SystemColors.Control;
             this.btnFilter.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnFilter.Location = new System.Drawing.Point(1077, 130);
+            this.btnFilter.Location = new System.Drawing.Point(1082, 123);
             this.btnFilter.Name = "btnFilter";
             this.btnFilter.Padding = new System.Windows.Forms.Padding(2);
-            this.btnFilter.Size = new System.Drawing.Size(124, 25);
+            this.btnFilter.Size = new System.Drawing.Size(124, 27);
             this.btnFilter.TabIndex = 15;
             this.btnFilter.Text = "Filter";
             this.btnFilter.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -417,10 +421,10 @@
             this.btnSearch.BackColor = System.Drawing.SystemColors.Control;
             this.btnSearch.FlatAppearance.BorderSize = 0;
             this.btnSearch.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSearch.Location = new System.Drawing.Point(1207, 130);
+            this.btnSearch.Location = new System.Drawing.Point(1212, 123);
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Padding = new System.Windows.Forms.Padding(2);
-            this.btnSearch.Size = new System.Drawing.Size(124, 25);
+            this.btnSearch.Size = new System.Drawing.Size(124, 27);
             this.btnSearch.TabIndex = 16;
             this.btnSearch.Text = "Search";
             this.btnSearch.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
