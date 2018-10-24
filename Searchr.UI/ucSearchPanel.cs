@@ -305,26 +305,46 @@ namespace Searchr.UI
             CheckBox_CheckedChanged(checkbox, null);
         }
 
+        readonly Color blue = Color.FromArgb(114, 200, 255); // (114, 183, 208);
+        readonly Color red = Color.FromArgb(255, 161, 175); // (255, 128, 135);
+        readonly Color green = Color.FromArgb(175, 255, 161); //(175, 255, 161);
+
         private void CheckBox_CheckedChanged(object sender, EventArgs e)
         {
             if (sender is CheckBox checkbox)
             {
-                checkbox.FlatAppearance.BorderSize = 0;
-
-                checkbox.BackColor = checkbox.Checked ? Color.FromArgb(147, 198, 240) : SystemColors.Control;
+                Colorise(checkbox, blue, SystemColors.Control);
             }
         }
 
         private void ButtonColorSet()
         {
-            BackColorSet(btnStop, Color.FromArgb(232, 102, 102), SystemColors.Control);
-            BackColorSet(btnFilter, Color.FromArgb(102, 232, 102), SystemColors.Control);
-            BackColorSet(btnSearch, Color.FromArgb(102, 232, 102), SystemColors.Control);
+            Colorise(btnStop, red, SystemColors.Control);
+            Colorise(btnFilter, green, SystemColors.Control);
+            Colorise(btnSearch, green, SystemColors.Control);
         }
 
-        private void BackColorSet(Button btn, Color ifEnabled, Color ifDisabled)
+        private void Colorise(Button btn, Color ifEnabled, Color ifDisabled)
         {
+            btn.FlatStyle = FlatStyle.Flat;
             btn.BackColor = btn.Enabled ? ifEnabled : ifDisabled;
+            btn.FlatAppearance.BorderColor = btn.Enabled ? Darker(ifEnabled): Darker(ifDisabled, 0.95);
+            btn.FlatAppearance.BorderSize = 1;
+        }
+
+        private void Colorise(CheckBox chk, Color ifEnabled, Color ifDisabled)
+        {
+            chk.FlatStyle = FlatStyle.Flat;
+            chk.BackColor = chk.Checked ? ifEnabled : ifDisabled;
+            chk.FlatAppearance.BorderColor = chk.Checked ? Darker(ifEnabled, 0.9) : Darker(ifDisabled, 0.95);
+            chk.FlatAppearance.BorderSize = 1;
+        }
+
+        private Color Darker(Color src, double ratio = 0.85)
+        {
+            return Color.FromArgb((int)Math.Max(0, src.R * ratio),
+                                  (int)Math.Max(0, src.G * ratio),
+                                  (int)Math.Max(0, src.B * ratio));
         }
     }
 }
