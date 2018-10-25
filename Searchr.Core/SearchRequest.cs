@@ -15,24 +15,25 @@ namespace Searchr.Core
         public SearchMethod SearchMethod { get; set; } = SearchMethod.SingleLine;
         public bool MatchCase { get; set; }
         public int ParallelSearches { get; set; }
-        public IList<string> ExcludeFileWildcards { get; set; }
-        public IList<string> IncludeFileWildcards { get; set; }
-        public IList<string> ExcludeFolderNames { get; set; }
+        public List<string> ExcludeFileWildcards { get; set; }
+        public List<string> IncludeFileWildcards { get; set; }
+        public List<string> ExcludeFolderNames { get; set; }
         public bool ExcludeHidden { get; set; }
         public bool ExcludeSystem { get; set; }
         public bool ExcludeBinaryFiles { get; set; }
         public bool SearchFileContents { get; set; }
         public bool SearchFileName { get; set; }
         public bool SearchFilePath { get; set; }
-        public bool Aborted { get; private set; }
-
-        private Lazy<SearchAlgorithm> algorithm;
-        [JsonIgnore]
-        public SearchAlgorithm Algorithm => algorithm.Value;
 
         private CancellationTokenSource CancellationSource { get; set; }
+
+        [JsonIgnore]
+        public SearchAlgorithm Algorithm { get; private set; }
+
         [JsonIgnore]
         public CancellationToken CancellationToken => CancellationSource.Token;
+
+        public bool Aborted => CancellationToken.IsCancellationRequested;
 
         public SearchRequest()
         {
@@ -51,15 +52,13 @@ namespace Searchr.Core
             this.SearchFileContents = true;
             this.SearchFileName = false;
             this.SearchFilePath = false;
-            this.Aborted = false;
             this.CancellationSource = new CancellationTokenSource();
 
-            this.algorithm = new Lazy<SearchAlgorithm>(LoadAlgorithm);
+            this.Algorithm = LoadAlgorithm();
         }
 
         public void Abort()
         {
-            Aborted = true;
             this.CancellationSource.Cancel();
         }
 

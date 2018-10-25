@@ -27,7 +27,6 @@ namespace Searchr.Core
             var inputFiles = new BlockingCollection<FileInfo>();
             var includeFilePatterns = request.IncludeFileWildcards.Distinct().Select(FromWildcard).ToList();
             var excludeFileWildcards = request.ExcludeFileWildcards.ToList();
-            var excludeFolderNamesLowered = request.ExcludeFolderNames.Select(folder => String.Format(@"\{0}\", folder.ToLower())).ToList();
 
             if (request.ExcludeBinaryFiles)
             {
@@ -42,9 +41,9 @@ namespace Searchr.Core
                 try
                 {
                     // Get some input
-                    foreach (var file in EnumerateFiles(request.Directory, "*", request.DirectoryOption)
+                    foreach (var file in EnumerateFiles(request, request.Directory, "*", request.DirectoryOption)
                                              .Select(f => new FileInfo(f))
-                                             .Where(fi => ToBeSearched(request, fi, includeFilePatterns, excludeFilePatterns, excludeFolderNamesLowered)))
+                                             .Where(fi => ToBeSearched(request, fi, includeFilePatterns, excludeFilePatterns)))
                     {
                         if (request.Aborted)
                         {
@@ -115,10 +114,15 @@ namespace Searchr.Core
             return response;
         }
 
-        private static IEnumerable<string> EnumerateFiles(string path, string searchPattern, SearchOption searchOption)
+        private static IEnumerable<string> EnumerateFiles(SearchRequest request, string path, string searchPattern, SearchOption searchOption)
         {
             IEnumerable<string> files = null;
             IEnumerable<string> subdirs = null;
+
+            if (request.Aborted)
+            {
+                yield break;
+            }
 
             try
             {
@@ -136,15 +140,22 @@ namespace Searchr.Core
             {
                 try
                 {
-                    subdirs = Directory.EnumerateDirectories(path, "*");
+                    subdirs = Directory.EnumerateDirectories(path);
                 }
                 catch (UnauthorizedAccessException)
                 {
                 }
 
                 if (subdirs != null)
-                    foreach (var subdir in subdirs)
-                        foreach (var file in EnumerateFiles(subdir, searchPattern, searchOption))
+                    foreach (var subdir in subdirs.Where(s => !request.ExcludeFolderNames.Any(exc => s.EndsWith(exc, StringComparison.CurrentCultureIgnoreCase) &&
+                                                                                                     s.LastIndexOf('\\') == s.Length - exc.Length - 1))
+                                                  .Where(s =>
+                                                  {
+                                                      var dir = new DirectoryInfo(s);
+                                                      return !(request.ExcludeHidden && dir.Attributes.HasFlag(FileAttributes.Hidden)) &&
+                                                             !(request.ExcludeSystem && dir.Attributes.HasFlag(FileAttributes.System));
+                                                  }))
+                        foreach (var file in EnumerateFiles(request, subdir, searchPattern, searchOption))
                             yield return file;
             }
         }
@@ -152,8 +163,7 @@ namespace Searchr.Core
         private static bool ToBeSearched(SearchRequest request,
                                          FileInfo fi,
                                          List<Regex> includePatterns,
-                                         List<Regex> excludePatterns,
-                                         List<string> excludeFolderNamesLowered)
+                                         List<Regex> excludePatterns)
         {
             if (request.ExcludeHidden && fi.Attributes.HasFlag(FileAttributes.Hidden))
             {
@@ -161,11 +171,6 @@ namespace Searchr.Core
             }
 
             if (request.ExcludeSystem && fi.Attributes.HasFlag(FileAttributes.System))
-            {
-                return false;
-            }
-
-            if (excludeFolderNamesLowered.Any(folder => fi.FullName.ToLower().IndexOf(folder) > 0))
             {
                 return false;
             }
@@ -190,23 +195,16 @@ namespace Searchr.Core
                     {
                         try
                         {
-                            if (request.Aborted)
+                            var results = request.Algorithm.PerformSearch(request, file);
+
+                            if (results.Match)
                             {
-                                break;
+                                response.Results.Add(results);
+                                Interlocked.Increment(ref response.Hits);
                             }
                             else
                             {
-                                var results = request.Algorithm.PerformSearch(request, file);
-
-                                if (results.Match)
-                                {
-                                    response.Results.Add(results);
-                                    Interlocked.Increment(ref response.Hits);
-                                }
-                                else
-                                {
-                                    Interlocked.Increment(ref response.Hits);
-                                }
+                                Interlocked.Increment(ref response.Hits);
                             }
                         }
                         catch (Exception ex)
