@@ -32,8 +32,8 @@ namespace Searchr.UI
             cmbExcludedExtensions.Items.Clear();
             cmbExcludedExtensions.Items.AddRange(Config.CommonExcludedExtensions.ToArray());
 
-            cmbDirectory.Items.Clear();
-            cmbDirectory.Items.AddRange(Config.CommonDirs.ToArray());
+            ucDirectory1.Directory.Items.Clear();
+            ucDirectory1.Directory.Items.AddRange(Config.CommonDirs.ToArray());
 
             cmbExcludeFolderNames.Items.Clear();
             cmbExcludeFolderNames.Items.AddRange(Config.CommonExcludedDirs.ToArray());
@@ -48,7 +48,7 @@ namespace Searchr.UI
 
             if (latest != null)
             {
-                cmbDirectory.Text = latest.Directory;
+                ucDirectory1.Directory.Text = latest.Directory;
                 chkRecursive.Checked = latest.DirectoryOption == SearchOption.AllDirectories;
                 txtSearchTerm.Text = latest.SearchTerm;
                 chkRegex.Checked = latest.SearchMethod == SearchMethod.SingleLineRegex;
@@ -143,7 +143,7 @@ namespace Searchr.UI
                 return;
             }
 
-            if (System.IO.Directory.Exists(cmbDirectory.Text) == false)
+            if (System.IO.Directory.Exists(ucDirectory1.Directory.Text) == false)
             {
                 MessageBox.Show("Invalid directory");
                 return;
@@ -235,14 +235,17 @@ namespace Searchr.UI
 
         private SearchRequest GetSearchRequest()
         {
-            if (cmbDirectory.Text.EndsWith("\\") && !cmbDirectory.Text.EndsWith(":\\"))
+            var directory = ucDirectory1.Directory.Text;
+
+            if (directory.EndsWith("\\") && !directory.EndsWith(":\\"))
             {
-                cmbDirectory.Text = cmbDirectory.Text.Substring(0, cmbDirectory.Text.Length - 1);
+                directory = directory.Substring(0, directory.Length - 1);
+                ucDirectory1.Directory.Text = directory;
             }
 
             var request = new SearchRequest()
             {
-                Directory = cmbDirectory.Text,
+                Directory = ucDirectory1.Directory.Text,
                 DirectoryOption = chkRecursive.Checked ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly,
                 SearchTerm = txtSearchTerm.Text,
                 SearchMethod = chkRegex.Checked ? SearchMethod.SingleLineRegex : SearchMethod.SingleLine,
