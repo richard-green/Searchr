@@ -54,6 +54,7 @@
             this.btnStop = new System.Windows.Forms.Button();
             this.btnFilter = new System.Windows.Forms.Button();
             this.btnSearch = new System.Windows.Forms.Button();
+            this.ucDirectory1 = new Searchr.UI.ucDirectory();
             this.images = new System.Windows.Forms.ImageList(this.components);
             this.dgResults = new System.Windows.Forms.DataGridView();
             this.FileIcon = new System.Windows.Forms.DataGridViewImageColumn();
@@ -67,7 +68,7 @@
             this.commandPromptHereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.clearResultsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ucDirectory1 = new Searchr.UI.ucDirectory();
+            this.chkZipFiles = new System.Windows.Forms.CheckBox();
             this.pnlControls.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgResults)).BeginInit();
@@ -123,6 +124,7 @@
             this.tableLayoutPanel1.Controls.Add(this.btnFilter, 3, 4);
             this.tableLayoutPanel1.Controls.Add(this.btnSearch, 4, 4);
             this.tableLayoutPanel1.Controls.Add(this.ucDirectory1, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.chkZipFiles, 2, 3);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
@@ -423,6 +425,15 @@
             this.btnSearch.UseVisualStyleBackColor = true;
             this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
             // 
+            // ucDirectory1
+            // 
+            this.ucDirectory1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.ucDirectory1.Location = new System.Drawing.Point(130, 36);
+            this.ucDirectory1.Margin = new System.Windows.Forms.Padding(0);
+            this.ucDirectory1.Name = "ucDirectory1";
+            this.ucDirectory1.Size = new System.Drawing.Size(819, 24);
+            this.ucDirectory1.TabIndex = 45;
+            // 
             // images
             // 
             this.images.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("images.ImageStream")));
@@ -534,14 +545,20 @@
             this.clearResultsToolStripMenuItem.Text = "Clear Results";
             this.clearResultsToolStripMenuItem.Click += new System.EventHandler(this.clearResultsToolStripMenuItem_Click);
             // 
-            // ucDirectory1
+            // chkZipFiles
             // 
-            this.ucDirectory1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.ucDirectory1.Location = new System.Drawing.Point(130, 36);
-            this.ucDirectory1.Margin = new System.Windows.Forms.Padding(0);
-            this.ucDirectory1.Name = "ucDirectory1";
-            this.ucDirectory1.Size = new System.Drawing.Size(819, 24);
-            this.ucDirectory1.TabIndex = 45;
+            this.chkZipFiles.Appearance = System.Windows.Forms.Appearance.Button;
+            this.chkZipFiles.BackColor = System.Drawing.SystemColors.Control;
+            this.chkZipFiles.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkZipFiles.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.chkZipFiles.ImageIndex = 3;
+            this.chkZipFiles.Location = new System.Drawing.Point(949, 96);
+            this.chkZipFiles.Margin = new System.Windows.Forms.Padding(0);
+            this.chkZipFiles.Name = "chkZipFiles";
+            this.chkZipFiles.Size = new System.Drawing.Size(122, 22);
+            this.chkZipFiles.TabIndex = 13;
+            this.chkZipFiles.Text = "Zip Files";
+            this.chkZipFiles.UseVisualStyleBackColor = false;
             // 
             // ucSearchPanel
             // 
@@ -600,5 +617,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnStop;
         private ucDirectory ucDirectory1;
+        private System.Windows.Forms.CheckBox chkZipFiles;
     }
 }

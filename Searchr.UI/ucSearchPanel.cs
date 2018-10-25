@@ -59,6 +59,7 @@ namespace Searchr.UI
                 chkIncludeHidden.Checked = !latest.ExcludeHidden;
                 chkIncludeSystem.Checked = !latest.ExcludeSystem;
                 chkIncludeBinaryFiles.Checked = !latest.ExcludeBinaryFiles;
+                chkZipFiles.Checked = latest.SearchZipFiles;
                 chkSearchFileContents.Checked = latest.SearchFileContents;
                 chkSearchFileName.Checked = latest.SearchFileName;
                 chkSearchFilePath.Checked = latest.SearchFilePath;
@@ -70,6 +71,7 @@ namespace Searchr.UI
             SetupCheckBox(chkIncludeHidden);
             SetupCheckBox(chkIncludeSystem);
             SetupCheckBox(chkIncludeBinaryFiles);
+            SetupCheckBox(chkZipFiles);
             SetupCheckBox(chkSearchFileContents);
             SetupCheckBox(chkSearchFileName);
             SetupCheckBox(chkSearchFilePath);
@@ -172,19 +174,28 @@ namespace Searchr.UI
 
             Task.Run(() =>
             {
-                foreach (var result in response.Results.GetConsumingEnumerable())
+                try
                 {
-                    try
+                    foreach (var result in response.Results.GetConsumingEnumerable(CurrentSearch.CancellationToken))
                     {
                         totalFiles++;
                         totalHits += result.TotalCount;
 
                         var row = new DataGridViewRow();
 
-                        row.Cells.Add(new DataGridViewImageCell(true)
+                        var icon = IconHelper.GetSmallIconCached(result.File.FullName, result.File.Extension.ToLower());
+
+                        if (icon != null)
                         {
-                            Value = IconHelper.GetSmallIconCached(result.File.FullName, result.File.Extension.ToLower())
-                        });
+                            row.Cells.Add(new DataGridViewImageCell(true)
+                            {
+                                Value = icon
+                            });
+                        }
+                        else
+                        {
+                            row.Cells.Add(new DataGridViewImageCell(false));
+                        }
 
                         row.Cells.Add(new DataGridViewTextBoxCell
                         {
@@ -211,10 +222,13 @@ namespace Searchr.UI
                             dgResults.Rows.Add(row);
                         });
                     }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine(ex);
-                    }
+                }
+                catch (OperationCanceledException)
+                {
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Search failed: {ex.Message}");
                 }
 
                 this.InvokeAction(_ =>
@@ -257,6 +271,7 @@ namespace Searchr.UI
                 ExcludeSystem = !chkIncludeHidden.Checked,
                 ExcludeHidden = !chkIncludeSystem.Checked,
                 ExcludeBinaryFiles = !chkIncludeBinaryFiles.Checked,
+                SearchZipFiles = chkZipFiles.Checked,
                 SearchFileContents = chkSearchFileContents.Checked,
                 SearchFileName = chkSearchFileName.Checked,
                 SearchFilePath = chkSearchFilePath.Checked
@@ -265,12 +280,12 @@ namespace Searchr.UI
             return request;
         }
 
-        private IList<string> GetExtensions(string text)
+        private List<string> GetExtensions(string text)
         {
             return text.Split(new char[] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries).Distinct().ToList();
         }
 
-        private IList<string> GetFolders(string text)
+        private List<string> GetFolders(string text)
         {
             return text.Split(new char[] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries).Distinct().ToList();
         }
@@ -331,7 +346,7 @@ namespace Searchr.UI
         {
             btn.FlatStyle = FlatStyle.Flat;
             btn.BackColor = btn.Enabled ? ifEnabled : ifDisabled;
-            btn.FlatAppearance.BorderColor = btn.Enabled ? Darker(ifEnabled): Darker(ifDisabled, 0.95);
+            btn.FlatAppearance.BorderColor = btn.Enabled ? Darker(ifEnabled) : Darker(ifDisabled, 0.95);
             btn.FlatAppearance.BorderSize = 1;
         }
 

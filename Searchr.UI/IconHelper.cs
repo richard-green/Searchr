@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 
@@ -19,20 +20,27 @@ namespace Searchr.UI
             [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 80)]
             public string type;
         };
+
         public const uint SHGFI_ICON = 0x100;
         public const uint SHGFI_LARGEICON = 0x0; // 'Large icon
         public const uint SHGFI_SMALLICON = 0x1; // 'Small icon
+        public const uint SHGFI_USEFILEATTRIBUTES = 0x10;
 
         [DllImport("shell32.dll")]
         public static extern IntPtr SHGetFileInfo(string path, uint fattrs, ref SHFILEINFO sfi, uint size, uint flags);
 
+        [DllImport("user32.dll")]
+        public static extern void DestroyIcon(IntPtr handle);
+
         public static Icon GetSmallIcon(string path)
         {
             SHFILEINFO info = new SHFILEINFO();
-            SHGetFileInfo(path, 0, ref info, (uint)Marshal.SizeOf(info), SHGFI_ICON | SHGFI_SMALLICON);
+            SHGetFileInfo(path, 0, ref info, (uint)Marshal.SizeOf(info), SHGFI_ICON | SHGFI_SMALLICON | SHGFI_USEFILEATTRIBUTES);
             try
             {
-                return Icon.FromHandle(info.handle);
+                var icon = (Icon)Icon.FromHandle(info.handle).Clone();
+                DestroyIcon(info.handle);
+                return icon;
             }
             catch (Exception)
             {
@@ -43,10 +51,12 @@ namespace Searchr.UI
         public static Icon GetLargeIcon(string path)
         {
             SHFILEINFO info = new SHFILEINFO();
-            SHGetFileInfo(path, 0, ref info, (uint)Marshal.SizeOf(info), SHGFI_ICON | SHGFI_LARGEICON);
+            SHGetFileInfo(path, 0, ref info, (uint)Marshal.SizeOf(info), SHGFI_ICON | SHGFI_LARGEICON | SHGFI_USEFILEATTRIBUTES);
             try
             {
-                return Icon.FromHandle(info.handle);
+                var icon = (Icon)Icon.FromHandle(info.handle).Clone();
+                DestroyIcon(info.handle);
+                return icon;
             }
             catch (Exception)
             {
@@ -58,16 +68,16 @@ namespace Searchr.UI
 
         public static Icon GetSmallIconCached(string path, string extension)
         {
-            if (extension.InList(".exe", ".ico")) return GetSmallIcon(path);
-            return smallIconCache.GetOrAdd(extension, _ => GetSmallIcon(path));
+            if (File.Exists(path) && extension.InList(".exe", ".ico")) return GetSmallIcon(path);
+            return smallIconCache.GetOrAdd(extension, _ => GetSmallIcon(extension));
         }
 
         static ConcurrentDictionary<string, Icon> largeIconCache = new ConcurrentDictionary<string, Icon>();
 
         public static Icon GetLargeIconCached(string path, string extension)
         {
-            if (extension.InList(".exe", ".ico")) return GetLargeIcon(path);
-            return largeIconCache.GetOrAdd(extension, _ => GetLargeIcon(path));
+            if (File.Exists(path) && extension.InList(".exe", ".ico")) return GetLargeIcon(path);
+            return largeIconCache.GetOrAdd(extension, _ => GetLargeIcon(extension));
         }
     }
 }

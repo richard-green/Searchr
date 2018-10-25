@@ -1,113 +1,123 @@
 ﻿using System;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.IO.Compression;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Searchr.Core
 {
-    public abstract class SearchAlgorithm
+    internal abstract class SearchAlgorithm
     {
-        public static SearchAlgorithm SingleLine = new LineSearchMethod();
-        public static SearchAlgorithm SingleLineRegex = new RegexLineSearchMethod();
+        public static SearchAlgorithm SingleLine = new TextSearchMethod();
+        public static SearchAlgorithm SingleLineRegex = new RegexSearchMethod();
 
-        public abstract SearchResult PerformSearch(SearchRequest request, FileInfo file);
+        Func<string, bool> match;
 
-        private class LineSearchMethod : SearchAlgorithm
+        public IEnumerable<SearchResult> PerformSearch(SearchParameters parameters, FileInfo file)
         {
-            public override SearchResult PerformSearch(SearchRequest request, FileInfo file)
+            match = CreateMatcher(parameters);
+
+            foreach (var result in PerformSearch(parameters, file, () => file.OpenRead()))
             {
-                SearchResult results = new SearchResult(file);
-
-                bool match(string value)
-                {
-                    return value.IndexOf(request.SearchTerm, request.MatchCase ? StringComparison.CurrentCulture : StringComparison.CurrentCultureIgnoreCase) >= 0;
-                }
-
-                if (request.SearchFileName && match(file.Name))
-                {
-                    results.Match = true;
-                }
-
-                if (request.SearchFilePath && match(file.FullName))
-                {
-                    results.Match = true;
-                }
-
-                if (request.SearchFileContents)
-                {
-                    int lineNumber = 1;
-                    string line;
-
-                    using (var fileStream = new StreamReader(file.OpenRead()))
-                    {
-                        while ((line = fileStream.ReadLine()) != null)
-                        {
-                            if (request.Aborted)
-                            {
-                                break;
-                            }
-
-                            if (match(line))
-                            {
-                                results.TotalCount++;
-                                results.LineNumbers.Add(lineNumber);
-                            }
-
-                            lineNumber++;
-                        }
-                    }
-                }
-
-                if (results.TotalCount > 0) results.Match = true;
-
-                return results;
+                yield return result;
             }
         }
 
-        private class RegexLineSearchMethod : SearchAlgorithm
+        private IEnumerable<SearchResult> PerformSearch(SearchParameters parameters, FileInfo file, Func<Stream> open)
         {
-            public override SearchResult PerformSearch(SearchRequest request, FileInfo file)
+            SearchResult results = new SearchResult(file);
+
+            if (parameters.SearchFileName && match(file.Name))
             {
-                SearchResult results = new SearchResult(file);
-                Regex exp = new Regex(request.SearchTerm, request.MatchCase ? RegexOptions.None : RegexOptions.IgnoreCase);
+                results.Match = true;
+            }
 
-                if (request.SearchFileName && exp.IsMatch(file.Name))
+            if (parameters.SearchFilePath && match(file.FullName))
+            {
+                results.Match = true;
+            }
+
+            if (parameters.SearchZipFiles && file.Extension == ".zip")
+            {
+                using (var stream = open())
+                using (var archive = new ZipArchive(stream))
                 {
-                    results.Match = true;
-                }
-
-                if (request.SearchFilePath && exp.IsMatch(file.FullName))
-                {
-                    results.Match = true;
-                }
-
-                if (request.SearchFileContents)
-                {
-                    int lineNumber = 1;
-                    string line;
-
-                    using (var fileStream = new StreamReader(file.OpenRead()))
+                    foreach (var entry in archive.Entries.Where(e => e.Length > 0))
                     {
-                        while ((line = fileStream.ReadLine()) != null)
+                        if (parameters.CancellationToken.IsCancellationRequested)
                         {
-                            if (request.Aborted)
-                            {
-                                break;
-                            }
+                            break;
+                        }
 
-                            if (exp.IsMatch(line))
-                            {
-                                results.TotalCount++;
-                                results.LineNumbers.Add(lineNumber);
-                            }
+                        var fileEntry = new FileInfo(Path.Combine(file.FullName, entry.FullName.Replace('/', '\\')));
 
-                            lineNumber++;
+                        if (Search.MatchesFilePatterns(parameters, fileEntry))
+                        {
+                            foreach (var result in PerformSearch(parameters, fileEntry, () => entry.Open()))
+                            {
+                                yield return result;
+                            }
                         }
                     }
                 }
+            }
+            else if (parameters.SearchFileContents)
+            {
+                using (var stream = open())
+                using (var reader = new StreamReader(stream))
+                {
+                    SearchStream(parameters, results, match, reader);                    
+                }
+            }
 
-                if (results.TotalCount > 0) results.Match = true;
+            if (results.Match)
+            {
+                yield return results;
+            }
+        }
 
-                return results;
+        private static void SearchStream(SearchParameters parameters, SearchResult results, Func<string, bool> match, StreamReader reader)
+        {
+            int lineNumber = 1;
+            string line;
+
+            while ((line = reader.ReadLine()) != null)
+            {
+                if (parameters.CancellationToken.IsCancellationRequested)
+                {
+                    break;
+                }
+
+                if (match(line))
+                {
+                    results.TotalCount++;
+                    results.LineNumbers.Add(lineNumber);
+                }
+
+                lineNumber++;
+            }
+
+            if (results.TotalCount > 0) results.Match = true;
+        }
+
+        public abstract Func<string, bool> CreateMatcher(SearchParameters parameters);
+
+        private class TextSearchMethod : SearchAlgorithm
+        {
+            public override Func<string, bool> CreateMatcher(SearchParameters parameters)
+            {
+                return value => value.IndexOf(parameters.SearchTerm, parameters.MatchCase ? StringComparison.CurrentCulture : StringComparison.CurrentCultureIgnoreCase) >= 0;
+            }
+        }
+
+        private class RegexSearchMethod : SearchAlgorithm
+        {
+            public override Func<string, bool> CreateMatcher(SearchParameters parameters)
+            {
+                Regex exp = new Regex(parameters.SearchTerm, parameters.MatchCase ? RegexOptions.None : RegexOptions.IgnoreCase);
+
+                return value => exp.IsMatch(value);
             }
         }
     }

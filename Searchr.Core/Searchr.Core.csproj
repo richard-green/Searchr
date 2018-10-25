@@ -36,6 +36,8 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -48,6 +50,7 @@
     <Compile Include="JsonSerializer.cs" />
     <Compile Include="SearchAlgorithm.cs" />
     <Compile Include="SearchMethod.cs" />
+    <Compile Include="SearchParameters.cs" />
     <Compile Include="SearchResult.cs" />
     <Compile Include="GenericExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
