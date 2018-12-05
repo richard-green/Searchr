@@ -133,6 +133,7 @@ namespace Searchr.UI
         public void Clear()
         {
             dgResults.Rows.Clear();
+            statusText.Text = "";
         }
 
         private void SearchNow(bool filter)
@@ -217,7 +218,8 @@ namespace Searchr.UI
 
                         dgResults.InvokeAction(dg =>
                         {
-                            dgResults.Rows.Add(row);
+                            statusText.Text = $"Found {totalHits:n0} lines in {totalFiles:n0} files";
+                            dg.Rows.Add(row);
                         });
                     }
                 }

@@ -56,22 +56,28 @@
             this.btnSearch = new System.Windows.Forms.Button();
             this.ucDirectory1 = new Searchr.UI.ucDirectory();
             this.images = new System.Windows.Forms.ImageList(this.components);
-            this.dgResults = new System.Windows.Forms.DataGridView();
-            this.FileIcon = new System.Windows.Forms.DataGridViewImageColumn();
-            this.Lines = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.FileName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Ext = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Directory = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ResultsContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.editWithNotepadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exploreHereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.commandPromptHereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.clearResultsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pnlStatus = new System.Windows.Forms.Panel();
+            this.pnlResults = new System.Windows.Forms.Panel();
+            this.dgResults = new System.Windows.Forms.DataGridView();
+            this.FileIcon = new System.Windows.Forms.DataGridViewImageColumn();
+            this.Lines = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.FileName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Ext = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Directory = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.statusText = new System.Windows.Forms.ToolStripStatusLabel();
             this.pnlControls.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgResults)).BeginInit();
             this.ResultsContextMenu.SuspendLayout();
+            this.pnlStatus.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgResults)).BeginInit();
+            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnlControls
@@ -442,63 +448,6 @@
             this.images.Images.SetKeyName(3, "icons8-stop-48.png");
             this.images.Images.SetKeyName(4, "icons8-next-48.png");
             // 
-            // dgResults
-            // 
-            this.dgResults.AllowUserToAddRows = false;
-            this.dgResults.AllowUserToOrderColumns = true;
-            this.dgResults.BackgroundColor = System.Drawing.Color.WhiteSmoke;
-            this.dgResults.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.dgResults.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgResults.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.FileIcon,
-            this.Lines,
-            this.FileName,
-            this.Ext,
-            this.Directory});
-            this.dgResults.ContextMenuStrip = this.ResultsContextMenu;
-            this.dgResults.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgResults.Location = new System.Drawing.Point(0, 162);
-            this.dgResults.Margin = new System.Windows.Forms.Padding(10);
-            this.dgResults.Name = "dgResults";
-            this.dgResults.ReadOnly = true;
-            this.dgResults.Size = new System.Drawing.Size(1339, 484);
-            this.dgResults.TabIndex = 16;
-            // 
-            // FileIcon
-            // 
-            this.FileIcon.HeaderText = "";
-            this.FileIcon.Name = "FileIcon";
-            this.FileIcon.ReadOnly = true;
-            this.FileIcon.Width = 22;
-            // 
-            // Lines
-            // 
-            this.Lines.HeaderText = "Lines";
-            this.Lines.Name = "Lines";
-            this.Lines.ReadOnly = true;
-            this.Lines.Width = 40;
-            // 
-            // FileName
-            // 
-            this.FileName.HeaderText = "FileName";
-            this.FileName.Name = "FileName";
-            this.FileName.ReadOnly = true;
-            this.FileName.Width = 200;
-            // 
-            // Ext
-            // 
-            this.Ext.HeaderText = "Ext";
-            this.Ext.Name = "Ext";
-            this.Ext.ReadOnly = true;
-            this.Ext.Width = 50;
-            // 
-            // Directory
-            // 
-            this.Directory.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Directory.HeaderText = "Directory";
-            this.Directory.Name = "Directory";
-            this.Directory.ReadOnly = true;
-            // 
             // ResultsContextMenu
             // 
             this.ResultsContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -543,19 +492,117 @@
             this.clearResultsToolStripMenuItem.Text = "Clear Results";
             this.clearResultsToolStripMenuItem.Click += new System.EventHandler(this.clearResultsToolStripMenuItem_Click);
             // 
+            // pnlStatus
+            // 
+            this.pnlStatus.Controls.Add(this.statusStrip1);
+            this.pnlStatus.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.pnlStatus.Location = new System.Drawing.Point(0, 624);
+            this.pnlStatus.Name = "pnlStatus";
+            this.pnlStatus.Size = new System.Drawing.Size(1339, 22);
+            this.pnlStatus.TabIndex = 34;
+            // 
+            // pnlResults
+            // 
+            this.pnlResults.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlResults.Location = new System.Drawing.Point(0, 162);
+            this.pnlResults.Name = "pnlResults";
+            this.pnlResults.Size = new System.Drawing.Size(1339, 462);
+            this.pnlResults.TabIndex = 35;
+            // 
+            // dgResults
+            // 
+            this.dgResults.AllowUserToAddRows = false;
+            this.dgResults.AllowUserToOrderColumns = true;
+            this.dgResults.BackgroundColor = System.Drawing.Color.WhiteSmoke;
+            this.dgResults.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.dgResults.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgResults.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.FileIcon,
+            this.Lines,
+            this.FileName,
+            this.Ext,
+            this.Directory});
+            this.dgResults.ContextMenuStrip = this.ResultsContextMenu;
+            this.dgResults.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgResults.Location = new System.Drawing.Point(0, 162);
+            this.dgResults.Margin = new System.Windows.Forms.Padding(10);
+            this.dgResults.Name = "dgResults";
+            this.dgResults.ReadOnly = true;
+            this.dgResults.Size = new System.Drawing.Size(1339, 462);
+            this.dgResults.TabIndex = 17;
+            // 
+            // FileIcon
+            // 
+            this.FileIcon.HeaderText = "";
+            this.FileIcon.Name = "FileIcon";
+            this.FileIcon.ReadOnly = true;
+            this.FileIcon.Width = 22;
+            // 
+            // Lines
+            // 
+            this.Lines.HeaderText = "Lines";
+            this.Lines.Name = "Lines";
+            this.Lines.ReadOnly = true;
+            this.Lines.Width = 40;
+            // 
+            // FileName
+            // 
+            this.FileName.HeaderText = "FileName";
+            this.FileName.Name = "FileName";
+            this.FileName.ReadOnly = true;
+            this.FileName.Width = 200;
+            // 
+            // Ext
+            // 
+            this.Ext.HeaderText = "Ext";
+            this.Ext.Name = "Ext";
+            this.Ext.ReadOnly = true;
+            this.Ext.Width = 50;
+            // 
+            // Directory
+            // 
+            this.Directory.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Directory.HeaderText = "Directory";
+            this.Directory.Name = "Directory";
+            this.Directory.ReadOnly = true;
+            // 
+            // statusStrip1
+            // 
+            this.statusStrip1.BackColor = System.Drawing.Color.White;
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.statusText});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 0);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(1339, 22);
+            this.statusStrip1.SizingGrip = false;
+            this.statusStrip1.TabIndex = 0;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // statusText
+            // 
+            this.statusText.Name = "statusText";
+            this.statusText.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
+            this.statusText.Size = new System.Drawing.Size(3, 17);
+            // 
             // ucSearchPanel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.dgResults);
+            this.Controls.Add(this.pnlResults);
+            this.Controls.Add(this.pnlStatus);
             this.Controls.Add(this.pnlControls);
             this.Name = "ucSearchPanel";
             this.Size = new System.Drawing.Size(1339, 646);
             this.pnlControls.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgResults)).EndInit();
             this.ResultsContextMenu.ResumeLayout(false);
+            this.pnlStatus.ResumeLayout(false);
+            this.pnlStatus.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgResults)).EndInit();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -563,18 +610,12 @@
         #endregion
 
         private System.Windows.Forms.Panel pnlControls;
-        private System.Windows.Forms.DataGridView dgResults;
         private System.Windows.Forms.ContextMenuStrip ResultsContextMenu;
         private System.Windows.Forms.ToolStripMenuItem editWithNotepadToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exploreHereToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem commandPromptHereToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem clearResultsToolStripMenuItem;
-        private System.Windows.Forms.DataGridViewImageColumn FileIcon;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Lines;
-        private System.Windows.Forms.DataGridViewTextBoxColumn FileName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Ext;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Directory;
         private System.Windows.Forms.ImageList images;
         private System.Windows.Forms.Button btnFilter;
         private System.Windows.Forms.CheckBox chkSearchFilePath;
@@ -600,5 +641,15 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnStop;
         private ucDirectory ucDirectory1;
+        private System.Windows.Forms.Panel pnlStatus;
+        private System.Windows.Forms.Panel pnlResults;
+        private System.Windows.Forms.DataGridView dgResults;
+        private System.Windows.Forms.DataGridViewImageColumn FileIcon;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Lines;
+        private System.Windows.Forms.DataGridViewTextBoxColumn FileName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Ext;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Directory;
+        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.ToolStripStatusLabel statusText;
     }
 }
