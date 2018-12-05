@@ -54,6 +54,7 @@
             this.btnStop = new System.Windows.Forms.Button();
             this.btnFilter = new System.Windows.Forms.Button();
             this.btnSearch = new System.Windows.Forms.Button();
+            this.ucDirectory1 = new Searchr.UI.ucDirectory();
             this.images = new System.Windows.Forms.ImageList(this.components);
             this.dgResults = new System.Windows.Forms.DataGridView();
             this.FileIcon = new System.Windows.Forms.DataGridViewImageColumn();
@@ -67,7 +68,6 @@
             this.commandPromptHereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.clearResultsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ucDirectory1 = new Searchr.UI.ucDirectory();
             this.pnlControls.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgResults)).BeginInit();
@@ -171,7 +171,7 @@
             this.chkSearchFilePath.Location = new System.Drawing.Point(1209, 6);
             this.chkSearchFilePath.Margin = new System.Windows.Forms.Padding(0);
             this.chkSearchFilePath.Name = "chkSearchFilePath";
-            this.chkSearchFilePath.Size = new System.Drawing.Size(122, 22);
+            this.chkSearchFilePath.Size = new System.Drawing.Size(122, 24);
             this.chkSearchFilePath.TabIndex = 7;
             this.chkSearchFilePath.Text = "File Path";
             this.chkSearchFilePath.UseVisualStyleBackColor = false;
@@ -186,7 +186,7 @@
             this.chkIncludeHidden.Location = new System.Drawing.Point(1209, 66);
             this.chkIncludeHidden.Margin = new System.Windows.Forms.Padding(0);
             this.chkIncludeHidden.Name = "chkIncludeHidden";
-            this.chkIncludeHidden.Size = new System.Drawing.Size(122, 22);
+            this.chkIncludeHidden.Size = new System.Drawing.Size(122, 24);
             this.chkIncludeHidden.TabIndex = 13;
             this.chkIncludeHidden.Text = "Hidden Files";
             this.chkIncludeHidden.UseVisualStyleBackColor = false;
@@ -201,7 +201,7 @@
             this.chkIncludeSystem.Location = new System.Drawing.Point(1079, 66);
             this.chkIncludeSystem.Margin = new System.Windows.Forms.Padding(0);
             this.chkIncludeSystem.Name = "chkIncludeSystem";
-            this.chkIncludeSystem.Size = new System.Drawing.Size(122, 22);
+            this.chkIncludeSystem.Size = new System.Drawing.Size(122, 24);
             this.chkIncludeSystem.TabIndex = 12;
             this.chkIncludeSystem.Text = "System Files";
             this.chkIncludeSystem.UseVisualStyleBackColor = false;
@@ -227,7 +227,7 @@
             this.chkIncludeBinaryFiles.Location = new System.Drawing.Point(949, 66);
             this.chkIncludeBinaryFiles.Margin = new System.Windows.Forms.Padding(0);
             this.chkIncludeBinaryFiles.Name = "chkIncludeBinaryFiles";
-            this.chkIncludeBinaryFiles.Size = new System.Drawing.Size(122, 22);
+            this.chkIncludeBinaryFiles.Size = new System.Drawing.Size(122, 24);
             this.chkIncludeBinaryFiles.TabIndex = 11;
             this.chkIncludeBinaryFiles.Text = "Binary Files";
             this.chkIncludeBinaryFiles.UseVisualStyleBackColor = false;
@@ -264,7 +264,7 @@
             this.chkRegex.Location = new System.Drawing.Point(1209, 36);
             this.chkRegex.Margin = new System.Windows.Forms.Padding(0);
             this.chkRegex.Name = "chkRegex";
-            this.chkRegex.Size = new System.Drawing.Size(122, 22);
+            this.chkRegex.Size = new System.Drawing.Size(122, 24);
             this.chkRegex.TabIndex = 10;
             this.chkRegex.Text = "Regular Expression";
             this.chkRegex.UseVisualStyleBackColor = false;
@@ -279,7 +279,7 @@
             this.chkMatchCase.Location = new System.Drawing.Point(1079, 36);
             this.chkMatchCase.Margin = new System.Windows.Forms.Padding(0);
             this.chkMatchCase.Name = "chkMatchCase";
-            this.chkMatchCase.Size = new System.Drawing.Size(122, 22);
+            this.chkMatchCase.Size = new System.Drawing.Size(122, 24);
             this.chkMatchCase.TabIndex = 9;
             this.chkMatchCase.Text = "Case Sensitive";
             this.chkMatchCase.UseVisualStyleBackColor = false;
@@ -305,7 +305,7 @@
             this.chkSearchFileName.Location = new System.Drawing.Point(1079, 6);
             this.chkSearchFileName.Margin = new System.Windows.Forms.Padding(0);
             this.chkSearchFileName.Name = "chkSearchFileName";
-            this.chkSearchFileName.Size = new System.Drawing.Size(122, 22);
+            this.chkSearchFileName.Size = new System.Drawing.Size(122, 24);
             this.chkSearchFileName.TabIndex = 6;
             this.chkSearchFileName.Text = "File Name";
             this.chkSearchFileName.UseVisualStyleBackColor = false;
@@ -322,7 +322,7 @@
             this.chkSearchFileContents.Location = new System.Drawing.Point(949, 6);
             this.chkSearchFileContents.Margin = new System.Windows.Forms.Padding(0);
             this.chkSearchFileContents.Name = "chkSearchFileContents";
-            this.chkSearchFileContents.Size = new System.Drawing.Size(122, 22);
+            this.chkSearchFileContents.Size = new System.Drawing.Size(122, 24);
             this.chkSearchFileContents.TabIndex = 5;
             this.chkSearchFileContents.Text = "File Contents";
             this.chkSearchFileContents.UseVisualStyleBackColor = false;
@@ -363,7 +363,7 @@
             this.chkRecursive.Location = new System.Drawing.Point(949, 36);
             this.chkRecursive.Margin = new System.Windows.Forms.Padding(0);
             this.chkRecursive.Name = "chkRecursive";
-            this.chkRecursive.Size = new System.Drawing.Size(122, 22);
+            this.chkRecursive.Size = new System.Drawing.Size(122, 24);
             this.chkRecursive.TabIndex = 8;
             this.chkRecursive.Text = "Recursive";
             this.chkRecursive.UseVisualStyleBackColor = false;
@@ -387,7 +387,7 @@
             this.btnStop.Location = new System.Drawing.Point(949, 126);
             this.btnStop.Margin = new System.Windows.Forms.Padding(0);
             this.btnStop.Name = "btnStop";
-            this.btnStop.Size = new System.Drawing.Size(122, 22);
+            this.btnStop.Size = new System.Drawing.Size(122, 24);
             this.btnStop.TabIndex = 14;
             this.btnStop.Text = "Stop";
             this.btnStop.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -401,7 +401,7 @@
             this.btnFilter.Location = new System.Drawing.Point(1079, 126);
             this.btnFilter.Margin = new System.Windows.Forms.Padding(0);
             this.btnFilter.Name = "btnFilter";
-            this.btnFilter.Size = new System.Drawing.Size(122, 22);
+            this.btnFilter.Size = new System.Drawing.Size(122, 24);
             this.btnFilter.TabIndex = 15;
             this.btnFilter.Text = "Filter";
             this.btnFilter.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -416,12 +416,21 @@
             this.btnSearch.Location = new System.Drawing.Point(1209, 126);
             this.btnSearch.Margin = new System.Windows.Forms.Padding(0);
             this.btnSearch.Name = "btnSearch";
-            this.btnSearch.Size = new System.Drawing.Size(122, 22);
+            this.btnSearch.Size = new System.Drawing.Size(122, 24);
             this.btnSearch.TabIndex = 16;
             this.btnSearch.Text = "Search";
             this.btnSearch.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnSearch.UseVisualStyleBackColor = true;
             this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
+            // 
+            // ucDirectory1
+            // 
+            this.ucDirectory1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.ucDirectory1.Location = new System.Drawing.Point(130, 36);
+            this.ucDirectory1.Margin = new System.Windows.Forms.Padding(0);
+            this.ucDirectory1.Name = "ucDirectory1";
+            this.ucDirectory1.Size = new System.Drawing.Size(819, 24);
+            this.ucDirectory1.TabIndex = 45;
             // 
             // images
             // 
@@ -533,15 +542,6 @@
             this.clearResultsToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
             this.clearResultsToolStripMenuItem.Text = "Clear Results";
             this.clearResultsToolStripMenuItem.Click += new System.EventHandler(this.clearResultsToolStripMenuItem_Click);
-            // 
-            // ucDirectory1
-            // 
-            this.ucDirectory1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.ucDirectory1.Location = new System.Drawing.Point(130, 36);
-            this.ucDirectory1.Margin = new System.Windows.Forms.Padding(0);
-            this.ucDirectory1.Name = "ucDirectory1";
-            this.ucDirectory1.Size = new System.Drawing.Size(819, 24);
-            this.ucDirectory1.TabIndex = 45;
             // 
             // ucSearchPanel
             // 

@@ -1,7 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
 using System.Threading;
 
@@ -25,50 +24,50 @@ namespace Searchr.Core
         public bool SearchFileName { get; set; }
         public bool SearchFilePath { get; set; }
 
-        private CancellationTokenSource CancellationSource { get; set; }
+        private CancellationTokenSource cancellationSource;
 
         [JsonIgnore]
-        public SearchAlgorithm Algorithm { get; private set; }
-
-        [JsonIgnore]
-        public CancellationToken CancellationToken => CancellationSource.Token;
+        public CancellationToken CancellationToken => cancellationSource.Token;
 
         public bool Aborted => CancellationToken.IsCancellationRequested;
 
         public SearchRequest()
         {
-            this.Directory = null;
-            this.DirectoryOption = SearchOption.AllDirectories;
-            this.SearchTerm = null;
-            this.SearchMethod = SearchMethod.SingleLine;
-            this.MatchCase = false;
-            this.ParallelSearches = 4;
-            this.ExcludeFileWildcards = new List<string>();
-            this.IncludeFileWildcards = new List<string>();
-            this.ExcludeFolderNames = new List<string>();
-            this.ExcludeHidden = false;
-            this.ExcludeSystem = false;
-            this.ExcludeBinaryFiles = false;
-            this.SearchFileContents = true;
-            this.SearchFileName = false;
-            this.SearchFilePath = false;
-            this.CancellationSource = new CancellationTokenSource();
+            Directory = null;
+            DirectoryOption = SearchOption.AllDirectories;
+            SearchTerm = null;
+            SearchMethod = SearchMethod.SingleLine;
+            MatchCase = false;
+            ParallelSearches = 4;
+            ExcludeFileWildcards = new List<string>();
+            IncludeFileWildcards = new List<string>();
+            ExcludeFolderNames = new List<string>();
+            ExcludeHidden = false;
+            ExcludeSystem = false;
+            ExcludeBinaryFiles = false;
+            SearchFileContents = true;
+            SearchFileName = false;
+            SearchFilePath = false;
 
-            this.Algorithm = LoadAlgorithm();
+            cancellationSource = new CancellationTokenSource();
         }
 
         public void Abort()
         {
-            this.CancellationSource.Cancel();
+            this.cancellationSource.Cancel();
         }
 
-        private SearchAlgorithm LoadAlgorithm()
+        [JsonIgnore]
+        public SearchAlgorithm Algorithm
         {
-            switch (SearchMethod)
+            get
             {
-                case SearchMethod.SingleLine: return SearchAlgorithm.SingleLine;
-                case SearchMethod.SingleLineRegex: return SearchAlgorithm.SingleLineRegex;
-                default: throw new NotImplementedException($"Algorithm for Search Method {SearchMethod} has not been implemented");
+                switch (SearchMethod)
+                {
+                    case SearchMethod.SingleLine: return SearchAlgorithm.SingleLine;
+                    case SearchMethod.SingleLineRegex: return SearchAlgorithm.SingleLineRegex;
+                    default: throw new NotImplementedException($"Algorithm for Search Method {SearchMethod} has not been implemented");
+                }
             }
         }
     }

@@ -318,11 +318,13 @@ namespace Searchr.UI
             checkbox.CheckedChanged += CheckBox_CheckedChanged;
 
             CheckBox_CheckedChanged(checkbox, null);
+
+            checkbox.Height = 23;
         }
 
-        readonly Color blue = Color.FromArgb(114, 200, 255); // (114, 183, 208);
-        readonly Color red = Color.FromArgb(255, 161, 175); // (255, 128, 135);
-        readonly Color green = Color.FromArgb(175, 255, 161); //(175, 255, 161);
+        readonly Color blue = Color.FromArgb(114, 200, 255);
+        readonly Color red = Color.FromArgb(255, 161, 175);
+        readonly Color green = Color.FromArgb(175, 255, 161);
 
         private void CheckBox_CheckedChanged(object sender, EventArgs e)
         {
