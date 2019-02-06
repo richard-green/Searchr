@@ -171,6 +171,8 @@ namespace Searchr.UI
             int totalFiles = 0;
             int totalHits = 0;
 
+            statusText.Text = $"Found {totalHits:n0} lines in {totalFiles:n0} files";
+
             Task.Run(() =>
             {
                 try
