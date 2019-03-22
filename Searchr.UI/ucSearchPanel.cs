@@ -163,6 +163,8 @@ namespace Searchr.UI
             IEnumerable<string> paths = filter ? dgResults.Rows.Cast<DataGridViewRow>().Select(r => Path.Combine((string)r.Cells[4].Value, (string)r.Cells[2].Value)).ToList() :
                                                  Enumerable.Empty<string>();
 
+            statusText.Text = "Searching...";
+
             dgResults.Rows.Clear();
 
             var response = filter ? Search.PerformFilter(CurrentSearch, paths) :
@@ -170,8 +172,6 @@ namespace Searchr.UI
 
             int totalFiles = 0;
             int totalHits = 0;
-
-            statusText.Text = $"Found {totalHits:n0} lines in {totalFiles:n0} files";
 
             Task.Run(() =>
             {
@@ -220,7 +220,7 @@ namespace Searchr.UI
 
                         dgResults.InvokeAction(dg =>
                         {
-                            statusText.Text = $"Found {totalHits:n0} lines in {totalFiles:n0} files";
+                            statusText.Text = $"Searching... Found {totalHits:n0} lines in {totalFiles:n0} files";
                             dg.Rows.Add(row);
                         });
                     }
@@ -235,6 +235,8 @@ namespace Searchr.UI
 
                 this.InvokeAction(_ =>
                 {
+                    statusText.Text = $"Found {totalHits:n0} lines in {totalFiles:n0} files";
+
                     if (response.Error != null)
                     {
                         MessageBox.Show(response.Error.Message);
@@ -283,12 +285,12 @@ namespace Searchr.UI
 
         private List<string> GetExtensions(string text)
         {
-            return text.Split(new char[] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries).Distinct().ToList();
+            return text.Split(new char[] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries).Select(s => s.Trim()).Distinct().ToList();
         }
 
         private List<string> GetFolders(string text)
         {
-            return text.Split(new char[] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries).Distinct().ToList();
+            return text.Split(new char[] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries).Select(s => s.Trim()).Distinct().ToList();
         }
 
         private void SaveCurrentSearch()

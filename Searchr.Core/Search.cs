@@ -25,6 +25,7 @@ namespace Searchr.Core
 
             var response = new SearchResponse();
             var inputFiles = new BlockingCollection<FileInfo>();
+
             var includeFilePatterns = request.IncludeFileWildcards.Distinct().Select(FromWildcard).ToList();
             var excludeFileWildcards = request.ExcludeFileWildcards.ToList();
 
@@ -175,14 +176,17 @@ namespace Searchr.Core
                 return false;
             }
 
+            if (excludePatterns.Any(pattern => pattern.IsMatch(fi.Name)))
+            {
+                return false;
+            }
+
             if (includePatterns.Any())
             {
                 return includePatterns.Any(pattern => pattern.IsMatch(fi.Name));
             }
-            else
-            {
-                return excludePatterns.Any(pattern => pattern.IsMatch(fi.Name)) == false;
-            }
+
+            return true;
         }
 
         private static Task CreateSearchTask(SearchRequest request, BlockingCollection<FileInfo> inputFiles, SearchResponse response)
