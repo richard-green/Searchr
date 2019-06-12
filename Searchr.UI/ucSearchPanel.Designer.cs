@@ -38,13 +38,13 @@
             this.chkSearchFilePath = new System.Windows.Forms.CheckBox();
             this.chkIncludeHidden = new System.Windows.Forms.CheckBox();
             this.chkIncludeSystem = new System.Windows.Forms.CheckBox();
-            this.cmbExcludedExtensions = new System.Windows.Forms.ComboBox();
+            this.cmbExcludeFilePatterns = new System.Windows.Forms.ComboBox();
             this.chkIncludeBinaryFiles = new System.Windows.Forms.CheckBox();
             this.txtSearchTerm = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.chkRegex = new System.Windows.Forms.CheckBox();
             this.chkMatchCase = new System.Windows.Forms.CheckBox();
-            this.cmbIncludedExtensions = new System.Windows.Forms.ComboBox();
+            this.cmbIncludeFilePatterns = new System.Windows.Forms.ComboBox();
             this.chkSearchFileName = new System.Windows.Forms.CheckBox();
             this.chkSearchFileContents = new System.Windows.Forms.CheckBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -63,6 +63,8 @@
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.clearResultsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pnlStatus = new System.Windows.Forms.Panel();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.statusText = new System.Windows.Forms.ToolStripStatusLabel();
             this.pnlResults = new System.Windows.Forms.Panel();
             this.dgResults = new System.Windows.Forms.DataGridView();
             this.FileIcon = new System.Windows.Forms.DataGridViewImageColumn();
@@ -70,14 +72,12 @@
             this.FileName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Ext = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Directory = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.statusText = new System.Windows.Forms.ToolStripStatusLabel();
             this.pnlControls.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.ResultsContextMenu.SuspendLayout();
             this.pnlStatus.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgResults)).BeginInit();
             this.statusStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgResults)).BeginInit();
             this.SuspendLayout();
             // 
             // pnlControls
@@ -112,13 +112,13 @@
             this.tableLayoutPanel1.Controls.Add(this.chkSearchFilePath, 4, 0);
             this.tableLayoutPanel1.Controls.Add(this.chkIncludeHidden, 4, 2);
             this.tableLayoutPanel1.Controls.Add(this.chkIncludeSystem, 3, 2);
-            this.tableLayoutPanel1.Controls.Add(this.cmbExcludedExtensions, 1, 3);
+            this.tableLayoutPanel1.Controls.Add(this.cmbExcludeFilePatterns, 1, 3);
             this.tableLayoutPanel1.Controls.Add(this.chkIncludeBinaryFiles, 2, 2);
             this.tableLayoutPanel1.Controls.Add(this.txtSearchTerm, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.label4, 0, 3);
             this.tableLayoutPanel1.Controls.Add(this.chkRegex, 4, 1);
             this.tableLayoutPanel1.Controls.Add(this.chkMatchCase, 3, 1);
-            this.tableLayoutPanel1.Controls.Add(this.cmbIncludedExtensions, 1, 2);
+            this.tableLayoutPanel1.Controls.Add(this.cmbIncludeFilePatterns, 1, 2);
             this.tableLayoutPanel1.Controls.Add(this.chkSearchFileName, 3, 0);
             this.tableLayoutPanel1.Controls.Add(this.chkSearchFileContents, 2, 0);
             this.tableLayoutPanel1.Controls.Add(this.label3, 0, 2);
@@ -214,14 +214,14 @@
             // 
             // cmbExcludedExtensions
             // 
-            this.cmbExcludedExtensions.Dock = System.Windows.Forms.DockStyle.Top;
-            this.cmbExcludedExtensions.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cmbExcludedExtensions.FormattingEnabled = true;
-            this.cmbExcludedExtensions.Location = new System.Drawing.Point(130, 97);
-            this.cmbExcludedExtensions.Margin = new System.Windows.Forms.Padding(0, 1, 9, 0);
-            this.cmbExcludedExtensions.Name = "cmbExcludedExtensions";
-            this.cmbExcludedExtensions.Size = new System.Drawing.Size(810, 23);
-            this.cmbExcludedExtensions.TabIndex = 3;
+            this.cmbExcludeFilePatterns.Dock = System.Windows.Forms.DockStyle.Top;
+            this.cmbExcludeFilePatterns.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cmbExcludeFilePatterns.FormattingEnabled = true;
+            this.cmbExcludeFilePatterns.Location = new System.Drawing.Point(130, 97);
+            this.cmbExcludeFilePatterns.Margin = new System.Windows.Forms.Padding(0, 1, 9, 0);
+            this.cmbExcludeFilePatterns.Name = "cmbExcludedExtensions";
+            this.cmbExcludeFilePatterns.Size = new System.Drawing.Size(810, 23);
+            this.cmbExcludeFilePatterns.TabIndex = 3;
             // 
             // chkIncludeBinaryFiles
             // 
@@ -292,14 +292,14 @@
             // 
             // cmbIncludedExtensions
             // 
-            this.cmbIncludedExtensions.Dock = System.Windows.Forms.DockStyle.Top;
-            this.cmbIncludedExtensions.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cmbIncludedExtensions.FormattingEnabled = true;
-            this.cmbIncludedExtensions.Location = new System.Drawing.Point(130, 67);
-            this.cmbIncludedExtensions.Margin = new System.Windows.Forms.Padding(0, 1, 9, 0);
-            this.cmbIncludedExtensions.Name = "cmbIncludedExtensions";
-            this.cmbIncludedExtensions.Size = new System.Drawing.Size(810, 23);
-            this.cmbIncludedExtensions.TabIndex = 2;
+            this.cmbIncludeFilePatterns.Dock = System.Windows.Forms.DockStyle.Top;
+            this.cmbIncludeFilePatterns.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cmbIncludeFilePatterns.FormattingEnabled = true;
+            this.cmbIncludeFilePatterns.Location = new System.Drawing.Point(130, 67);
+            this.cmbIncludeFilePatterns.Margin = new System.Windows.Forms.Padding(0, 1, 9, 0);
+            this.cmbIncludeFilePatterns.Name = "cmbIncludedExtensions";
+            this.cmbIncludeFilePatterns.Size = new System.Drawing.Size(810, 23);
+            this.cmbIncludeFilePatterns.TabIndex = 2;
             // 
             // chkSearchFileName
             // 
@@ -501,6 +501,24 @@
             this.pnlStatus.Size = new System.Drawing.Size(1339, 22);
             this.pnlStatus.TabIndex = 34;
             // 
+            // statusStrip1
+            // 
+            this.statusStrip1.BackColor = System.Drawing.Color.White;
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.statusText});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 0);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(1339, 22);
+            this.statusStrip1.SizingGrip = false;
+            this.statusStrip1.TabIndex = 0;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // statusText
+            // 
+            this.statusText.Name = "statusText";
+            this.statusText.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
+            this.statusText.Size = new System.Drawing.Size(3, 17);
+            // 
             // pnlResults
             // 
             this.pnlResults.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -566,24 +584,6 @@
             this.Directory.Name = "Directory";
             this.Directory.ReadOnly = true;
             // 
-            // statusStrip1
-            // 
-            this.statusStrip1.BackColor = System.Drawing.Color.White;
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.statusText});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 0);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(1339, 22);
-            this.statusStrip1.SizingGrip = false;
-            this.statusStrip1.TabIndex = 0;
-            this.statusStrip1.Text = "statusStrip1";
-            // 
-            // statusText
-            // 
-            this.statusText.Name = "statusText";
-            this.statusText.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
-            this.statusText.Size = new System.Drawing.Size(3, 17);
-            // 
             // ucSearchPanel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -600,9 +600,9 @@
             this.ResultsContextMenu.ResumeLayout(false);
             this.pnlStatus.ResumeLayout(false);
             this.pnlStatus.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgResults)).EndInit();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgResults)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -629,8 +629,8 @@
         private System.Windows.Forms.Button btnSearch;
         private System.Windows.Forms.Splitter splitter1;
         private System.Windows.Forms.ComboBox cmbExcludeFolderNames;
-        private System.Windows.Forms.ComboBox cmbExcludedExtensions;
-        private System.Windows.Forms.ComboBox cmbIncludedExtensions;
+        private System.Windows.Forms.ComboBox cmbExcludeFilePatterns;
+        private System.Windows.Forms.ComboBox cmbIncludeFilePatterns;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;

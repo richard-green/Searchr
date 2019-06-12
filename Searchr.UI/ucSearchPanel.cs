@@ -19,18 +19,21 @@ namespace Searchr.UI
         public ucSearchPanel()
         {
             InitializeComponent();
+        }
 
+        public void Setup()
+        {
             dgResults.Columns[0].Width = Config.Settings.ColumnWidth0;
             dgResults.Columns[1].Width = Config.Settings.ColumnWidth1;
             dgResults.Columns[2].Width = Config.Settings.ColumnWidth2;
             dgResults.Columns[3].Width = Config.Settings.ColumnWidth3;
             dgResults.Columns[4].Width = Config.Settings.ColumnWidth4;
 
-            cmbIncludedExtensions.Items.Clear();
-            cmbIncludedExtensions.Items.AddRange(Config.CommonIncludedExtensions.ToArray());
+            cmbIncludeFilePatterns.Items.Clear();
+            cmbIncludeFilePatterns.Items.AddRange(Config.CommonIncludedExtensions.ToArray());
 
-            cmbExcludedExtensions.Items.Clear();
-            cmbExcludedExtensions.Items.AddRange(Config.CommonExcludedExtensions.ToArray());
+            cmbExcludeFilePatterns.Items.Clear();
+            cmbExcludeFilePatterns.Items.AddRange(Config.CommonExcludedExtensions.ToArray());
 
             ucDirectory1.Directory.Items.Clear();
             ucDirectory1.Directory.Items.AddRange(Config.CommonDirs.ToArray());
@@ -48,14 +51,14 @@ namespace Searchr.UI
 
             if (latest != null)
             {
-                ucDirectory1.Directory.Text = latest.Directory;
-                chkRecursive.Checked = latest.DirectoryOption == SearchOption.AllDirectories;
                 txtSearchTerm.Text = latest.SearchTerm;
+                ucDirectory1.Directory.Text = latest.Directory;
+                cmbIncludeFilePatterns.Text = string.Join(",", latest.IncludeFileWildcards);
+                cmbExcludeFilePatterns.Text = string.Join(",", latest.ExcludeFileWildcards);
+                cmbExcludeFolderNames.Text = string.Join(",", latest.ExcludeFolderNames);
+                chkRecursive.Checked = latest.DirectoryOption == SearchOption.AllDirectories;
                 chkRegex.Checked = latest.SearchMethod == SearchMethod.SingleLineRegex;
                 chkMatchCase.Checked = latest.MatchCase;
-                cmbExcludedExtensions.Text = String.Join(",", latest.ExcludeFileWildcards);
-                cmbIncludedExtensions.Text = String.Join(",", latest.IncludeFileWildcards);
-                cmbExcludeFolderNames.Text = String.Join(",", latest.ExcludeFolderNames);
                 chkIncludeHidden.Checked = !latest.ExcludeHidden;
                 chkIncludeSystem.Checked = !latest.ExcludeSystem;
                 chkIncludeBinaryFiles.Checked = !latest.ExcludeBinaryFiles;
@@ -73,6 +76,12 @@ namespace Searchr.UI
             SetupCheckBox(chkSearchFileContents);
             SetupCheckBox(chkSearchFileName);
             SetupCheckBox(chkSearchFilePath);
+
+            txtSearchTerm.Select(txtSearchTerm.Text.Length, 0);
+            ucDirectory1.Directory.Select(ucDirectory1.Directory.Text.Length, 0);
+            cmbIncludeFilePatterns.Select(cmbIncludeFilePatterns.Text.Length, 0);
+            cmbExcludeFilePatterns.Select(cmbExcludeFilePatterns.Text.Length, 0);
+            cmbExcludeFolderNames.Select(cmbExcludeFolderNames.Text.Length, 0);
         }
 
         private void btnSearch_Click(object sender, EventArgs e)
@@ -94,7 +103,7 @@ namespace Searchr.UI
         {
             foreach (DataGridViewCell cell in dgResults.SelectedCells)
             {
-                Process.Start(Config.NotepadPlusPlusLocation(), String.Format("\"{0}\"", Path.Combine(((string)cell.OwningRow.Cells[4].Value), (string)cell.OwningRow.Cells[2].Value)));
+                Process.Start(Config.NotepadPlusPlusLocation(), string.Format("\"{0}\"", Path.Combine(((string)cell.OwningRow.Cells[4].Value), (string)cell.OwningRow.Cells[2].Value)));
             }
         }
 
@@ -102,7 +111,7 @@ namespace Searchr.UI
         {
             foreach (DataGridViewCell cell in dgResults.SelectedCells)
             {
-                Process.Start("explorer.exe", String.Format("/select, \"{0}\"", Path.Combine(((string)cell.OwningRow.Cells[4].Value), (string)cell.OwningRow.Cells[2].Value)));
+                Process.Start("explorer.exe", string.Format("/select, \"{0}\"", Path.Combine(((string)cell.OwningRow.Cells[4].Value), (string)cell.OwningRow.Cells[2].Value)));
                 break;
             }
         }
@@ -111,7 +120,7 @@ namespace Searchr.UI
         {
             foreach (DataGridViewCell cell in dgResults.SelectedCells)
             {
-                Process.Start("cmd.exe", String.Format("/k cd /d \"{0}\"", (string)cell.OwningRow.Cells[4].Value));
+                Process.Start("cmd.exe", string.Format("/k cd /d \"{0}\"", (string)cell.OwningRow.Cells[4].Value));
                 break;
             }
         }
@@ -138,7 +147,7 @@ namespace Searchr.UI
 
         private void SearchNow(bool filter)
         {
-            if (String.IsNullOrEmpty(txtSearchTerm.Text))
+            if (string.IsNullOrEmpty(txtSearchTerm.Text))
             {
                 MessageBox.Show("No search term");
                 return;
@@ -269,8 +278,8 @@ namespace Searchr.UI
                 SearchMethod = chkRegex.Checked ? SearchMethod.SingleLineRegex : SearchMethod.SingleLine,
                 MatchCase = chkMatchCase.Checked,
                 ParallelSearches = 4,
-                ExcludeFileWildcards = GetExtensions(cmbExcludedExtensions.Text),
-                IncludeFileWildcards = GetExtensions(cmbIncludedExtensions.Text),
+                ExcludeFileWildcards = GetExtensions(cmbExcludeFilePatterns.Text),
+                IncludeFileWildcards = GetExtensions(cmbIncludeFilePatterns.Text),
                 ExcludeFolderNames = GetFolders(cmbExcludeFolderNames.Text),
                 ExcludeSystem = !chkIncludeHidden.Checked,
                 ExcludeHidden = !chkIncludeSystem.Checked,
@@ -300,7 +309,7 @@ namespace Searchr.UI
                 var serializer = new JsonSerializer();
                 var serialized = serializer.Serialize(CurrentSearch);
                 var hashCode = Hex.ToString(sha.ComputeHash(serialized));
-                var historyFile = Path.Combine(Config.HistoryDirectory, String.Format("{0}.search", hashCode));
+                var historyFile = Path.Combine(Config.HistoryDirectory, string.Format("{0}.search", hashCode));
                 if (File.Exists(historyFile) == false)
                 {
                     File.WriteAllBytes(historyFile, serialized);

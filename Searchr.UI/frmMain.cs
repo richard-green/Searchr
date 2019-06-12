@@ -84,6 +84,12 @@ namespace Searchr.UI
             var newTab = CreateTabPage();
             resultsTabs.TabPages.Insert(resultsTabs.TabCount - 1, newTab);
             resultsTabs.SelectedTab = newTab;
+
+            if (newTab.Controls[0] is ucSearchPanel p)
+            {
+                p.Setup();
+                p.SearchTerm.Focus();
+            }
         }
 
         private TabPage CreateTabPage()

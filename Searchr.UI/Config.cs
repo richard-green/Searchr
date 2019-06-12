@@ -75,7 +75,7 @@ namespace Searchr.UI
             {
                 return EnumerateHistory()
                         .Where(s => s.IncludeFileWildcards.Count > 0)
-                        .Select(s => String.Join(",", s.IncludeFileWildcards.OrderBy(s2 => s2)))
+                        .Select(s => string.Join(",", s.IncludeFileWildcards.OrderBy(s2 => s2)))
                         .GroupBy(s => s)
                         .ToDictionary(g => g.Key, g => g.Count())
                         .OrderByDescending(g => g.Value)
@@ -90,7 +90,7 @@ namespace Searchr.UI
             {
                 return EnumerateHistory()
                         .Where(s => s.ExcludeFileWildcards.Count > 0)
-                        .Select(s => String.Join(",", s.ExcludeFileWildcards.OrderBy(s2 => s2)))
+                        .Select(s => string.Join(",", s.ExcludeFileWildcards.OrderBy(s2 => s2)))
                         .GroupBy(s => s)
                         .ToDictionary(g => g.Key, g => g.Count())
                         .OrderByDescending(g => g.Value)
@@ -105,7 +105,7 @@ namespace Searchr.UI
             {
                 return EnumerateHistory()
                         .Where(s => s.ExcludeFolderNames.Count > 0)
-                        .Select(s => String.Join(",", s.ExcludeFolderNames.OrderBy(s2 => s2)))
+                        .Select(s => string.Join(",", s.ExcludeFolderNames.OrderBy(s2 => s2)))
                         .GroupBy(s => s)
                         .ToDictionary(g => g.Key, g => g.Count())
                         .OrderByDescending(g => g.Value)

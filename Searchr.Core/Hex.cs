@@ -23,7 +23,7 @@ namespace Searchr.Core
 
         public static string ToString(byte[] bytes)
         {
-            if (bytes == null || bytes.Length == 0) return String.Empty;
+            if (bytes == null || bytes.Length == 0) return string.Empty;
             else return BitConverter.ToString(bytes).Replace("-", "");
         }
     }
