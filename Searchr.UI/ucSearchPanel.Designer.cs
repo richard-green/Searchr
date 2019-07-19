@@ -152,7 +152,7 @@
             this.label5.Margin = new System.Windows.Forms.Padding(0);
             this.label5.Name = "label5";
             this.label5.Padding = new System.Windows.Forms.Padding(3, 4, 0, 0);
-            this.label5.Size = new System.Drawing.Size(126, 19);
+            this.label5.Size = new System.Drawing.Size(127, 19);
             this.label5.TabIndex = 43;
             this.label5.Text = "Exclude Folder Names";
             // 
@@ -165,7 +165,7 @@
             this.cmbExcludeFolderNames.Margin = new System.Windows.Forms.Padding(0, 1, 9, 0);
             this.cmbExcludeFolderNames.Name = "cmbExcludeFolderNames";
             this.cmbExcludeFolderNames.Size = new System.Drawing.Size(810, 23);
-            this.cmbExcludeFolderNames.TabIndex = 4;
+            this.cmbExcludeFolderNames.TabIndex = 5;
             // 
             // chkSearchFilePath
             // 
@@ -178,7 +178,7 @@
             this.chkSearchFilePath.Margin = new System.Windows.Forms.Padding(0);
             this.chkSearchFilePath.Name = "chkSearchFilePath";
             this.chkSearchFilePath.Size = new System.Drawing.Size(122, 24);
-            this.chkSearchFilePath.TabIndex = 7;
+            this.chkSearchFilePath.TabIndex = 8;
             this.chkSearchFilePath.Text = "File Path";
             this.chkSearchFilePath.UseVisualStyleBackColor = false;
             // 
@@ -193,7 +193,7 @@
             this.chkIncludeHidden.Margin = new System.Windows.Forms.Padding(0);
             this.chkIncludeHidden.Name = "chkIncludeHidden";
             this.chkIncludeHidden.Size = new System.Drawing.Size(122, 24);
-            this.chkIncludeHidden.TabIndex = 13;
+            this.chkIncludeHidden.TabIndex = 14;
             this.chkIncludeHidden.Text = "Hidden Files";
             this.chkIncludeHidden.UseVisualStyleBackColor = false;
             // 
@@ -208,20 +208,20 @@
             this.chkIncludeSystem.Margin = new System.Windows.Forms.Padding(0);
             this.chkIncludeSystem.Name = "chkIncludeSystem";
             this.chkIncludeSystem.Size = new System.Drawing.Size(122, 24);
-            this.chkIncludeSystem.TabIndex = 12;
+            this.chkIncludeSystem.TabIndex = 13;
             this.chkIncludeSystem.Text = "System Files";
             this.chkIncludeSystem.UseVisualStyleBackColor = false;
             // 
-            // cmbExcludedExtensions
+            // cmbExcludeFilePatterns
             // 
             this.cmbExcludeFilePatterns.Dock = System.Windows.Forms.DockStyle.Top;
             this.cmbExcludeFilePatterns.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbExcludeFilePatterns.FormattingEnabled = true;
             this.cmbExcludeFilePatterns.Location = new System.Drawing.Point(130, 97);
             this.cmbExcludeFilePatterns.Margin = new System.Windows.Forms.Padding(0, 1, 9, 0);
-            this.cmbExcludeFilePatterns.Name = "cmbExcludedExtensions";
+            this.cmbExcludeFilePatterns.Name = "cmbExcludeFilePatterns";
             this.cmbExcludeFilePatterns.Size = new System.Drawing.Size(810, 23);
-            this.cmbExcludeFilePatterns.TabIndex = 3;
+            this.cmbExcludeFilePatterns.TabIndex = 4;
             // 
             // chkIncludeBinaryFiles
             // 
@@ -234,7 +234,7 @@
             this.chkIncludeBinaryFiles.Margin = new System.Windows.Forms.Padding(0);
             this.chkIncludeBinaryFiles.Name = "chkIncludeBinaryFiles";
             this.chkIncludeBinaryFiles.Size = new System.Drawing.Size(122, 24);
-            this.chkIncludeBinaryFiles.TabIndex = 11;
+            this.chkIncludeBinaryFiles.TabIndex = 12;
             this.chkIncludeBinaryFiles.Text = "Binary Files";
             this.chkIncludeBinaryFiles.UseVisualStyleBackColor = false;
             // 
@@ -256,7 +256,7 @@
             this.label4.Margin = new System.Windows.Forms.Padding(0);
             this.label4.Name = "label4";
             this.label4.Padding = new System.Windows.Forms.Padding(3, 4, 0, 0);
-            this.label4.Size = new System.Drawing.Size(117, 19);
+            this.label4.Size = new System.Drawing.Size(118, 19);
             this.label4.TabIndex = 41;
             this.label4.Text = "Exclude File Patterns";
             // 
@@ -271,7 +271,7 @@
             this.chkRegex.Margin = new System.Windows.Forms.Padding(0);
             this.chkRegex.Name = "chkRegex";
             this.chkRegex.Size = new System.Drawing.Size(122, 24);
-            this.chkRegex.TabIndex = 10;
+            this.chkRegex.TabIndex = 11;
             this.chkRegex.Text = "Regular Expression";
             this.chkRegex.UseVisualStyleBackColor = false;
             // 
@@ -286,20 +286,20 @@
             this.chkMatchCase.Margin = new System.Windows.Forms.Padding(0);
             this.chkMatchCase.Name = "chkMatchCase";
             this.chkMatchCase.Size = new System.Drawing.Size(122, 24);
-            this.chkMatchCase.TabIndex = 9;
+            this.chkMatchCase.TabIndex = 10;
             this.chkMatchCase.Text = "Case Sensitive";
             this.chkMatchCase.UseVisualStyleBackColor = false;
             // 
-            // cmbIncludedExtensions
+            // cmbIncludeFilePatterns
             // 
             this.cmbIncludeFilePatterns.Dock = System.Windows.Forms.DockStyle.Top;
             this.cmbIncludeFilePatterns.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbIncludeFilePatterns.FormattingEnabled = true;
             this.cmbIncludeFilePatterns.Location = new System.Drawing.Point(130, 67);
             this.cmbIncludeFilePatterns.Margin = new System.Windows.Forms.Padding(0, 1, 9, 0);
-            this.cmbIncludeFilePatterns.Name = "cmbIncludedExtensions";
+            this.cmbIncludeFilePatterns.Name = "cmbIncludeFilePatterns";
             this.cmbIncludeFilePatterns.Size = new System.Drawing.Size(810, 23);
-            this.cmbIncludeFilePatterns.TabIndex = 2;
+            this.cmbIncludeFilePatterns.TabIndex = 3;
             // 
             // chkSearchFileName
             // 
@@ -312,7 +312,7 @@
             this.chkSearchFileName.Margin = new System.Windows.Forms.Padding(0);
             this.chkSearchFileName.Name = "chkSearchFileName";
             this.chkSearchFileName.Size = new System.Drawing.Size(122, 24);
-            this.chkSearchFileName.TabIndex = 6;
+            this.chkSearchFileName.TabIndex = 7;
             this.chkSearchFileName.Text = "File Name";
             this.chkSearchFileName.UseVisualStyleBackColor = false;
             // 
@@ -329,7 +329,7 @@
             this.chkSearchFileContents.Margin = new System.Windows.Forms.Padding(0);
             this.chkSearchFileContents.Name = "chkSearchFileContents";
             this.chkSearchFileContents.Size = new System.Drawing.Size(122, 24);
-            this.chkSearchFileContents.TabIndex = 5;
+            this.chkSearchFileContents.TabIndex = 6;
             this.chkSearchFileContents.Text = "File Contents";
             this.chkSearchFileContents.UseVisualStyleBackColor = false;
             // 
@@ -353,7 +353,7 @@
             this.label1.Margin = new System.Windows.Forms.Padding(0);
             this.label1.Name = "label1";
             this.label1.Padding = new System.Windows.Forms.Padding(3, 4, 0, 0);
-            this.label1.Size = new System.Drawing.Size(75, 19);
+            this.label1.Size = new System.Drawing.Size(74, 19);
             this.label1.TabIndex = 40;
             this.label1.Text = "Search Term";
             // 
@@ -370,7 +370,7 @@
             this.chkRecursive.Margin = new System.Windows.Forms.Padding(0);
             this.chkRecursive.Name = "chkRecursive";
             this.chkRecursive.Size = new System.Drawing.Size(122, 24);
-            this.chkRecursive.TabIndex = 8;
+            this.chkRecursive.TabIndex = 9;
             this.chkRecursive.Text = "Recursive";
             this.chkRecursive.UseVisualStyleBackColor = false;
             // 
@@ -394,7 +394,7 @@
             this.btnStop.Margin = new System.Windows.Forms.Padding(0);
             this.btnStop.Name = "btnStop";
             this.btnStop.Size = new System.Drawing.Size(122, 24);
-            this.btnStop.TabIndex = 14;
+            this.btnStop.TabIndex = 15;
             this.btnStop.Text = "Stop";
             this.btnStop.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnStop.UseVisualStyleBackColor = false;
@@ -408,7 +408,7 @@
             this.btnFilter.Margin = new System.Windows.Forms.Padding(0);
             this.btnFilter.Name = "btnFilter";
             this.btnFilter.Size = new System.Drawing.Size(122, 24);
-            this.btnFilter.TabIndex = 15;
+            this.btnFilter.TabIndex = 16;
             this.btnFilter.Text = "Filter";
             this.btnFilter.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnFilter.UseVisualStyleBackColor = true;
@@ -423,7 +423,7 @@
             this.btnSearch.Margin = new System.Windows.Forms.Padding(0);
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Size = new System.Drawing.Size(122, 24);
-            this.btnSearch.TabIndex = 16;
+            this.btnSearch.TabIndex = 17;
             this.btnSearch.Text = "Search";
             this.btnSearch.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnSearch.UseVisualStyleBackColor = true;
@@ -436,7 +436,7 @@
             this.ucDirectory1.Margin = new System.Windows.Forms.Padding(0);
             this.ucDirectory1.Name = "ucDirectory1";
             this.ucDirectory1.Size = new System.Drawing.Size(819, 24);
-            this.ucDirectory1.TabIndex = 45;
+            this.ucDirectory1.TabIndex = 2;
             // 
             // images
             // 
@@ -547,7 +547,7 @@
             this.dgResults.Name = "dgResults";
             this.dgResults.ReadOnly = true;
             this.dgResults.Size = new System.Drawing.Size(1339, 462);
-            this.dgResults.TabIndex = 17;
+            this.dgResults.TabIndex = 18;
             // 
             // FileIcon
             // 

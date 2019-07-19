@@ -50,7 +50,7 @@ namespace Searchr.UI
 
             if (e.Button == MouseButtons.Middle)
             {
-                var tabToRemove = tabs.Cast<TabPage>()
+                var tabToRemove = tabs.OfType<TabPage>()
                                       .Where((t, i) => tabControl.GetTabRect(i).Contains(e.Location) && i < tabs.Count - 1)
                                       .FirstOrDefault();
 

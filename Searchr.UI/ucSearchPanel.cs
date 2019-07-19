@@ -45,6 +45,10 @@ namespace Searchr.UI
             btnFilter.Enabled = false;
             btnSearch.Enabled = true;
 
+            btnStop.Height = 27;
+            btnFilter.Height = 27;
+            btnSearch.Height = 27;
+
             ButtonColorSet();
 
             var latest = Config.LatestSearch();
@@ -169,7 +173,7 @@ namespace Searchr.UI
 
             SaveCurrentSearch();
 
-            IEnumerable<string> paths = filter ? dgResults.Rows.Cast<DataGridViewRow>().Select(r => Path.Combine((string)r.Cells[4].Value, (string)r.Cells[2].Value)).ToList() :
+            IEnumerable<string> paths = filter ? dgResults.Rows.OfType<DataGridViewRow>().Select(r => Path.Combine((string)r.Cells[4].Value, (string)r.Cells[2].Value)).ToList() :
                                                  Enumerable.Empty<string>();
 
             statusText.Text = "Searching...";
@@ -334,7 +338,7 @@ namespace Searchr.UI
 
             CheckBox_CheckedChanged(checkbox, null);
 
-            checkbox.Height = 23;
+            checkbox.Height = 27;
         }
 
         readonly Color blue = Color.FromArgb(114, 200, 255);
