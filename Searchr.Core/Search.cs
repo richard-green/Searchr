@@ -199,6 +199,8 @@ namespace Searchr.Core
                     {
                         try
                         {
+                            if (!file.Exists) continue;
+
                             var results = request.Algorithm.PerformSearch(request, file);
 
                             if (results.Match)
@@ -208,7 +210,7 @@ namespace Searchr.Core
                             }
                             else
                             {
-                                Interlocked.Increment(ref response.Hits);
+                                Interlocked.Increment(ref response.Misses);
                             }
                         }
                         catch (Exception ex)

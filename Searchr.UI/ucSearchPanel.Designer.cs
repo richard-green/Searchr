@@ -247,6 +247,7 @@
             this.txtSearchTerm.Name = "txtSearchTerm";
             this.txtSearchTerm.Size = new System.Drawing.Size(810, 23);
             this.txtSearchTerm.TabIndex = 0;
+            this.txtSearchTerm.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSearchTerm_KeyPress);
             // 
             // label4
             // 

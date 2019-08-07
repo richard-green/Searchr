@@ -35,6 +35,19 @@ namespace Searchr.UI
             }
         }
 
+        private void frmMain_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Escape)
+            {
+                var panel = resultsTabs.SelectedTab.Controls[0] as ucSearchPanel;
+
+                if (panel != null)
+                {
+                    panel.CurrentSearch?.Abort();
+                }
+            }
+        }
+
         private void resultsTabs_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (resultsTabs.SelectedIndex == resultsTabs.TabCount - 1)

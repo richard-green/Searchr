@@ -75,6 +75,7 @@
             this.Controls.Add(this.txtHidden);
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.KeyPreview = true;
             this.MinimumSize = new System.Drawing.Size(1000, 500);
             this.Name = "frmMain";
             this.Padding = new System.Windows.Forms.Padding(5);
@@ -83,6 +84,7 @@
             this.Load += new System.EventHandler(this.frmMain_Load);
             this.ResizeEnd += new System.EventHandler(this.frmMain_ResizeEnd);
             this.Click += new System.EventHandler(this.frmMain_Click);
+            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.frmMain_KeyPress);
             this.resultsTabs.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();

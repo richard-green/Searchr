@@ -14,7 +14,7 @@ namespace Searchr.UI
 {
     public partial class ucSearchPanel : UserControl
     {
-        private SearchRequest CurrentSearch;
+        public SearchRequest CurrentSearch;
 
         public ucSearchPanel()
         {
@@ -136,7 +136,7 @@ namespace Searchr.UI
 
         private void txtSearchTerm_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (e.KeyChar == '\r')
+            if (e.KeyChar == (char)Keys.Enter)
             {
                 SearchNow(false);
                 e.Handled = true;
@@ -151,27 +151,28 @@ namespace Searchr.UI
 
         private void SearchNow(bool filter)
         {
-            if (string.IsNullOrEmpty(txtSearchTerm.Text))
+            CurrentSearch = GetSearchRequest();
+
+            if (string.IsNullOrEmpty(CurrentSearch.SearchTerm))
             {
                 MessageBox.Show("No search term");
                 return;
             }
 
-            if (System.IO.Directory.Exists(ucDirectory1.Directory.Text) == false)
+            if (System.IO.Directory.Exists(CurrentSearch.Directory) == false)
             {
                 MessageBox.Show("Invalid directory");
                 return;
             }
 
-            btnStop.Enabled = true;
+            SaveCurrentSearch();
+
             btnFilter.Enabled = false;
             btnSearch.Enabled = false;
+            btnStop.Enabled = true;
+            btnStop.Focus();
 
             ButtonColorSet();
-
-            CurrentSearch = GetSearchRequest();
-
-            SaveCurrentSearch();
 
             IEnumerable<string> paths = filter ? dgResults.Rows.OfType<DataGridViewRow>().Select(r => Path.Combine((string)r.Cells[4].Value, (string)r.Cells[2].Value)).ToList() :
                                                  Enumerable.Empty<string>();
@@ -258,6 +259,7 @@ namespace Searchr.UI
                     btnStop.Enabled = false;
                     btnFilter.Enabled = totalFiles > 0;
                     btnSearch.Enabled = true;
+                    btnSearch.Focus();
 
                     ButtonColorSet();
                 });
