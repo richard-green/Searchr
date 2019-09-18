@@ -82,6 +82,7 @@ namespace Searchr.UI
                 Config.Settings.ColumnWidth2 = currentResults.Columns[2].Width;
                 Config.Settings.ColumnWidth3 = currentResults.Columns[3].Width;
                 Config.Settings.ColumnWidth4 = currentResults.Columns[4].Width;
+                Config.Settings.ColumnWidth5 = currentResults.Columns[5].Width;
             }
 
             Config.Settings.Maximised = WindowState == FormWindowState.Maximized;

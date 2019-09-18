@@ -28,6 +28,9 @@ namespace Searchr.UI
             dgResults.Columns[2].Width = Config.Settings.ColumnWidth2;
             dgResults.Columns[3].Width = Config.Settings.ColumnWidth3;
             dgResults.Columns[4].Width = Config.Settings.ColumnWidth4;
+            dgResults.Columns[5].Width = Config.Settings.ColumnWidth5;
+
+            dgResults.Columns[5].DefaultCellStyle.Format = "#,# KB";
 
             cmbIncludeFilePatterns.Items.Clear();
             cmbIncludeFilePatterns.Items.AddRange(Config.CommonIncludedExtensions.ToArray());
@@ -230,6 +233,11 @@ namespace Searchr.UI
                         row.Cells.Add(new DataGridViewTextBoxCell
                         {
                             Value = result.File.Directory.FullName
+                        });
+
+                        row.Cells.Add(new DataGridViewTextBoxCell
+                        {
+                            Value = (result.File.Length / 1024 + (result.File.Length % 1024 == 0 ? 0 : 1))
                         });
 
                         dgResults.InvokeAction(dg =>

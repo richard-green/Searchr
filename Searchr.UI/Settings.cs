@@ -10,5 +10,6 @@
         public int ColumnWidth2;
         public int ColumnWidth3;
         public int ColumnWidth4;
+        public int ColumnWidth5;
     }
 }
