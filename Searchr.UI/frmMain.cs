@@ -39,9 +39,7 @@ namespace Searchr.UI
         {
             if (e.KeyChar == (char)Keys.Escape)
             {
-                var panel = resultsTabs.SelectedTab.Controls[0] as ucSearchPanel;
-
-                if (panel != null)
+                if (resultsTabs.SelectedTab.Controls[0] is ucSearchPanel panel)
                 {
                     panel.CurrentSearch?.Abort();
                 }
@@ -83,6 +81,14 @@ namespace Searchr.UI
                 Config.Settings.ColumnWidth3 = currentResults.Columns[3].Width;
                 Config.Settings.ColumnWidth4 = currentResults.Columns[4].Width;
                 Config.Settings.ColumnWidth5 = currentResults.Columns[5].Width;
+
+
+                Config.Settings.ColumnDisplayIndex0 = currentResults.Columns[0].DisplayIndex;
+                Config.Settings.ColumnDisplayIndex1 = currentResults.Columns[1].DisplayIndex;
+                Config.Settings.ColumnDisplayIndex2 = currentResults.Columns[2].DisplayIndex;
+                Config.Settings.ColumnDisplayIndex3 = currentResults.Columns[3].DisplayIndex;
+                Config.Settings.ColumnDisplayIndex4 = currentResults.Columns[4].DisplayIndex;
+                Config.Settings.ColumnDisplayIndex5 = currentResults.Columns[5].DisplayIndex;
             }
 
             Config.Settings.Maximised = WindowState == FormWindowState.Maximized;
@@ -108,14 +114,19 @@ namespace Searchr.UI
 
         private TabPage CreateTabPage()
         {
-            var newTab = new TabPage();
-            newTab.Padding = new Padding(7);
-            newTab.TabIndex = 0;
-            newTab.Text = "Searchr";
-            newTab.UseVisualStyleBackColor = true;
+            var newTab = new TabPage
+            {
+                Padding = new Padding(7),
+                TabIndex = 0,
+                Text = "Searchr",
+                UseVisualStyleBackColor = true
+            };
 
-            var panel = new ucSearchPanel();
-            panel.Dock = DockStyle.Fill;
+            var panel = new ucSearchPanel
+            {
+                Dock = DockStyle.Fill
+            };
+
             newTab.Controls.Add(panel);
 
             return newTab;

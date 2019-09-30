@@ -7,12 +7,12 @@ namespace Searchr.Core
     {
         public static byte[] ToByteArray(string hex)
         {
-            int NumberChars = hex.Length / 2;
-            byte[] bytes = new byte[NumberChars];
+            int chars = hex.Length / 2;
+            byte[] bytes = new byte[chars];
 
             using (var sr = new StringReader(hex))
             {
-                for (int i = 0; i < NumberChars; i++)
+                for (int i = 0; i < chars; i++)
                 {
                     bytes[i] = Convert.ToByte(new string(new char[2] { (char)sr.Read(), (char)sr.Read() }), 16);
                 }
@@ -23,8 +23,9 @@ namespace Searchr.Core
 
         public static string ToString(byte[] bytes)
         {
-            if (bytes == null || bytes.Length == 0) return string.Empty;
-            else return BitConverter.ToString(bytes).Replace("-", "");
+            return (bytes == null || bytes.Length == 0) ?
+                string.Empty :
+                BitConverter.ToString(bytes).Replace("-", string.Empty);
         }
     }
 }

@@ -19,10 +19,29 @@ namespace Searchr.UI
         public ucSearchPanel()
         {
             InitializeComponent();
+
+            btnFilter.Enabled = false;
+            btnSearch.Enabled = false;
+            btnStop.Enabled = false;
         }
 
         public void Setup()
         {
+            if (Config.Settings.ColumnDisplayIndex0 +
+                Config.Settings.ColumnDisplayIndex1 +
+                Config.Settings.ColumnDisplayIndex2 +
+                Config.Settings.ColumnDisplayIndex3 +
+                Config.Settings.ColumnDisplayIndex4 +
+                Config.Settings.ColumnDisplayIndex5 > 0)
+            {
+                dgResults.Columns[5].DisplayIndex = Config.Settings.ColumnDisplayIndex5;
+                dgResults.Columns[4].DisplayIndex = Config.Settings.ColumnDisplayIndex4;
+                dgResults.Columns[3].DisplayIndex = Config.Settings.ColumnDisplayIndex3;
+                dgResults.Columns[2].DisplayIndex = Config.Settings.ColumnDisplayIndex2;
+                dgResults.Columns[1].DisplayIndex = Config.Settings.ColumnDisplayIndex1;
+                dgResults.Columns[0].DisplayIndex = Config.Settings.ColumnDisplayIndex0;
+            }
+
             dgResults.Columns[0].Width = Config.Settings.ColumnWidth0;
             dgResults.Columns[1].Width = Config.Settings.ColumnWidth1;
             dgResults.Columns[2].Width = Config.Settings.ColumnWidth2;
@@ -320,19 +339,19 @@ namespace Searchr.UI
         {
             using (var sha = new SHA256Managed())
             {
-                var serializer = new JsonSerializer();
-                var serialized = serializer.Serialize(CurrentSearch);
-                var hashCode = Hex.ToString(sha.ComputeHash(serialized));
-                var historyFile = Path.Combine(Config.HistoryDirectory, string.Format("{0}.search", hashCode));
-                if (File.Exists(historyFile) == false)
-                {
-                    File.WriteAllBytes(historyFile, serialized);
-                }
-                else
-                {
-                    new FileInfo(historyFile).LastWriteTime = DateTime.Now;
-                }
+            var serializer = new JsonSerializer();
+            var serialized = serializer.Serialize(CurrentSearch);
+            var hashCode = Hex.ToString(sha.ComputeHash(serialized));
+            var historyFile = Path.Combine(Config.HistoryDirectory, string.Format("{0}.search", hashCode));
+            if (File.Exists(historyFile) == false)
+            {
+                File.WriteAllBytes(historyFile, serialized);
             }
+            else
+            {
+                new FileInfo(historyFile).LastWriteTime = DateTime.Now;
+            }
+        }
         }
 
         public DataGridView Results()

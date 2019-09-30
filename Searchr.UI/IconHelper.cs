@@ -9,7 +9,7 @@ namespace Searchr.UI
     public static class IconHelper
     {
         [StructLayout(LayoutKind.Sequential)]
-        public struct SHFILEINFO
+        private struct SHFILEINFO
         {
             public IntPtr handle;
             public IntPtr index;
@@ -26,10 +26,10 @@ namespace Searchr.UI
         public const uint SHGFI_USEFILEATTRIBUTES = 0x10;
 
         [DllImport("shell32.dll")]
-        public static extern IntPtr SHGetFileInfo(string path, uint fattrs, ref SHFILEINFO sfi, uint size, uint flags);
+        private static extern IntPtr SHGetFileInfo(string path, uint fattrs, ref SHFILEINFO sfi, uint size, uint flags);
 
         [DllImport("user32.dll")]
-        public static extern void DestroyIcon(IntPtr handle);
+        private static extern void DestroyIcon(IntPtr handle);
 
         public static Icon GetSmallIcon(string path)
         {
@@ -63,7 +63,7 @@ namespace Searchr.UI
             }
         }
 
-        static ConcurrentDictionary<string, Icon> smallIconCache = new ConcurrentDictionary<string, Icon>();
+        static readonly ConcurrentDictionary<string, Icon> smallIconCache = new ConcurrentDictionary<string, Icon>();
 
         public static Icon GetSmallIconCached(string path, string extension)
         {
@@ -71,7 +71,7 @@ namespace Searchr.UI
             return smallIconCache.GetOrAdd(extension, _ => GetSmallIcon(extension));
         }
 
-        static ConcurrentDictionary<string, Icon> largeIconCache = new ConcurrentDictionary<string, Icon>();
+        static readonly ConcurrentDictionary<string, Icon> largeIconCache = new ConcurrentDictionary<string, Icon>();
 
         public static Icon GetLargeIconCached(string path, string extension)
         {
