@@ -54,6 +54,7 @@
             this.btnStop = new System.Windows.Forms.Button();
             this.btnFilter = new System.Windows.Forms.Button();
             this.btnSearch = new System.Windows.Forms.Button();
+            this.ucDirectory1 = new Searchr.UI.ucDirectory();
             this.images = new System.Windows.Forms.ImageList(this.components);
             this.ResultsContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.editWithNotepadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -66,7 +67,6 @@
             this.statusText = new System.Windows.Forms.ToolStripStatusLabel();
             this.pnlResults = new System.Windows.Forms.Panel();
             this.dgResults = new System.Windows.Forms.DataGridView();
-            this.ucDirectory1 = new Searchr.UI.ucDirectory();
             this.FileIcon = new System.Windows.Forms.DataGridViewImageColumn();
             this.Lines = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.FileName = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -431,6 +431,15 @@
             this.btnSearch.UseVisualStyleBackColor = true;
             this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
             // 
+            // ucDirectory1
+            // 
+            this.ucDirectory1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.ucDirectory1.Location = new System.Drawing.Point(130, 36);
+            this.ucDirectory1.Margin = new System.Windows.Forms.Padding(0);
+            this.ucDirectory1.Name = "ucDirectory1";
+            this.ucDirectory1.Size = new System.Drawing.Size(819, 24);
+            this.ucDirectory1.TabIndex = 2;
+            // 
             // images
             // 
             this.images.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("images.ImageStream")));
@@ -543,15 +552,6 @@
             this.dgResults.Size = new System.Drawing.Size(1339, 462);
             this.dgResults.TabIndex = 18;
             // 
-            // ucDirectory1
-            // 
-            this.ucDirectory1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.ucDirectory1.Location = new System.Drawing.Point(130, 36);
-            this.ucDirectory1.Margin = new System.Windows.Forms.Padding(0);
-            this.ucDirectory1.Name = "ucDirectory1";
-            this.ucDirectory1.Size = new System.Drawing.Size(819, 24);
-            this.ucDirectory1.TabIndex = 2;
-            // 
             // FileIcon
             // 
             this.FileIcon.HeaderText = "";
@@ -582,10 +582,10 @@
             // 
             // Directory
             // 
-            this.Directory.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.Directory.HeaderText = "Directory";
             this.Directory.Name = "Directory";
             this.Directory.ReadOnly = true;
+            this.Directory.Width = 884;
             // 
             // FileSize
             // 
