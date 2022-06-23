@@ -282,6 +282,10 @@ namespace Searchr.UI
                     {
                         MessageBox.Show(response.Error.Message);
                     }
+                    else if (!ParentForm.Focused || ParentForm.WindowState == FormWindowState.Minimized)
+                    {
+                        Popup("Search complete");
+                    }
 
                     btnStop.Enabled = false;
                     btnFilter.Enabled = totalFiles > 0;
@@ -291,6 +295,20 @@ namespace Searchr.UI
                     ButtonColorSet();
                 });
             });
+        }
+
+        public void Popup(string message)
+        {
+            var notification = new NotifyIcon()
+            {
+                Visible = true,
+                Icon = SystemIcons.Information,
+                BalloonTipTitle = "Searchr",
+                BalloonTipText = message,
+            };
+
+            notification.ShowBalloonTip(5000);
+            Task.Delay(10000).ContinueWith(t => notification.Dispose(), TaskScheduler.Default);
         }
 
         private SearchRequest GetSearchRequest()
