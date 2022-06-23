@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Searchr.UI
+﻿namespace Searchr.UI
 {
     public class Settings
     {

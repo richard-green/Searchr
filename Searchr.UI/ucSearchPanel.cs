@@ -282,7 +282,7 @@ namespace Searchr.UI
                     {
                         MessageBox.Show(response.Error.Message);
                     }
-                    else if (!ParentForm.Focused || ParentForm.WindowState == FormWindowState.Minimized)
+                    else if (!ParentForm.ContainsFocus || ParentForm.WindowState == FormWindowState.Minimized)
                     {
                         Popup("Search complete");
                     }
@@ -304,7 +304,7 @@ namespace Searchr.UI
                 Visible = true,
                 Icon = SystemIcons.Information,
                 BalloonTipTitle = "Searchr",
-                BalloonTipText = message,
+                BalloonTipText = message
             };
 
             notification.ShowBalloonTip(5000);
@@ -357,19 +357,19 @@ namespace Searchr.UI
         {
             using (var sha = new SHA256Managed())
             {
-            var serializer = new JsonSerializer();
-            var serialized = serializer.Serialize(CurrentSearch);
-            var hashCode = Hex.ToString(sha.ComputeHash(serialized));
-            var historyFile = Path.Combine(Config.HistoryDirectory, string.Format("{0}.search", hashCode));
-            if (File.Exists(historyFile) == false)
-            {
-                File.WriteAllBytes(historyFile, serialized);
+                var serializer = new JsonSerializer();
+                var serialized = serializer.Serialize(CurrentSearch);
+                var hashCode = Hex.Encode(sha.ComputeHash(serialized));
+                var historyFile = Path.Combine(Config.HistoryDirectory, string.Format("{0}.search", hashCode));
+                if (File.Exists(historyFile) == false)
+                {
+                    File.WriteAllBytes(historyFile, serialized);
+                }
+                else
+                {
+                    new FileInfo(historyFile).LastWriteTime = DateTime.Now;
+                }
             }
-            else
-            {
-                new FileInfo(historyFile).LastWriteTime = DateTime.Now;
-            }
-        }
         }
 
         public DataGridView Results()
